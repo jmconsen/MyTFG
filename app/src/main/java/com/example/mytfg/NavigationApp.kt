@@ -11,6 +11,7 @@ import androidx.navigation.compose.composable
 
 import com.example.mytfg.ui.theme.screens.login.PantallaLogin
 import com.example.mytfg.ui.theme.screens.login.PantallaMenu
+import com.example.mytfg.ui.theme.screens.login.PantallaRecuperarPassword
 import com.example.mytfg.ui.theme.screens.login.PantallaRegistro
 
 @Composable
@@ -29,6 +30,7 @@ fun NavigationApp(
         composable("PantallaMenu") { PantallaMenu(navHostController) }
         composable("PantallaLogin") { PantallaLogin(navHostController) }
         composable("PantallaRegistro") { PantallaRegistro(navHostController) }
+        composable("PantallaRecuperarPassword") { PantallaRecuperarPassword(navHostController) }
     }
 }
 
