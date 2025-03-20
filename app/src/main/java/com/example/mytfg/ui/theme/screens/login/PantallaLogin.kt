@@ -75,8 +75,13 @@ fun PantallaLogin(navHostController: NavHostController) {
 
         Box(
             modifier = Modifier
-                .fillMaxSize(),
+                .fillMaxSize()
+                .background(Color.White.copy(alpha = 0.7f)) // Aplica opacidad
+        )
 
+        Box(
+            modifier = Modifier
+                .fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
             Column(
@@ -168,7 +173,7 @@ fun PantallaLogin(navHostController: NavHostController) {
                 LaunchedEffect(mensajeError) {
                     if (mensajeError.startsWith("Bienvenido")) {
                         kotlinx.coroutines.delay(10000)
-                        navHostController.navigate(route = "PantallaDashboardVentas") {
+                        navHostController.navigate(route = "PantallaMenu") {
                             popUpTo("PantallaLogin") { inclusive = true }
                         }
                     }
@@ -225,6 +230,17 @@ fun PantallaLogin(navHostController: NavHostController) {
                     modifier = Modifier.padding(top = 16.dp)
                 ) {
                     Text("Registrarse con correo electrónico", color = Negro)
+                }
+
+                Spacer(modifier = Modifier.height(8.dp))
+
+                TextButton(
+                    onClick = {
+                        navHostController.navigate("PantallaRecuperarPassword")
+                    },
+                    modifier = Modifier.padding(top = 16.dp)
+                ) {
+                    Text("Recuperar Contraseña", color = Negro)
                 }
             }
         }
