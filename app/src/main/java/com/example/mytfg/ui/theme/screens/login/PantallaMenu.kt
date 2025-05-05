@@ -50,7 +50,7 @@ fun PantallaMenu(navHostController: NavHostController) {
             )
 
             BotonEstandar(
-                texto = "Facturas Emitidas",
+                texto = "Entrenamiento con ia",
                 onClick = { navHostController.navigate("PantallaFacturasEmitidas") },
                 modifier = Modifier.fillMaxWidth()
             )
@@ -58,7 +58,7 @@ fun PantallaMenu(navHostController: NavHostController) {
             Spacer(modifier = Modifier.height(16.dp))
 
             BotonEstandar(
-                texto = "Facturas Recibidas",
+                texto = "ejercicios",
                 onClick = { navHostController.navigate("PantallaFacturasRecibidas") },
                 modifier = Modifier.fillMaxWidth()
             )
