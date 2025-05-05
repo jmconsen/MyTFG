@@ -12,7 +12,7 @@ import com.example.mytfg.componentes.MenuNavegador
 
 @Composable
 fun MainScreen(authManager: AuthManager, navController: NavHostController) {
-    val noMenuScreens = listOf("PantallaLogin", "PantallaRegistro")
+    val noMenuScreens = listOf("PantallaLogin", "PantallaRegistro", "PantallaWelcome", "PantallaRecuperarPassword")
 
     // Obtener la ruta actual
     val navBackStackEntry = navController.currentBackStackEntryAsState()

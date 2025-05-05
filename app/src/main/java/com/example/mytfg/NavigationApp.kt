@@ -1,5 +1,6 @@
 package com.example.mytfg
 
+import PantallaWelcome
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 
@@ -10,8 +11,35 @@ import androidx.navigation.compose.composable
 
 import com.example.mytfg.ui.theme.screens.login.PantallaLogin
 import com.example.mytfg.ui.theme.screens.login.PantallaMenu
+import com.example.mytfg.ui.theme.screens.login.PantallaRecuperarPassword
 import com.example.mytfg.ui.theme.screens.login.PantallaRegistro
 
+@Composable
+fun NavigationApp(
+    navHostController: NavHostController,
+    authManager: AuthManager,
+    modifier: Modifier = Modifier
+) {
+    val startDestination = "PantallaWelcome"
+
+    NavHost(
+        navController = navHostController,
+        startDestination = startDestination,
+    ) {
+        composable("PantallaWelcome") { PantallaWelcome(navHostController) }
+        composable("PantallaMenu") { PantallaMenu(navHostController) }
+        composable("PantallaLogin") { PantallaLogin(navHostController) }
+        composable("PantallaRegistro") { PantallaRegistro(navHostController) }
+        composable("PantallaRecuperarPassword") { PantallaRecuperarPassword(navHostController) }
+    }
+}
+
+
+
+
+
+
+/*
 @Composable
 fun NavigationApp(
     navHostController: NavHostController,
@@ -66,3 +94,5 @@ fun NavigationApp(
         composable("PantallaRegistro") { PantallaRegistro(navHostController) }
     }
 }
+
+ */
