@@ -3,13 +3,13 @@ package com.example.mytfg
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.mytfg.ui.theme.screens.ejercicios.PantallaEjercicios
 
 import com.example.mytfg.ui.theme.screens.login.PantallaLogin
-import com.example.mytfg.ui.theme.screens.login.PantallaMenu
+import com.example.mytfg.ui.theme.screens.menu.PantallaMenu
 import com.example.mytfg.ui.theme.screens.login.PantallaRegistro
 
 @Composable
@@ -24,45 +24,14 @@ fun NavigationApp(
         navController = navHostController,
         startDestination = startDestination,
     ) {
-        composable("PantallaMenu") { PantallaMenu(navHostController) }
-
-        /*
-        // Facturas Emitidas
-        composable("PantallaFacturasEmitidas") {
-            PantallaFacturasEmitidas(navHostController = navHostController, facturaViewModel = viewModel<FacturaViewModel>())
-        }
-        composable("PantallaDetalleFacturaEmitida/{id}") { backStackEntry ->
-            val id = backStackEntry.arguments?.getString("id")
-            PantallaDetalleFacturaEmitida(id, navHostController)
-        }
-        composable("PantallaModificarFacturaEmitida/{id}") { backStackEntry ->
-            val id = backStackEntry.arguments?.getString("id")
-            PantallaModificarFacturaEmitida(id, navHostController)
-        }
-        composable("PantallaAddFacturaEmitida") {
-            PantallaAddFacturaEmitida(navHostController = navHostController, facturaViewModel = viewModel<FacturaViewModel>())
-        }
-
-        // Facturas Recibidas
-        composable("PantallaFacturasRecibidas") {
-            PantallaFacturasRecibidas(navHostController = navHostController, facturaViewModel = viewModel<FacturaViewModel>())
-        }
-        composable("PantallaDetalleFacturaRecibida/{id}") { backStackEntry ->
-            val id = backStackEntry.arguments?.getString("id")
-            PantallaDetalleFacturaRecibida(id, navHostController)
-        }
-        composable("PantallaModificarFacturaRecibida/{id}") { backStackEntry ->
-            val id = backStackEntry.arguments?.getString("id")
-            PantallaModificarFacturaRecibida(id, navHostController)
-        }
-        composable("PantallaAddFacturaRecibida") {
-            PantallaAddFacturaRecibida(navHostController = navHostController, facturaViewModel = viewModel<FacturaViewModel>())
-        }
-
-         */
-
         // Login / Registro
         composable("PantallaLogin") { PantallaLogin(navHostController) }
         composable("PantallaRegistro") { PantallaRegistro(navHostController) }
+        //Menu
+        composable("PantallaMenu") { PantallaMenu(navHostController) }
+        //My perfil
+        //ejercicios
+        composable("PantallaEjercicios") { PantallaEjercicios(navHostController) }
+
     }
 }
