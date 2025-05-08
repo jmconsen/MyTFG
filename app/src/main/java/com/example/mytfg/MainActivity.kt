@@ -6,18 +6,11 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.mytfg.ui.theme.MyTFGTheme
-import com.example.mytfg.ui.theme.screens.login.MainScreen
-
+import com.google.firebase.FirebaseApp
 
 class MainActivity : ComponentActivity() {
     private lateinit var navHostController: NavHostController
@@ -25,6 +18,9 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // Inicializa Firebase (si no lo haces en Application)
+        FirebaseApp.initializeApp(this)
 
         // Configuración del inicio de sesión con Google
         val googleSignInLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -56,8 +52,14 @@ class MainActivity : ComponentActivity() {
         // Configurar UI
         enableEdgeToEdge()
         setContent {
-            navHostController = rememberNavController()
-            MainScreen(authManager = authManager, navController = navHostController)
+            MyTFGTheme {
+                navHostController = rememberNavController()
+                // Usa tu NavigationApp para centralizar la navegación
+                NavigationApp(
+                    navHostController = navHostController,
+                    authManager = authManager
+                )
+            }
         }
     }
 
