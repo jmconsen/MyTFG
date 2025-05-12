@@ -2,11 +2,8 @@ package com.example.mytfg.ui.theme.screens.menu
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -22,7 +19,6 @@ import com.example.mytfg.componentes.BotonEstandar
 import com.example.mytfg.ui.theme.FondoPantallas
 import com.example.mytfg.ui.theme.GrisOscuro2
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PantallaMenu(navHostController: NavHostController) {
     Box(
@@ -33,36 +29,10 @@ fun PantallaMenu(navHostController: NavHostController) {
             )
     ) {
         Column(
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            // Barra superior moderna
-            TopAppBar(
-                title = {
-                    Text(
-                        text = "Bienvenido",
-                        fontSize = 22.sp,
-                        color = GrisOscuro2
-                    )
-                },
-                actions = {
-                    Icon(
-                        imageVector = Icons.Filled.AccountCircle,
-                        contentDescription = "Perfil",
-                        tint = GrisOscuro2,
-                        modifier = Modifier
-                            .size(36.dp)
-                            .padding(end = 16.dp)
-                    )
-                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color.Transparent
-                ),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 8.dp)
-            )
-
-            Spacer(modifier = Modifier.height(32.dp))
+            Spacer(modifier = Modifier.height(64.dp)) // Espacio superior para separar del TopBar global
 
             // Tarjeta moderna para el menú
             Box(
@@ -88,7 +58,7 @@ fun PantallaMenu(navHostController: NavHostController) {
 
                     BotonEstandar(
                         texto = "Entrenamiento con IA",
-                        onClick = { navHostController.navigate("PantallaFacturasEmitidas") },
+                        onClick = { navHostController.navigate("PantallaCategorias") },
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(vertical = 8.dp)
@@ -96,7 +66,23 @@ fun PantallaMenu(navHostController: NavHostController) {
 
                     BotonEstandar(
                         texto = "Ejercicios",
-                        onClick = { navHostController.navigate("PantallaEjercicios") },
+                        onClick = { navHostController.navigate("PantallaCategorias") },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 8.dp)
+                    )
+
+                    BotonEstandar(
+                        texto = "Perfil",
+                        onClick = { navHostController.navigate("Perfil") },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 8.dp)
+                    )
+
+                    BotonEstandar(
+                        texto = "Dietas",
+                        onClick = { navHostController.navigate("PantallaCategorias") },
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(vertical = 8.dp)
