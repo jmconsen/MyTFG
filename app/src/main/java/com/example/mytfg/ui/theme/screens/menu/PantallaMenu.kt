@@ -82,7 +82,7 @@ fun PantallaMenu(navHostController: NavHostController) {
 
                     BotonEstandar(
                         texto = "Dietas",
-                        onClick = { navHostController.navigate("PantallaCategorias") },
+                        onClick = { navHostController.navigate("PantallaSeleccionDieta") },
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(vertical = 8.dp)
