@@ -3,23 +3,24 @@ package com.example.mytfg.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.mytfg.model.EjercicioApi
-import com.example.mytfg.network.RetrofitClient
+import com.example.mytfg.network.ExerciseApiService
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import android.util.Log
 
-class EjerciciosApiViewModel : ViewModel() {
+class EjerciciosApiViewModel(
+    private val apiService: ExerciseApiService
+) : ViewModel() {
+
     private val _ejercicios = MutableStateFlow<List<EjercicioApi>>(emptyList())
     val ejercicios: StateFlow<List<EjercicioApi>> = _ejercicios
 
-    fun cargarEjercicios() {
+    fun cargarEjerciciosPorBodyPart(bodyPart: String) {
         viewModelScope.launch {
             try {
-                val lista = RetrofitClient.apiService.getExercises()
-                _ejercicios.value = lista
+                val resultado = apiService.getExercisesByBodyPart(bodyPart)
+                _ejercicios.value = resultado
             } catch (e: Exception) {
-                Log.e("EjerciciosApiViewModel", "Error al cargar ejercicios", e)
                 _ejercicios.value = emptyList()
             }
         }
