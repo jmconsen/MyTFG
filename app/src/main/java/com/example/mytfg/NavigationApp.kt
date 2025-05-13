@@ -16,7 +16,6 @@ import com.example.mytfg.ui.theme.screens.login.PantallaRegistro
 import com.example.mytfg.ui.theme.screens.dieta.PantallaDieta
 import com.example.mytfg.ui.theme.screens.dieta.PantallaSeleccionDieta
 
-
 @Composable
 fun NavigationApp(
     navHostController: NavHostController,
@@ -63,6 +62,7 @@ fun NavigationApp(
             val ejercicioId = backStackEntry.arguments?.getString("ejercicioId") ?: ""
             PantallaDetalleEjercicio(navHostController, ejercicioId)
         }
+
         // Pantallas de dieta
         composable("PantallaSeleccionDieta") {
             PantallaSeleccionDieta(navHostController)
@@ -74,6 +74,5 @@ fun NavigationApp(
             val objetivo = backStackEntry.arguments?.getString("objetivo") ?: ""
             PantallaDieta(navHostController, objetivo)
         }
-
     }
 }
