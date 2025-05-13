@@ -7,7 +7,7 @@ data class EjercicioApi(
     val equipment: String,
     val gifUrl: String,
     val target: String,
-    val instructions: List<String>? = null // <--- Añade esto si no está
+    val instructions: List<String>? = null
 )
 
 
