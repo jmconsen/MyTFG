@@ -56,12 +56,12 @@ fun PantallaDieta(
         }
 
         Button(
-            onClick = { navHostController.popBackStack() },
+            onClick = { navHostController.navigate("PantallaMenu") },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 24.dp)
         ) {
-            Text("Volver al menú")
+            Text("Volver al menú principal")
         }
     }
 }
