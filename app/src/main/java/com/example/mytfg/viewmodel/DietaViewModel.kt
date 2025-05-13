@@ -25,12 +25,21 @@ class DietaViewModel : ViewModel() {
             - Ejemplo comida: Pescado blanco, ensalada variada, quinoa
         """.trimIndent(),
         "tonificar" to """
-            💪 Dieta de mantenimiento:
+            💪 Dieta de tonificación:
             - 2500-2800 kcal/día
             - 40% proteínas, 40% carbos, 20% grasas
             - Ejemplo desayuno: Tortilla de claras, pan integral, tomate
             - Ejemplo comida: Ternera magra, arroz integral, brócoli
         """.trimIndent(),
+        "ganar_masa_muscular" to """
+            🏋️ Dieta para ganar masa muscular:
+        - 3200-3700 kcal/día
+        - Alto en proteínas (2-2.5g/kg peso)
+        - Carbohidratos complejos en cada comida
+        - Grasas saludables: aguacate, frutos secos, aceite de oliva
+        - Ejemplo desayuno: Tortilla de 4 claras y 2 huevos, avena, plátano
+        - Ejemplo comida: Arroz integral, salmón, brócoli, aceite de oliva
+    """.trimIndent(),
         "mantener_peso" to """
             🔄 Dieta equilibrada:
             - 2500 kcal/día
