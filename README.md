@@ -7,7 +7,7 @@ Aplicación para planes de entrenamiento, dietas y perfil de usuario.
 
 ## Características
 
-- Selección y visualización de planes de dieta personalizados.
+- Selección y visualización de planes de dieta.
 - Navegación intuitiva entre pantallas con Jetpack Navigation.
 - Uso de ViewModel y StateFlow para gestión reactiva del estado.
 - Diseño moderno con Jetpack Compose y Material3.
