@@ -5,8 +5,10 @@ import retrofit2.http.Path
 
 interface ExerciseApiService {
     @GET("exercises/bodyPart/{bodyPart}")
-    suspend fun getExercisesByBodyPart(
-        @Path("bodyPart") bodyPart: String
-    ): List<EjercicioApi>
+    suspend fun getExercisesByBodyPart(@Path("bodyPart") bodyPart: String): List<EjercicioApi>
+
+    @GET("exercises/exercise/{id}")
+    suspend fun getExerciseById(@Path("id") id: String): EjercicioApi
 }
+
 
