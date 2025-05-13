@@ -1,10 +1,12 @@
 package com.example.mytfg.util
 
 fun getApiBodyPart(nombre: String): String = when (nombre.lowercase()) {
-    "piernas" -> "legs"
-    "torso" -> "waist" // o "back", "chest", según tu lógica
+    "piernas superiores" -> "upper legs"
+    "piernas inferiores" -> "lower legs"
+    "torso" -> "waist"
     "brazos" -> "upper arms"
     "espalda" -> "back"
-    "antebrazo" -> "forearms"
+    "antebrazo" -> "lower arms"
+    "cardio" -> "cardio"
     else -> nombre.lowercase()
 }

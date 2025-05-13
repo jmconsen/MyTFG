@@ -32,13 +32,30 @@ fun PantallaCategorias(navHostController: NavHostController) {
     // Estructura agrupada por parte del cuerpo
     val categorias = listOf(
         CategoriaGrupo(
-            nombre = "Piernas",
+            nombre = "Piernas superiores",
             niveles = listOf(
-                NivelEjercicio("Principiante", "https://images.pexels.com/photos/2261482/pexels-photo-2261482.jpeg"),
-                NivelEjercicio("Medio", "https://images.pexels.com/photos/1552242/pexels-photo-1552242.jpeg"),
-                NivelEjercicio("Avanzado", "https://images.pexels.com/photos/414029/pexels-photo-414029.jpeg")
+                NivelEjercicio("Principiante", "URL_IMAGEN"),
+                NivelEjercicio("Medio", "URL_IMAGEN"),
+                NivelEjercicio("Avanzado", "URL_IMAGEN")
             )
         ),
+        CategoriaGrupo(
+            nombre = "Piernas inferiores",
+            niveles = listOf(
+                NivelEjercicio("Principiante", "URL_IMAGEN"),
+                NivelEjercicio("Medio", "URL_IMAGEN"),
+                NivelEjercicio("Avanzado", "URL_IMAGEN")
+            )
+        ),
+        CategoriaGrupo(
+            nombre = "Cardio",
+            niveles = listOf(
+                NivelEjercicio("Principiante", "URL_IMAGEN"),
+                NivelEjercicio("Medio", "URL_IMAGEN"),
+                NivelEjercicio("Avanzado", "URL_IMAGEN")
+            )
+        ),
+        // ...el resto de categorías
         CategoriaGrupo(
             nombre = "Torso",
             niveles = listOf(
@@ -56,6 +73,14 @@ fun PantallaCategorias(navHostController: NavHostController) {
             )
         ),
         CategoriaGrupo(
+            nombre = "Antebrazo",
+            niveles = listOf(
+                NivelEjercicio("Principiante", "https://images.pexels.com/photos/841130/pexels-photo-841130.jpeg"),
+                NivelEjercicio("Medio", "https://images.pexels.com/photos/1139193/pexels-photo-1139193.jpeg"),
+                NivelEjercicio("Avanzado", "https://images.pexels.com/photos/260352/pexels-photo-260352.jpeg")
+            )
+        ),
+        CategoriaGrupo(
             nombre = "Espalda",
             niveles = listOf(
                 NivelEjercicio("Principiante", "https://images.pexels.com/photos/841130/pexels-photo-841130.jpeg"),
@@ -63,7 +88,6 @@ fun PantallaCategorias(navHostController: NavHostController) {
                 NivelEjercicio("Avanzado", "https://images.pexels.com/photos/260352/pexels-photo-260352.jpeg")
             )
         ),
-        // Añade más grupos musculares aquí...
     )
 
     LazyColumn(
