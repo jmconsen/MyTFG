@@ -16,15 +16,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import coil.request.ImageRequest
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.layout.ContentScale
+import com.example.mytfg.R
 
-// Si tienes la función getApiBodyPart en un util, impórtala.
-// Si no, puedes dejarla aquí.
 fun getApiBodyPart(bodyPart: String): String = when (bodyPart.lowercase()) {
-    "piernas" -> "legs"
-    "torso" -> "waist" // O "back", "chest", según tu lógica
+    "piernas superiores" -> "upper legs"
+    "piernas inferiores" -> "lower legs"
+    "torso" -> "waist"
     "brazos" -> "upper arms"
-    "antebrazo" -> "forearms"
+    "antebrazo" -> "lower arms"
     "espalda" -> "back"
+    "cardio" -> "cardio"
     else -> bodyPart.lowercase()
 }
 
@@ -34,12 +39,9 @@ fun PantallaEjercicios(
     bodyPart: String,
     nivel: String
 ) {
-    // SOLO ESTA LÍNEA para crear el ViewModel con factory:
     val viewModel: EjerciciosApiViewModel = viewModel(factory = EjerciciosApiViewModelFactory())
-
     val bodyPartApi = getApiBodyPart(bodyPart)
 
-    // Llama a la API al entrar en la pantalla
     LaunchedEffect(bodyPartApi) {
         viewModel.cargarEjerciciosPorBodyPart(bodyPartApi)
     }
@@ -75,10 +77,15 @@ fun PantallaEjercicios(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         AsyncImage(
-                            model = ejercicio.gifUrl,
+                            model = ImageRequest.Builder(LocalContext.current)
+                                .data(ejercicio.gifUrl)
+                                .crossfade(true)
+                                .build(),
                             contentDescription = ejercicio.name,
+                            contentScale = ContentScale.Crop,
                             modifier = Modifier.size(80.dp)
                         )
+
                         Spacer(modifier = Modifier.width(16.dp))
                         Column {
                             Text(

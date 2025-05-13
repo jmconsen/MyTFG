@@ -7,7 +7,6 @@ import com.example.mytfg.network.ExerciseApiService
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-
 class EjerciciosApiViewModel(
     private val apiService: ExerciseApiService
 ) : ViewModel() {
@@ -23,6 +22,15 @@ class EjerciciosApiViewModel(
             } catch (e: Exception) {
                 _ejercicios.value = emptyList()
             }
+        }
+    }
+
+    // Esta función es nueva, para cargar un ejercicio concreto por ID
+    suspend fun cargarEjercicioPorId(id: String): EjercicioApi? {
+        return try {
+            apiService.getExerciseById(id)
+        } catch (e: Exception) {
+            null
         }
     }
 }

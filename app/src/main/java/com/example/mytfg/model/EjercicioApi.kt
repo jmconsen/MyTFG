@@ -9,5 +9,3 @@ data class EjercicioApi(
     val target: String,
     val instructions: List<String>? = null
 )
-
-
