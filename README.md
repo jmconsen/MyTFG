@@ -1,7 +1,7 @@
 # MyTFG
 
 Proyecto Android desarrollado con Jetpack Compose siguiendo arquitectura MVVM.  
-Aplicación para gestión de planes de entrenamiento, dietas y perfil de usuario.
+Aplicación para planes de entrenamiento, dietas y perfil de usuario.
 
 ---
 
