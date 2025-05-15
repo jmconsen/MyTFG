@@ -107,4 +107,7 @@ dependencies {
     implementation("androidx.compose.foundation:foundation:<latest_version>")
     implementation("androidx.compose.material3:material3:<latest_version>")
     implementation("androidx.navigation:navigation-compose:<latest_version>")
+
+    // AÑADIMOS ESTAS LINEAS PARA QUE FUNCIONEN LOS ICONOS
+    implementation ("androidx.compose.material:material-icons-extended:1.0.0")
 }

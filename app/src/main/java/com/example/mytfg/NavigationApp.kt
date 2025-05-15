@@ -13,6 +13,9 @@ import com.example.mytfg.ui.theme.screens.login.PantallaLogin
 import com.example.mytfg.ui.theme.screens.login.PantallaMenu
 import com.example.mytfg.ui.theme.screens.login.PantallaRecuperarPassword
 import com.example.mytfg.ui.theme.screens.login.PantallaRegistro
+import com.example.mytfg.ui.theme.screens.perfil.PantallaUnoPerfil
+import com.example.mytfg.ui.theme.screens.perfil.PantallaDosPerfil
+import com.example.mytfg.ui.theme.screens.perfil.PantallaTresPerfil
 
 @Composable
 fun NavigationApp(
@@ -31,6 +34,9 @@ fun NavigationApp(
         composable("PantallaLogin") { PantallaLogin(navHostController) }
         composable("PantallaRegistro") { PantallaRegistro(navHostController) }
         composable("PantallaRecuperarPassword") { PantallaRecuperarPassword(navHostController) }
+        composable("PantallaUnoPerfil") { PantallaUnoPerfil(navHostController) }
+        composable("PantallaDosPerfil") { PantallaDosPerfil(navHostController) }
+        composable("PantallaTresPerfil") { PantallaTresPerfil(navHostController) }
     }
 }
 

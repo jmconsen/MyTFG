@@ -164,7 +164,7 @@ fun PantallaLogin(navHostController: NavHostController) {
                                     }
                                 }
                         } else {
-                            mensajeError = "Por favor, ingrese email y contraseña."
+                            mensajeError = "Por favor, introduzca email y contraseña."
                         }
                     },
                     modifier = Modifier.fillMaxWidth()
@@ -231,8 +231,6 @@ fun PantallaLogin(navHostController: NavHostController) {
                 ) {
                     Text("Registrarse con correo electrónico", color = Negro)
                 }
-
-                Spacer(modifier = Modifier.height(8.dp))
 
                 TextButton(
                     onClick = {

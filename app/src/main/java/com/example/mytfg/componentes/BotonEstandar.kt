@@ -27,6 +27,7 @@ import com.example.mytfg.ui.theme.Negro
 fun BotonEstandar(
     texto: String,
     onClick: () -> Unit,
+    enabled: Boolean = true,
     modifier: Modifier = Modifier
         .fillMaxWidth()
         .padding(horizontal = 16.dp)
@@ -36,6 +37,7 @@ fun BotonEstandar(
 
     Button(
         onClick = onClick,
+        enabled = enabled,
         colors = ButtonDefaults.buttonColors(
             containerColor = Negro,
             contentColor = Blanco
