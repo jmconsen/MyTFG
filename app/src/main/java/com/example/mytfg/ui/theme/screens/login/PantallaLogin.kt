@@ -127,7 +127,71 @@ fun PantallaLogin(
                         modifier = Modifier.size(24.dp),
                         tint = Color.Unspecified
                     )
+<<<<<<< HEAD
+                )
+
+                OutlinedTextField(
+                    value = password,
+                    onValueChange = { password = it },
+                    label = { Text("Contraseña") },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(8.dp),
+                    singleLine = true,
+                    visualTransformation = PasswordVisualTransformation(),
+                    textStyle = TextStyle(color = Negro),
+                    shape = RoundedCornerShape(16.dp),
+                    colors = OutlinedTextFieldDefaults.colors(
+                        focusedTextColor = Negro,
+                        unfocusedTextColor = Negro,
+                        disabledTextColor = Negro,
+                        focusedLabelColor = Negro,
+                        unfocusedLabelColor = Negro,
+                        cursorColor = Negro,
+                        focusedBorderColor = Naranja,
+                        unfocusedBorderColor = GrisOscuro2
+                    )
+                )
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                BotonEstandar(
+                    texto = "Iniciar Sesión",
+                    onClick = {
+                        if (usuario.isNotBlank() && password.isNotBlank()) {
+                            auth.signInWithEmailAndPassword(usuario, password)
+                                .addOnCompleteListener { task ->
+                                    if (task.isSuccessful) {
+                                        val currentUser = auth.currentUser
+                                        currentUser?.let {
+                                            mensajeError = "Bienvenido, ${it.email ?: "Usuario"}"
+                                        }
+                                        navHostController.navigate(route = "PantallaMenu") {
+                                            popUpTo("PantallaLogin") { inclusive = true }
+                                        }
+                                    } else {
+                                        mensajeError = task.exception?.message ?: "Error de inicio de sesión"
+                                    }
+                                }
+                        } else {
+                            mensajeError = "Por favor, introduzca email y contraseña."
+                        }
+                    },
+                    modifier = Modifier.fillMaxWidth()
+                )
+
+                LaunchedEffect(mensajeError) {
+                    if (mensajeError.startsWith("Bienvenido")) {
+                        kotlinx.coroutines.delay(10000)
+                        navHostController.navigate(route = "PantallaMenu") {
+                            popUpTo("PantallaLogin") { inclusive = true }
+                        }
+                    }
+                }
+                if (mensajeError.isNotEmpty()) {
+=======
                     Spacer(modifier = Modifier.width(8.dp))
+>>>>>>> a7e6f5bcdb4137a3851b44c88108aa7aa42992a8
                     Text(
                         text = "Iniciar Sesión con Google",
                         fontSize = 16.sp,
@@ -138,6 +202,60 @@ fun PantallaLogin(
 
             Spacer(modifier = Modifier.height(8.dp))
 
+<<<<<<< HEAD
+                Button(
+                    onClick = { activity?.signInWithGoogle() },
+                    modifier = Modifier.fillMaxWidth(),
+                    contentPadding = PaddingValues(
+                        start = 4.dp,
+                        top = 12.dp,
+                        end = 4.dp,
+                        bottom = 12.dp
+                    ),
+                    shape = RoundedCornerShape(16.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color(0xFF0181D7)
+                    )
+                ) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.iconogoogle),
+                            contentDescription = "Google logo",
+                            modifier = Modifier.size(24.dp),
+                            tint = Color.Unspecified
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text(
+                            text = "Iniciar Sesión con Google",
+                            fontSize = 16.sp,
+                            color = Color.White
+                        )
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(8.dp))
+
+                TextButton(
+                    onClick = {
+                        navHostController.navigate("pantallaRegistro")
+                    },
+                    modifier = Modifier.padding(top = 16.dp)
+                ) {
+                    Text("Registrarse con correo electrónico", color = Negro)
+                }
+
+                TextButton(
+                    onClick = {
+                        navHostController.navigate("PantallaRecuperarPassword")
+                    },
+                    modifier = Modifier.padding(top = 16.dp)
+                ) {
+                    Text("Recuperar Contraseña", color = Negro)
+                }
+=======
             TextButton(
                 onClick = {
                     navHostController.navigate("PantallaRegistro")
@@ -145,6 +263,7 @@ fun PantallaLogin(
                 modifier = Modifier.padding(top = 16.dp)
             ) {
                 Text("Registrarse con correo electrónico", color = Color.Black)
+>>>>>>> a7e6f5bcdb4137a3851b44c88108aa7aa42992a8
             }
         }
     }
