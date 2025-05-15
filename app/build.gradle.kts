@@ -93,7 +93,7 @@ dependencies {
     implementation(libs.androidx.compose.material3.material3)
     implementation (libs.androidx.material.icons.extended)
 
-<<<<<<< HEAD
+//<<<<<<< HEAD
     // Import the Firebase BoM
     implementation(platform("com.google.firebase:firebase-bom:33.10.0"))
 
@@ -121,6 +121,6 @@ dependencies {
     // AÑADIMOS ESTAS LINEAS PARA QUE FUNCIONEN LOS ICONOS
     implementation ("androidx.compose.material:material-icons-extended:1.0.0")
 }
-=======
-}
->>>>>>> a7e6f5bcdb4137a3851b44c88108aa7aa42992a8
+//=======
+//}
+//>>>>>>> a7e6f5bcdb4137a3851b44c88108aa7aa42992a8

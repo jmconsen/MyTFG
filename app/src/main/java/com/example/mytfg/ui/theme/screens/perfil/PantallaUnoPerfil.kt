@@ -144,7 +144,7 @@ fun PantallaUnoPerfil(navHostController: NavHostController) {
                     ) {
                         BotonEstandar(
                             texto = "Continuar",
-                            onClick = { navHostController.navigate("PantallaTresPerfil") },
+                            onClick = { navHostController.navigate("PantallaDosPerfil") },
                             enabled = selectedOption != null,
                             modifier = Modifier.fillMaxWidth()
                         )
@@ -152,7 +152,7 @@ fun PantallaUnoPerfil(navHostController: NavHostController) {
                         Spacer(modifier = Modifier.height(16.dp))
 
                         Text(
-                            text = "2/7",
+                            text = "1/3",
                             fontSize = 10.sp
                         )
                     }

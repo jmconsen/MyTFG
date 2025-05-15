@@ -1,5 +1,6 @@
 package com.example.mytfg
 
+import PantallaWelcome
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
@@ -13,14 +14,17 @@ import com.example.mytfg.ui.theme.screens.ejercicios.PantallaDetalleEjercicio
 import com.example.mytfg.ui.theme.screens.login.PantallaLogin
 import com.example.mytfg.ui.theme.screens.menu.PantallaMenu
 import com.example.mytfg.ui.theme.screens.login.PantallaRegistro
-<<<<<<< HEAD
+import com.example.mytfg.ui.theme.screens.login.PantallaRecuperarPassword
+
+//import com.example.mytfg.ui.theme.screens.welcome.PantallaWelcome
 import com.example.mytfg.ui.theme.screens.perfil.PantallaUnoPerfil
 import com.example.mytfg.ui.theme.screens.perfil.PantallaDosPerfil
 import com.example.mytfg.ui.theme.screens.perfil.PantallaTresPerfil
-=======
+
 import com.example.mytfg.ui.theme.screens.dieta.PantallaDieta
 import com.example.mytfg.ui.theme.screens.dieta.PantallaSeleccionDieta
->>>>>>> a7e6f5bcdb4137a3851b44c88108aa7aa42992a8
+
+
 
 @Composable
 fun NavigationApp(
@@ -28,7 +32,7 @@ fun NavigationApp(
     authManager: AuthManager,
     modifier: Modifier = Modifier
 ) {
-<<<<<<< HEAD
+
     val startDestination = "PantallaWelcome"
 
     NavHost(
@@ -43,6 +47,8 @@ fun NavigationApp(
         composable("PantallaUnoPerfil") { PantallaUnoPerfil(navHostController) }
         composable("PantallaDosPerfil") { PantallaDosPerfil(navHostController) }
         composable("PantallaTresPerfil") { PantallaTresPerfil(navHostController) }
+        composable("PantallaCategorias") { PantallaCategorias(navHostController) }
+        //composable("PantallaEjercicios") { PantallaEjercicios(navHostController) }
     }
 }
 
@@ -114,3 +120,4 @@ fun NavigationApp(
         }
     }
 }
+*/
