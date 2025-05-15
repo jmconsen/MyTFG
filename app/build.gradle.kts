@@ -93,4 +93,34 @@ dependencies {
     implementation(libs.androidx.compose.material3.material3)
     implementation (libs.androidx.material.icons.extended)
 
+<<<<<<< HEAD
+    // Import the Firebase BoM
+    implementation(platform("com.google.firebase:firebase-bom:33.10.0"))
+
+    // TODO: Add the dependencies for Firebase products you want to use
+    // When using the BoM, don't specify versions in Firebase dependencies
+    // https://firebase.google.com/docs/android/setup#available-libraries
+
+
+    implementation("com.google.firebase:firebase-analytics")
+
+
+    // Add the dependencies for any other desired Firebase products
+    // https://firebase.google.com/docs/android/setup#available-libraries
+
+    //AÑADIMOS ESTAS LINEAS PARA QUE FUNCIONE EL PLUGIN DE GOOGLE
+    implementation ("com.google.android.gms:play-services-auth:20.7.0")
+    implementation ("com.google.android.gms:play-services-basement:18.2.")
+    //implementation ("androidx.compose.material3:material3:1.2.0-alpha02")
+    implementation ("com.google.accompanist:accompanist-pager:0.30.1")
+    implementation ("com.google.accompanist:accompanist-pager-indicators:0.30.1")
+    implementation("androidx.compose.foundation:foundation:<latest_version>")
+    implementation("androidx.compose.material3:material3:<latest_version>")
+    implementation("androidx.navigation:navigation-compose:<latest_version>")
+
+    // AÑADIMOS ESTAS LINEAS PARA QUE FUNCIONEN LOS ICONOS
+    implementation ("androidx.compose.material:material-icons-extended:1.0.0")
 }
+=======
+}
+>>>>>>> a7e6f5bcdb4137a3851b44c88108aa7aa42992a8
