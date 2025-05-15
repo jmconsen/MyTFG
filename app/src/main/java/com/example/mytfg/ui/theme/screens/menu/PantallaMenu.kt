@@ -89,7 +89,7 @@ fun PantallaMenu(navHostController: NavHostController) {
 
                     BotonEstandar(
                         texto = "Perfil",
-                        onClick = { navHostController.navigate("Perfil") },
+                        onClick = { navHostController.navigate("PantallaUnoPerfil") },
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(vertical = 8.dp)

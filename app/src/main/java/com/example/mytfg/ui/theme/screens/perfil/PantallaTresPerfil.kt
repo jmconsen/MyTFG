@@ -151,7 +151,7 @@ fun PantallaTresPerfil(navHostController: NavHostController) {
                     Spacer(modifier = Modifier.height(16.dp))
 
                     Text(
-                        text = "2/7",
+                        text = "3/3",
                         fontSize = 10.sp
                     )
                 }
