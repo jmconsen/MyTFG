@@ -25,17 +25,17 @@ fun PantallaSeleccionDieta(
     viewModel: DietaViewModel = viewModel(),
     paddingValues: PaddingValues = PaddingValues(0.dp)
 ) {
-    val opciones = listOf("Aumentar peso", "Reducir peso", "Tonificar", "Ganar masa muscular", "Mantener peso")
+    // Lista con texto para mostrar y clave para Firestore
+    val opciones = listOf(
+        "Aumentar peso" to "aumentar_peso",
+        "Reducir peso" to "reducir_peso",
+        "Tonificar" to "tonificar",
+        "Mantener peso" to "mantener_peso"
+    )
     val objetivoSeleccionado by viewModel.objetivoSeleccionado.collectAsState()
 
-    val claveObjetivo = when (objetivoSeleccionado) {
-        "Aumentar peso" -> "aumentar_peso"
-        "Reducir peso" -> "reducir_peso"
-        "Tonificar" -> "tonificar"
-        "Ganar masa muscular" -> "ganar_masa_muscular"
-        "Mantener peso" -> "mantener_peso"
-        else -> null
-    }
+    // Obtenemos la clave Firestore del objetivo seleccionado
+    val claveObjetivo = opciones.find { it.first == objetivoSeleccionado }?.second
 
     Box(
         modifier = Modifier
@@ -71,7 +71,7 @@ fun PantallaSeleccionDieta(
                     .weight(1f)
                     .verticalScroll(rememberScrollState())
             ) {
-                opciones.forEach { opcion ->
+                opciones.forEach { (texto, _) ->
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -79,16 +79,16 @@ fun PantallaSeleccionDieta(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         RadioButton(
-                            selected = objetivoSeleccionado == opcion,
-                            onClick = { viewModel.seleccionarObjetivo(opcion) }
+                            selected = objetivoSeleccionado == texto,
+                            onClick = { viewModel.seleccionarObjetivo(texto) }
                         )
                         Spacer(modifier = Modifier.width(12.dp))
                         Text(
-                            text = opcion,
+                            text = texto,
                             style = MaterialTheme.typography.bodyLarge,
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .clickable { viewModel.seleccionarObjetivo(opcion) }
+                                .clickable { viewModel.seleccionarObjetivo(texto) }
                         )
                     }
                 }

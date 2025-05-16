@@ -4,12 +4,9 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
@@ -18,48 +15,74 @@ import com.example.mytfg.viewmodel.DietaViewModel
 @Composable
 fun PantallaDieta(
     navHostController: NavHostController,
-    objetivo: String,
+    objetivoClave: String,
     viewModel: DietaViewModel = viewModel()
 ) {
     val contenidoDieta by viewModel.contenidoDieta.collectAsState()
 
-    // Cargar la dieta al entrar en la pantalla
-    LaunchedEffect(objetivo) {
-        viewModel.cargarDieta(objetivo)
+    LaunchedEffect(objetivoClave) {
+        viewModel.cargarDieta(objetivoClave)
     }
+
+    val secciones = contenidoDieta?.split("\n\n") ?: listOf("Cargando dieta...")
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(24.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+            .padding(16.dp)
     ) {
         Text(
-            text = "Tu plan nutricional",
-            style = MaterialTheme.typography.headlineMedium,
-            modifier = Modifier.padding(bottom = 24.dp)
+            text = objetivoClave.replace('_', ' ').replaceFirstChar { it.uppercase() },
+            style = MaterialTheme.typography.headlineLarge,
+            color = MaterialTheme.colorScheme.primary,
+            modifier = Modifier.padding(bottom = 12.dp)
         )
 
-        Box(
+        Surface(
             modifier = Modifier
                 .weight(1f)
-                .fillMaxWidth()
-                .verticalScroll(rememberScrollState()),
-            contentAlignment = Alignment.TopStart
+                .fillMaxWidth(),
+            tonalElevation = 4.dp,
+            shape = MaterialTheme.shapes.medium
         ) {
-            Text(
-                text = contenidoDieta ?: "Objetivo no válido",
-                style = MaterialTheme.typography.bodyLarge,
-                modifier = Modifier.fillMaxWidth(),
-                softWrap = true
-            )
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
+                    .padding(16.dp)
+            ) {
+                secciones.forEach { seccion ->
+                    val partes = seccion.split(":", limit = 2)
+                    if (partes.size == 2) {
+                        val titulo = partes[0].trim()
+                        val contenido = partes[1].trim()
+                        Text(
+                            text = titulo,
+                            style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                            color = MaterialTheme.colorScheme.primary,
+                            modifier = Modifier.padding(top = 8.dp, bottom = 4.dp)
+                        )
+                        Text(
+                            text = contenido,
+                            style = MaterialTheme.typography.bodyLarge,
+                            modifier = Modifier.padding(bottom = 8.dp)
+                        )
+                    } else {
+                        Text(
+                            text = seccion.trim(),
+                            style = MaterialTheme.typography.bodyLarge,
+                            modifier = Modifier.padding(vertical = 8.dp)
+                        )
+                    }
+                }
+            }
         }
+
+        Spacer(modifier = Modifier.height(16.dp))
 
         Button(
             onClick = { navHostController.navigate("PantallaMenu") },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 24.dp)
+            modifier = Modifier.fillMaxWidth()
         ) {
             Text("Volver al menú principal")
         }
