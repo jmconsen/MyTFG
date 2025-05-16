@@ -23,22 +23,25 @@ import com.example.mytfg.ui.theme.screens.perfil.PantallaTresPerfil
 import com.example.mytfg.ui.theme.screens.dieta.PantallaDieta
 import com.example.mytfg.ui.theme.screens.dieta.PantallaSeleccionDieta
 
+/*
+    >>>>>>> a7e6f5bcdb4137a3851b44c88108aa7aa42992a8
+        val startDestination = if (authManager.isUserLoggedIn()) "PantallaMenu" else "PantallaLogin"
+
+*/
+
 @Composable
 fun NavigationApp(
     navHostController: NavHostController,
     authManager: AuthManager,
     modifier: Modifier = Modifier,
-    paddingValues: PaddingValues = PaddingValues(0.dp) // 👈 NUEVO
+    paddingValues: PaddingValues = PaddingValues(0.dp)
 ) {
-    /*
-    >>>>>>> a7e6f5bcdb4137a3851b44c88108aa7aa42992a8
     val startDestination = "PantallaWelcome"
-    */
-    val startDestination = if (authManager.isUserLoggedIn()) "PantallaMenu" else "PantallaLogin"
 
     NavHost(
         navController = navHostController,
         startDestination = startDestination,
+        modifier = modifier
     ) {
         composable("PantallaWelcome") { PantallaWelcome(navHostController) }
         composable("PantallaMenu") { PantallaMenu(navHostController) }
@@ -48,7 +51,13 @@ fun NavigationApp(
         composable("PantallaUnoPerfil") { PantallaUnoPerfil(navHostController) }
         composable("PantallaDosPerfil") { PantallaDosPerfil(navHostController) }
         composable("PantallaTresPerfil") { PantallaTresPerfil(navHostController) }
-        composable("PantallaCategorias") { PantallaCategorias(navHostController) }
+
+        composable("PantallaCategorias") {
+            PantallaCategorias(
+                navHostController = navHostController,
+                paddingValues = paddingValues
+            )
+        }
 
         composable(
             route = "PantallaEjercicios/{bodyPart}/{nivel}",
@@ -59,7 +68,12 @@ fun NavigationApp(
         ) { backStackEntry ->
             val bodyPart = backStackEntry.arguments?.getString("bodyPart") ?: ""
             val nivel = backStackEntry.arguments?.getString("nivel") ?: ""
-            PantallaEjercicios(navHostController, bodyPart, nivel)
+            PantallaEjercicios(
+                navHostController,
+                bodyPart,
+                nivel,
+                paddingValues = paddingValues // <-- Pasa aquí el padding
+            )
         }
 
         composable(
@@ -69,12 +83,18 @@ fun NavigationApp(
             )
         ) { backStackEntry ->
             val ejercicioId = backStackEntry.arguments?.getString("ejercicioId") ?: ""
-            PantallaDetalleEjercicio(navHostController, ejercicioId)
+            PantallaDetalleEjercicio(
+                navHostController,
+                ejercicioId,
+                paddingValues = paddingValues // <-- Pasa aquí el padding
+            )
         }
 
-        // 👇 Pasamos paddingValues a PantallaSeleccionDieta
         composable("PantallaSeleccionDieta") {
-            PantallaSeleccionDieta(navHostController, paddingValues = paddingValues)
+            PantallaSeleccionDieta(
+                navHostController = navHostController,
+                paddingValues = paddingValues
+            )
         }
 
         composable(
@@ -82,7 +102,11 @@ fun NavigationApp(
             arguments = listOf(navArgument("objetivo") { type = NavType.StringType })
         ) { backStackEntry ->
             val objetivo = backStackEntry.arguments?.getString("objetivo") ?: ""
-            PantallaDieta(navHostController, objetivo)
+            PantallaDieta(
+                navHostController = navHostController,
+                objetivoClave = objetivo,
+                paddingValues = paddingValues // <-- Pasa aquí el padding
+            )
         }
     }
 }

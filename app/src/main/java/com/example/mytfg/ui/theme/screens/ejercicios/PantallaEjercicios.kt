@@ -37,7 +37,8 @@ fun getApiBodyPart(bodyPart: String): String = when (bodyPart.lowercase()) {
 fun PantallaEjercicios(
     navHostController: NavHostController,
     bodyPart: String,
-    nivel: String
+    nivel: String,
+    paddingValues: PaddingValues = PaddingValues() // <-- Añadido
 ) {
     val viewModel: EjerciciosApiViewModel = viewModel(factory = EjerciciosApiViewModelFactory())
     val bodyPartApi = getApiBodyPart(bodyPart)
@@ -50,7 +51,9 @@ fun PantallaEjercicios(
 
     if (ejercicios.isEmpty()) {
         Box(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues), // <-- Aplica el padding aquí también
             contentAlignment = Alignment.Center
         ) {
             Text(
@@ -60,13 +63,11 @@ fun PantallaEjercicios(
         }
     } else {
         LazyColumn(
-            modifier = Modifier.fillMaxSize(),
-            contentPadding = PaddingValues(
-                top = 72.dp,
-                bottom = 96.dp
-            )
-        )
-        {
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues), // <-- Aplica el padding aquí
+            contentPadding = PaddingValues(vertical = 8.dp)
+        ) {
             items(ejercicios) { ejercicio ->
                 Card(
                     modifier = Modifier
