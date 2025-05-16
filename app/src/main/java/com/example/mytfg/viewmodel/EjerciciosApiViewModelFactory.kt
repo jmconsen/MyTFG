@@ -7,7 +7,7 @@ import com.example.mytfg.network.RetrofitClient
 class EjerciciosApiViewModelFactory : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(EjerciciosApiViewModel::class.java)) {
-            // Pasa aquí tus dependencias (por ejemplo, RetrofitClient.apiService)
+            @Suppress("UNCHECKED_CAST")
             return EjerciciosApiViewModel(RetrofitClient.apiService) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")

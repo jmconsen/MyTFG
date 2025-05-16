@@ -1,17 +1,6 @@
 package com.example.mytfg.model
 
-data class CategoriaEjercicio(
-    val bodyPart: String,
-    val nivel: String,
-    val imagenUrl: String
-)
-
-data class NivelEjercicio(
-    val nivel: String,
-    val imagenResId: Int
-)
-
-data class CategoriaGrupo(
+data class Categoria(
     val nombre: String,
-    val niveles: List<NivelEjercicio>
+    val imagenResId: Int // o imagenUrl si usas imágenes online
 )
