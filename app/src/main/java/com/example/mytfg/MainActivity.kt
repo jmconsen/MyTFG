@@ -78,7 +78,6 @@ class MainActivity : ComponentActivity() {
                     NavigationApp(
                         navHostController = navHostController,
                         authManager = authManager,
-                        modifier = Modifier.padding(paddingValues),
                         paddingValues = paddingValues // 👈 Esto es clave
                     )
                 }

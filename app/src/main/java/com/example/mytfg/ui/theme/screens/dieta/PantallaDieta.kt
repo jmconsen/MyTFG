@@ -16,7 +16,8 @@ import com.example.mytfg.viewmodel.DietaViewModel
 fun PantallaDieta(
     navHostController: NavHostController,
     objetivoClave: String,
-    viewModel: DietaViewModel = viewModel()
+    viewModel: DietaViewModel = viewModel(),
+    paddingValues: PaddingValues = PaddingValues() // <-- Añadido
 ) {
     val contenidoDieta by viewModel.contenidoDieta.collectAsState()
 
@@ -29,7 +30,8 @@ fun PantallaDieta(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp)
+            .padding(paddingValues) // <-- Aplica el padding del Scaffold global
+            .padding(16.dp)         // <-- Margen visual interno
     ) {
         Text(
             text = objetivoClave.replace('_', ' ').replaceFirstChar { it.uppercase() },
