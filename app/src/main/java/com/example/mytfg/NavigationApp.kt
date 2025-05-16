@@ -3,6 +3,8 @@ package com.example.mytfg
 import PantallaWelcome
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -15,25 +17,24 @@ import com.example.mytfg.ui.theme.screens.login.PantallaLogin
 import com.example.mytfg.ui.theme.screens.menu.PantallaMenu
 import com.example.mytfg.ui.theme.screens.login.PantallaRegistro
 import com.example.mytfg.ui.theme.screens.login.PantallaRecuperarPassword
-
-//import com.example.mytfg.ui.theme.screens.welcome.PantallaWelcome
 import com.example.mytfg.ui.theme.screens.perfil.PantallaUnoPerfil
 import com.example.mytfg.ui.theme.screens.perfil.PantallaDosPerfil
 import com.example.mytfg.ui.theme.screens.perfil.PantallaTresPerfil
-
 import com.example.mytfg.ui.theme.screens.dieta.PantallaDieta
 import com.example.mytfg.ui.theme.screens.dieta.PantallaSeleccionDieta
-
-
 
 @Composable
 fun NavigationApp(
     navHostController: NavHostController,
     authManager: AuthManager,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    paddingValues: PaddingValues = PaddingValues(0.dp) // 👈 NUEVO
 ) {
-
+    /*
+    >>>>>>> a7e6f5bcdb4137a3851b44c88108aa7aa42992a8
     val startDestination = "PantallaWelcome"
+    */
+    val startDestination = if (authManager.isUserLoggedIn()) "PantallaMenu" else "PantallaLogin"
 
     NavHost(
         navController = navHostController,
@@ -48,42 +49,7 @@ fun NavigationApp(
         composable("PantallaDosPerfil") { PantallaDosPerfil(navHostController) }
         composable("PantallaTresPerfil") { PantallaTresPerfil(navHostController) }
         composable("PantallaCategorias") { PantallaCategorias(navHostController) }
-        //composable("PantallaEjercicios") { PantallaEjercicios(navHostController) }
-    }
-}
 
-
-
-
-
-
-/*
-@Composable
-fun NavigationApp(
-    navHostController: NavHostController,
-    authManager: AuthManager,
-    modifier: Modifier = Modifier
-) {
-=======
->>>>>>> a7e6f5bcdb4137a3851b44c88108aa7aa42992a8
-    val startDestination = if (authManager.isUserLoggedIn()) "PantallaMenu" else "PantallaLogin"
-
-    NavHost(
-        navController = navHostController,
-        startDestination = startDestination,
-        modifier = modifier
-    ) {
-        // Login / Registro
-        composable("PantallaLogin") { PantallaLogin(navHostController) }
-        composable("PantallaRegistro") { PantallaRegistro(navHostController) }
-
-        // Menú principal
-        composable("PantallaMenu") { PantallaMenu(navHostController) }
-
-        // Categorías de ejercicios
-        composable("PantallaCategorias") { PantallaCategorias(navHostController) }
-
-        // Lista de ejercicios según parte del cuerpo y nivel
         composable(
             route = "PantallaEjercicios/{bodyPart}/{nivel}",
             arguments = listOf(
@@ -96,7 +62,6 @@ fun NavigationApp(
             PantallaEjercicios(navHostController, bodyPart, nivel)
         }
 
-        // Detalle de un ejercicio concreto
         composable(
             route = "PantallaDetalleEjercicio/{ejercicioId}",
             arguments = listOf(
@@ -107,10 +72,11 @@ fun NavigationApp(
             PantallaDetalleEjercicio(navHostController, ejercicioId)
         }
 
-        // Pantallas de dieta
+        // 👇 Pasamos paddingValues a PantallaSeleccionDieta
         composable("PantallaSeleccionDieta") {
-            PantallaSeleccionDieta(navHostController)
+            PantallaSeleccionDieta(navHostController, paddingValues = paddingValues)
         }
+
         composable(
             "PantallaDieta/{objetivo}",
             arguments = listOf(navArgument("objetivo") { type = NavType.StringType })
@@ -120,4 +86,3 @@ fun NavigationApp(
         }
     }
 }
-*/

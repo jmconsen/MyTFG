@@ -23,10 +23,8 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Inicializa Firebase (si no lo haces en Application)
         FirebaseApp.initializeApp(this)
 
-        // Configuración del inicio de sesión con Google
         val googleSignInLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             authManager.handleGoogleSignInResult(
                 result.data,
@@ -39,7 +37,6 @@ class MainActivity : ComponentActivity() {
             )
         }
 
-        // Inicializar AuthManager
         authManager = AuthManager(
             activity = this,
             clientId = "448249921559-cff519ita8c2kf8p23msrv5jdcvi7pcd.apps.googleusercontent.com",
@@ -76,10 +73,13 @@ class MainActivity : ComponentActivity() {
                         )
                     }
                 ) { paddingValues ->
+
+                    // 👇 CORREGIDO: pasamos paddingValues a NavigationApp
                     NavigationApp(
                         navHostController = navHostController,
                         authManager = authManager,
-                        modifier = Modifier.padding(paddingValues)
+                        modifier = Modifier.padding(paddingValues),
+                        paddingValues = paddingValues // 👈 Esto es clave
                     )
                 }
             }
