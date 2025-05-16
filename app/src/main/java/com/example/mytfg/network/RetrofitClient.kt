@@ -7,8 +7,6 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitClient {
-
-    // Configuración de headers para RapidAPI (ExerciseDB)
     private val okHttpClient = OkHttpClient.Builder()
         .addInterceptor(object : Interceptor {
             override fun intercept(chain: Interceptor.Chain): Response {
@@ -21,11 +19,10 @@ object RetrofitClient {
         })
         .build()
 
-    // Crea el servicio de Retrofit con la configuración de headers
     val apiService: ExerciseApiService by lazy {
         Retrofit.Builder()
             .baseUrl("https://exercisedb.p.rapidapi.com/")
-            .client(okHttpClient) // <-- Añade el cliente con los headers
+            .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(ExerciseApiService::class.java)
