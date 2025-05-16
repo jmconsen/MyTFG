@@ -76,6 +76,7 @@ fun PantallaDetalleEjercicio(
         Column(
             modifier = Modifier
                 .padding(paddingValues)
+                .padding(bottom = 60.dp)
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
                 .background(

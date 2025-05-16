@@ -61,8 +61,12 @@ fun PantallaEjercicios(
     } else {
         LazyColumn(
             modifier = Modifier.fillMaxSize(),
-            contentPadding = PaddingValues(vertical = 8.dp)
-        ) {
+            contentPadding = PaddingValues(
+                top = 72.dp,
+                bottom = 96.dp
+            )
+        )
+        {
             items(ejercicios) { ejercicio ->
                 Card(
                     modifier = Modifier
