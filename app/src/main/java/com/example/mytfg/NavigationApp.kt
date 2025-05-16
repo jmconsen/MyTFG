@@ -25,8 +25,7 @@ import com.example.mytfg.ui.theme.screens.dieta.PantallaSeleccionDieta
 
 /*
     >>>>>>> a7e6f5bcdb4137a3851b44c88108aa7aa42992a8
-        val startDestination = if (authManager.isUserLoggedIn()) "PantallaMenu" else "PantallaLogin"
-
+    val startDestination = "PantallaWelcome"
 */
 
 @Composable
@@ -36,7 +35,7 @@ fun NavigationApp(
     modifier: Modifier = Modifier,
     paddingValues: PaddingValues = PaddingValues(0.dp)
 ) {
-    val startDestination = "PantallaWelcome"
+    val startDestination = if (authManager.isUserLoggedIn()) "PantallaMenu" else "PantallaLogin"
 
     NavHost(
         navController = navHostController,
@@ -60,19 +59,19 @@ fun NavigationApp(
         }
 
         composable(
-            route = "PantallaEjercicios/{bodyPart}/{nivel}",
+            route = "PantallaEjercicios/{bodyPart}/{equipo}",
             arguments = listOf(
                 navArgument("bodyPart") { type = NavType.StringType },
-                navArgument("nivel") { type = NavType.StringType }
+                navArgument("equipo") { type = NavType.StringType }
             )
         ) { backStackEntry ->
             val bodyPart = backStackEntry.arguments?.getString("bodyPart") ?: ""
-            val nivel = backStackEntry.arguments?.getString("nivel") ?: ""
+            val equipo = backStackEntry.arguments?.getString("equipo") ?: "body weight"
             PantallaEjercicios(
-                navHostController,
-                bodyPart,
-                nivel,
-                paddingValues = paddingValues // <-- Pasa aquí el padding
+                navHostController = navHostController,
+                bodyPart = bodyPart,
+                equipo = equipo,
+                paddingValues = paddingValues
             )
         }
 
