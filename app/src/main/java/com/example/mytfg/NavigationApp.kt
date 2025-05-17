@@ -22,6 +22,7 @@ import com.example.mytfg.ui.theme.screens.perfil.PantallaDosPerfil
 import com.example.mytfg.ui.theme.screens.perfil.PantallaTresPerfil
 import com.example.mytfg.ui.theme.screens.dieta.PantallaDieta
 import com.example.mytfg.ui.theme.screens.dieta.PantallaSeleccionDieta
+import com.example.mytfg.ui.theme.screens.ia.PantallaFormularioIA
 
 /*
     >>>>>>> a7e6f5bcdb4137a3851b44c88108aa7aa42992a8
@@ -44,6 +45,12 @@ fun NavigationApp(
     ) {
         composable("PantallaWelcome") { PantallaWelcome(navHostController) }
         composable("PantallaMenu") { PantallaMenu(navHostController) }
+        composable("PantallaFormularioIA") {
+            PantallaFormularioIA(
+                navHostController = navHostController,
+                paddingValues = paddingValues
+            )
+        }
         composable("PantallaLogin") { PantallaLogin(navHostController) }
         composable("PantallaRegistro") { PantallaRegistro(navHostController) }
         composable("PantallaRecuperarPassword") { PantallaRecuperarPassword(navHostController) }

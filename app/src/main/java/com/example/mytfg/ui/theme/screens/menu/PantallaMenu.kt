@@ -74,7 +74,7 @@ fun PantallaMenu(navHostController: NavHostController) {
 
                     BotonEstandar(
                         texto = "Entrenamiento con IA",
-                        onClick = { navHostController.navigate("PantallaCategorias") },
+                        onClick = { navHostController.navigate("PantallaFormularioIA") },
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(vertical = 8.dp)
