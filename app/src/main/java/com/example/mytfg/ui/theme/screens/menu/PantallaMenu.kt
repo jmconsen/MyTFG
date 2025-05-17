@@ -62,9 +62,10 @@ fun PantallaMenu(navHostController: NavHostController) {
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
+                    Spacer(modifier = Modifier.height(32.dp))
                     Text(
                         text = "Menú Principal",
-                        fontSize = 28.sp,
+                        fontSize = 40.sp,
                         fontWeight = FontWeight.Bold,
                         color = GrisOscuro2,
                         textAlign = TextAlign.Center,
@@ -79,6 +80,8 @@ fun PantallaMenu(navHostController: NavHostController) {
                             .padding(vertical = 8.dp)
                     )
 
+                    Spacer(modifier = Modifier.height(20.dp))
+
                     BotonEstandar(
                         texto = "Ejercicios",
                         onClick = { navHostController.navigate("PantallaCategorias") },
@@ -87,6 +90,8 @@ fun PantallaMenu(navHostController: NavHostController) {
                             .padding(vertical = 8.dp)
                     )
 
+                    Spacer(modifier = Modifier.height(20.dp))
+
                     BotonEstandar(
                         texto = "Perfil",
                         onClick = { navHostController.navigate("PantallaUnoPerfil") },
@@ -94,6 +99,8 @@ fun PantallaMenu(navHostController: NavHostController) {
                             .fillMaxWidth()
                             .padding(vertical = 8.dp)
                     )
+
+                    Spacer(modifier = Modifier.height(20.dp))
 
                     BotonEstandar(
                         texto = "Dietas",
