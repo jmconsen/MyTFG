@@ -10,6 +10,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import com.example.mytfg.componentes.BotonEstandar
 import com.example.mytfg.viewmodel.DietaViewModel
 
 @Composable
@@ -82,11 +83,10 @@ fun PantallaDieta(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        Button(
+        BotonEstandar(
+            texto = "Volver al menú principal",
             onClick = { navHostController.navigate("PantallaMenu") },
             modifier = Modifier.fillMaxWidth()
-        ) {
-            Text("Volver al menú principal")
-        }
+        )
     }
 }
