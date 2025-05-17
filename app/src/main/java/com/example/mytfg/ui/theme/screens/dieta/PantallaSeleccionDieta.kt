@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.mytfg.R
+import com.example.mytfg.componentes.BotonEstandar
 import com.example.mytfg.viewmodel.DietaViewModel
 
 @Composable
@@ -94,7 +95,8 @@ fun PantallaSeleccionDieta(
                 }
             }
 
-            Button(
+            BotonEstandar(
+                texto = "Continuar",
                 onClick = {
                     claveObjetivo?.let {
                         navHostController.navigate("PantallaDieta/$it")
@@ -105,9 +107,7 @@ fun PantallaSeleccionDieta(
                     .fillMaxWidth()
                     .padding(top = 16.dp)
                     .navigationBarsPadding()
-            ) {
-                Text("Continuar")
-            }
+            )
         }
     }
 }
