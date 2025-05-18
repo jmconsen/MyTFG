@@ -85,7 +85,7 @@ fun PantallaCategorias(
                             Text(
                                 text = categoria.nombre,
                                 style = MaterialTheme.typography.titleLarge,
-                                fontSize = 26.sp,
+                                fontSize = 24.sp,
                                 modifier = Modifier.padding(vertical = 14.dp)
                             )
                         }
@@ -118,6 +118,9 @@ fun PantallaCategorias(
                             }
                         }
                     }
+                }
+                item {
+                    Spacer(modifier = Modifier.height(64.dp)) // Espacio adicional al final
                 }
             }
         }

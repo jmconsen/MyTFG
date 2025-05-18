@@ -137,6 +137,7 @@ fun PantallaUnoPerfil(navHostController: NavHostController) {
                     Text(
                         text = "¿Cuál es tu objetivo/meta de ejercicios?",
                         fontSize = 24.sp,
+                        fontWeight = FontWeight.Bold,
                         textAlign = TextAlign.Center,
                         modifier = Modifier.padding(bottom = 16.dp)
                     )
