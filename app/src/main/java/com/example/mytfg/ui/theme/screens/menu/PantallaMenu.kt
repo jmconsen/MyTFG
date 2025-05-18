@@ -129,7 +129,7 @@ fun PantallaMenu(navHostController: NavHostController, userName: String?, avatar
 
                         BotonEstandar(
                             texto = "Perfil",
-                            onClick = { navHostController.navigate("PantallaUnoPerfil") },
+                            onClick = { navHostController.navigate("PantallaEditarPerfil") },
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(vertical = 8.dp)
