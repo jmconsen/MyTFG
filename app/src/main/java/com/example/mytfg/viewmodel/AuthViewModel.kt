@@ -62,7 +62,8 @@ class AuthViewModel : ViewModel() {
                     _uiState.value = _uiState.value.copy(
                         isLoading = false,
                         isLoggedIn = false,
-                        errorMessage = task.exception?.message ?: "Error de inicio de sesión"
+                        errorMessage = "Error de inicio de sesión"
+                        //errorMessage = task.exception?.message ?: "Error de inicio de sesión"
                     )
                 }
             }
