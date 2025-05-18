@@ -38,15 +38,21 @@ import com.example.mytfg.ui.theme.Naranja
 import com.example.mytfg.ui.theme.Negro
 import com.google.firebase.auth.FirebaseAuth
 import androidx.compose.foundation.Image
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TextButton
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.layout.ContentScale
 import com.example.mytfg.R
+import com.example.mytfg.componentes.BottomBarCopyright
+import com.google.firebase.Timestamp
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
+import com.google.firebase.firestore.FirebaseFirestore
 
 @Composable
 fun PantallaRegistro(
     navController: NavController
 ) {
+    var nombre by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var confirmPassword by remember { mutableStateOf("") }
@@ -54,169 +60,241 @@ fun PantallaRegistro(
 
     val auth = FirebaseAuth.getInstance()
 
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-    ) {
-        Image(
-            painter = painterResource(id = R.drawable.image_registro),
-            contentDescription = null,
-            modifier = Modifier.fillMaxSize(),
-            contentScale = ContentScale.Crop
-        )
+    Scaffold(
+        bottomBar = { BottomBarCopyright() }
+    ) { innerPadding ->
 
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color.White.copy(alpha = 0.7f)) // Aplica opacidad
-        )
-
-        Box(
-            modifier = Modifier
-                .fillMaxSize(),
-            contentAlignment = Alignment.Center
+                .padding(innerPadding)
         ) {
-            Column(
+            Image(
+                painter = painterResource(id = R.drawable.image_registro),
+                contentDescription = null,
+                modifier = Modifier.fillMaxSize(),
+                contentScale = ContentScale.Crop
+            )
+
+            Box(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 32.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
+                    .fillMaxSize()
+                    .background(Color.White.copy(alpha = 0.7f)) // Aplica opacidad
+            )
+
+            Box(
+                modifier = Modifier
+                    .fillMaxSize(),
+                contentAlignment = Alignment.Center
             ) {
-                Text(
-                    text = "Registro de Usuario",
-                    fontSize = 32.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = GrisOscuro2,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.padding(bottom = 16.dp)
-                )
-
-                OutlinedTextField(
-                    value = email,
-                    onValueChange = { email = it },
-                    label = { Text("Correo Electrónico") },
+                Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(8.dp),
-                    textStyle = TextStyle(color = Negro),
-                    shape = RoundedCornerShape(16.dp),
-                    colors = OutlinedTextFieldDefaults.colors(
-                        focusedTextColor = Negro,
-                        unfocusedTextColor = Negro,
-                        disabledTextColor = Negro,
-                        focusedLabelColor = Negro,
-                        unfocusedLabelColor = Negro,
-                        cursorColor = Negro,
-                        focusedBorderColor = Naranja,
-                        unfocusedBorderColor = GrisOscuro2
-                    ),
-                    singleLine = true,
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
-                )
+                        .padding(horizontal = 32.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        text = "Registro de Usuario",
+                        fontSize = 32.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = GrisOscuro2,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.padding(bottom = 16.dp)
+                    )
 
-                OutlinedTextField(
-                    value = password,
-                    onValueChange = { password = it },
-                    label = { Text("Contraseña") },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(8.dp),
-                    textStyle = TextStyle(color = Negro),
-                    shape = RoundedCornerShape(16.dp),
-                    colors = OutlinedTextFieldDefaults.colors(
-                        focusedTextColor = Negro,
-                        unfocusedTextColor = Negro,
-                        disabledTextColor = Negro,
-                        focusedLabelColor = Negro,
-                        unfocusedLabelColor = Negro,
-                        cursorColor = Negro,
-                        focusedBorderColor = Naranja,
-                        unfocusedBorderColor = GrisOscuro2
-                    ),
-                    singleLine = true,
-                    visualTransformation = PasswordVisualTransformation()
-                )
+                    OutlinedTextField(
+                        value = nombre,
+                        onValueChange = { nombre = it },
+                        label = { Text("Nombre") },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(8.dp),
+                        textStyle = TextStyle(color = Negro),
+                        shape = RoundedCornerShape(16.dp),
+                        colors = OutlinedTextFieldDefaults.colors(
+                            focusedTextColor = Negro,
+                            unfocusedTextColor = Negro,
+                            disabledTextColor = Negro,
+                            focusedLabelColor = Negro,
+                            unfocusedLabelColor = Negro,
+                            cursorColor = Negro,
+                            focusedBorderColor = Naranja,
+                            unfocusedBorderColor = GrisOscuro2
+                        ),
+                        singleLine = true,
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text)
+                    )
 
-                OutlinedTextField(
-                    value = confirmPassword,
-                    onValueChange = { confirmPassword = it },
-                    label = { Text("Confirmar Contraseña") },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(8.dp),
-                    textStyle = TextStyle(color = Negro),
-                    shape = RoundedCornerShape(16.dp),
-                    colors = OutlinedTextFieldDefaults.colors(
-                        focusedTextColor = Negro,
-                        unfocusedTextColor = Negro,
-                        disabledTextColor = Negro,
-                        focusedLabelColor = Negro,
-                        unfocusedLabelColor = Negro,
-                        cursorColor = Negro,
-                        focusedBorderColor = Naranja,
-                        unfocusedBorderColor = GrisOscuro2
-                    ),
-                    singleLine = true,
-                    visualTransformation = PasswordVisualTransformation()
-                )
+                    OutlinedTextField(
+                        value = email,
+                        onValueChange = { email = it },
+                        label = { Text("Correo Electrónico") },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(8.dp),
+                        textStyle = TextStyle(color = Negro),
+                        shape = RoundedCornerShape(16.dp),
+                        colors = OutlinedTextFieldDefaults.colors(
+                            focusedTextColor = Negro,
+                            unfocusedTextColor = Negro,
+                            disabledTextColor = Negro,
+                            focusedLabelColor = Negro,
+                            unfocusedLabelColor = Negro,
+                            cursorColor = Negro,
+                            focusedBorderColor = Naranja,
+                            unfocusedBorderColor = GrisOscuro2
+                        ),
+                        singleLine = true,
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
+                    )
 
-                Spacer(modifier = Modifier.height(16.dp))
+                    OutlinedTextField(
+                        value = password,
+                        onValueChange = { password = it },
+                        label = { Text("Contraseña") },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(8.dp),
+                        textStyle = TextStyle(color = Negro),
+                        shape = RoundedCornerShape(16.dp),
+                        colors = OutlinedTextFieldDefaults.colors(
+                            focusedTextColor = Negro,
+                            unfocusedTextColor = Negro,
+                            disabledTextColor = Negro,
+                            focusedLabelColor = Negro,
+                            unfocusedLabelColor = Negro,
+                            cursorColor = Negro,
+                            focusedBorderColor = Naranja,
+                            unfocusedBorderColor = GrisOscuro2
+                        ),
+                        singleLine = true,
+                        visualTransformation = PasswordVisualTransformation()
+                    )
 
-                BotonEstandar(
-                    texto = "Registrarse",
-                    onClick = {
-                        if (email.isNotBlank() && password.isNotBlank() && confirmPassword.isNotBlank()) {
-                            if (password == confirmPassword) {
-                                registrarUsuario(email, password, auth) { resultado ->
-                                    if (resultado == "Éxito") {
-                                        navController.navigate("pantallaLogin")
-                                    } else {
-                                        mensajeError = resultado
+                    OutlinedTextField(
+                        value = confirmPassword,
+                        onValueChange = { confirmPassword = it },
+                        label = { Text("Confirmar Contraseña") },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(8.dp),
+                        textStyle = TextStyle(color = Negro),
+                        shape = RoundedCornerShape(16.dp),
+                        colors = OutlinedTextFieldDefaults.colors(
+                            focusedTextColor = Negro,
+                            unfocusedTextColor = Negro,
+                            disabledTextColor = Negro,
+                            focusedLabelColor = Negro,
+                            unfocusedLabelColor = Negro,
+                            cursorColor = Negro,
+                            focusedBorderColor = Naranja,
+                            unfocusedBorderColor = GrisOscuro2
+                        ),
+                        singleLine = true,
+                        visualTransformation = PasswordVisualTransformation()
+                    )
+
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    BotonEstandar(
+                        texto = "Registrarse",
+                        onClick = {
+                            if (nombre.isNotBlank() && email.isNotBlank() && password.isNotBlank() && confirmPassword.isNotBlank()) {
+                                if (password == confirmPassword) {
+                                    registrarUsuario(nombre, email, password, auth) { resultado ->
+                                        if (resultado == "Éxito") {
+                                            navController.navigate("pantallaLogin")
+                                        } else {
+                                            mensajeError = resultado
+                                        }
                                     }
+                                } else {
+                                    mensajeError = "Las contraseñas no coinciden."
                                 }
                             } else {
-                                mensajeError = "Las contraseñas no coinciden."
+                                mensajeError = "Por favor, complete todos los campos."
                             }
-                        } else {
-                            mensajeError = "Por favor, complete todos los campos."
-                        }
-                    },
-                    modifier = Modifier.fillMaxWidth()
-                )
-
-                TextButton(
-                    onClick = {
-                        navController.navigate("PantallaLogin")
-                    },
-                    modifier = Modifier.padding(top = 16.dp)
-                ) {
-                    Text("Ya estoy Registrado. Ir a Login", color = Negro)
-                }
-
-                /*
-                Spacer(modifier = Modifier.height(16.dp))
-
-                BotonEstandar(
-                    texto = "Pantalla Login",
-                    onClick = { navController.navigate(route = "PantallaLogin") },
-                    modifier = Modifier.fillMaxWidth()
-                )
-                */
-
-                if (mensajeError.isNotEmpty()) {
-                    Text(
-                        text = mensajeError,
-                        color = Color.Red,
-                        modifier = Modifier.padding(top = 8.dp)
+                        },
+                        modifier = Modifier.fillMaxWidth()
                     )
+
+                    TextButton(
+                        onClick = {
+                            navController.navigate("PantallaLogin")
+                        },
+                        modifier = Modifier.padding(top = 16.dp)
+                    ) {
+                        Text("Ya estoy Registrado. Ir a Login", color = Negro)
+                    }
+
+                    /*
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    BotonEstandar(
+                        texto = "Pantalla Login",
+                        onClick = { navController.navigate(route = "PantallaLogin") },
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                    */
+
+                    if (mensajeError.isNotEmpty()) {
+                        Text(
+                            text = mensajeError,
+                            color = Color.Red,
+                            modifier = Modifier.padding(top = 8.dp)
+                        )
+                    }
                 }
             }
         }
     }
 }
 
-fun registrarUsuario(email: String, password: String, auth: FirebaseAuth, onResult: (String) -> Unit) {
+fun registrarUsuario(nombre: String, email: String, password: String, auth: FirebaseAuth, onResult: (String) -> Unit) {
+    val db = FirebaseFirestore.getInstance()
+
     auth.createUserWithEmailAndPassword(email, password)
+        .addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val user = auth.currentUser
+                val uid = user?.uid
+
+                if (uid != null) {
+                    val datosUsuario = mapOf(
+                        "nombre" to nombre,
+                        "email" to email,
+                        "fechaRegistro" to Timestamp.now()
+                    )
+
+                    db.collection("usuarios").document(uid)
+                        .set(datosUsuario)
+                        .addOnSuccessListener {
+                            onResult("Éxito")
+                        }
+                        .addOnFailureListener { e ->
+                            onResult("Usuario creado, pero error al guardar en base de datos: ${e.message}")
+                        }
+                } else {
+                    onResult("Usuario creado, pero UID no disponible.")
+                }
+            } else {
+                if (task.exception is FirebaseAuthUserCollisionException) {
+                    onResult("El correo ya está registrado.")
+                } else {
+                    onResult(task.exception?.message ?: "Error al registrar")
+                }
+            }
+        }
+}
+
+/*
+fun registrarUsuario(
+    nombre: String,
+    email: String,
+    password: String,
+    auth: FirebaseAuth,
+    onResult: (String) -> Unit) {
+        auth.createUserWithEmailAndPassword(email, password)
         .addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 onResult("Éxito")
@@ -225,3 +303,5 @@ fun registrarUsuario(email: String, password: String, auth: FirebaseAuth, onResu
             }
         }
 }
+
+ */

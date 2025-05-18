@@ -33,6 +33,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.mytfg.componentes.BotonEstandar
+import com.example.mytfg.componentes.BottomBarCopyright
 import com.example.mytfg.ui.theme.GrisOscuro2
 import com.example.mytfg.ui.theme.Naranja
 import com.example.mytfg.ui.theme.Negro
@@ -44,104 +45,111 @@ fun PantallaRecuperarPassword(navHostController: NavHostController) {
 
     val auth = FirebaseAuth.getInstance()
 
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-    ) {
-        Image(
-            painter = painterResource(id = R.drawable.image_recuperar_password),
-            contentDescription = null,
-            modifier = Modifier.fillMaxSize(),
-            contentScale = ContentScale.Crop
-        )
+    Scaffold(
+        bottomBar = { BottomBarCopyright() }
+    ) { innerPadding ->
 
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color.White.copy(alpha = 0.7f)) // Aplica opacidad
-        )
-
-        Box(
-            modifier = Modifier
-                .fillMaxSize(),
-            contentAlignment = Alignment.Center
+                .padding(innerPadding)
         ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 32.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Text(
-                    text = "Recuperar Contraseña",
-                    fontSize = 32.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = GrisOscuro2,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.padding(bottom = 16.dp)
-                )
+            Image(
+                painter = painterResource(id = R.drawable.image_recuperar_password),
+                contentDescription = null,
+                modifier = Modifier.fillMaxSize(),
+                contentScale = ContentScale.Crop
+            )
 
-                OutlinedTextField(
-                    value = email,
-                    onValueChange = { email = it },
-                    label = { Text("Correo Electrónico") },
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.White.copy(alpha = 0.7f)) // Aplica opacidad
+            )
+
+            Box(
+                modifier = Modifier
+                    .fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(8.dp),
-                    textStyle = TextStyle(color = Negro),
-                    shape = RoundedCornerShape(16.dp),
-                    colors = OutlinedTextFieldDefaults.colors(
-                        focusedTextColor = Negro,
-                        unfocusedTextColor = Negro,
-                        disabledTextColor = Negro,
-                        focusedLabelColor = Negro,
-                        unfocusedLabelColor = Negro,
-                        cursorColor = Negro,
-                        focusedBorderColor = Naranja,
-                        unfocusedBorderColor = GrisOscuro2
-                    ),
-                    singleLine = true,
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
-                )
-
-                Spacer(modifier = Modifier.height(16.dp))
-
-                BotonEstandar(
-                    texto = "Enviar Correo",
-                    onClick = {
-                        if (email.isNotBlank()) {
-                            auth.sendPasswordResetEmail(email)
-                                .addOnCompleteListener { task ->
-                                    if (task.isSuccessful) {
-                                        mensajeError = "Correo de recuperación enviado a $email"
-                                    } else {
-                                        mensajeError = task.exception?.message ?: "Error al enviar correo de recuperación"
-                                    }
-                                }
-                        } else {
-                            mensajeError = "Por favor, ingrese su correo electrónico."
-                        }
-                    },
-                    modifier = Modifier.fillMaxWidth()
-                )
-
-                if (mensajeError.isNotEmpty()) {
-                    Text(
-                        text = mensajeError,
-                        color = if (mensajeError.startsWith("Correo de recuperación enviado")) Color.Green else Color.Red,
-                        modifier = Modifier.padding(top = 8.dp)
-                    )
-                }
-
-                Spacer(modifier = Modifier.height(16.dp))
-
-                TextButton(
-                    onClick = {
-                        navHostController.navigate("PantallaLogin")
-                    },
-                    modifier = Modifier.padding(top = 16.dp)
+                        .padding(horizontal = 32.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Text("Volver al Login", color = Negro)
+                    Text(
+                        text = "Recuperar Contraseña",
+                        fontSize = 32.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = GrisOscuro2,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.padding(bottom = 16.dp)
+                    )
+
+                    OutlinedTextField(
+                        value = email,
+                        onValueChange = { email = it },
+                        label = { Text("Correo Electrónico") },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(8.dp),
+                        textStyle = TextStyle(color = Negro),
+                        shape = RoundedCornerShape(16.dp),
+                        colors = OutlinedTextFieldDefaults.colors(
+                            focusedTextColor = Negro,
+                            unfocusedTextColor = Negro,
+                            disabledTextColor = Negro,
+                            focusedLabelColor = Negro,
+                            unfocusedLabelColor = Negro,
+                            cursorColor = Negro,
+                            focusedBorderColor = Naranja,
+                            unfocusedBorderColor = GrisOscuro2
+                        ),
+                        singleLine = true,
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
+                    )
+
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    BotonEstandar(
+                        texto = "Enviar Correo",
+                        onClick = {
+                            if (email.isNotBlank()) {
+                                auth.sendPasswordResetEmail(email)
+                                    .addOnCompleteListener { task ->
+                                        if (task.isSuccessful) {
+                                            mensajeError = "Correo de recuperación enviado a $email"
+                                        } else {
+                                            mensajeError = task.exception?.message
+                                                ?: "Error al enviar correo de recuperación"
+                                        }
+                                    }
+                            } else {
+                                mensajeError = "Por favor, ingrese su correo electrónico."
+                            }
+                        },
+                        modifier = Modifier.fillMaxWidth()
+                    )
+
+                    if (mensajeError.isNotEmpty()) {
+                        Text(
+                            text = mensajeError,
+                            color = if (mensajeError.startsWith("Correo de recuperación enviado")) Color.Green else Color.Red,
+                            modifier = Modifier.padding(top = 8.dp)
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    TextButton(
+                        onClick = {
+                            navHostController.navigate("PantallaLogin")
+                        },
+                        modifier = Modifier.padding(top = 16.dp)
+                    ) {
+                        Text("Volver al Login", color = Negro)
+                    }
                 }
             }
         }
