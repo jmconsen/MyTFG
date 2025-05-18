@@ -25,6 +25,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
+import com.example.mytfg.componentes.TopBar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -56,6 +57,16 @@ fun PantallaDosPerfil(navHostController: NavHostController) {
     }
 
     Scaffold(
+
+        topBar = {
+            TopBar(
+                navHostController = navHostController,
+                title = "Género"
+            )
+        },
+
+
+        /*
         topBar = {
             TopAppBar(
                 title = {
@@ -81,6 +92,9 @@ fun PantallaDosPerfil(navHostController: NavHostController) {
                 )
             )
         },
+        */
+
+
         content = { padding ->
             Column(
                 modifier = Modifier

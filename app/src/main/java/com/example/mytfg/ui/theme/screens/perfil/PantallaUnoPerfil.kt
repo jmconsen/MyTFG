@@ -24,6 +24,8 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
+import com.example.mytfg.componentes.TopBar
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -39,8 +41,32 @@ fun PantallaUnoPerfil(navHostController: NavHostController) {
     )
 
     val user = FirebaseAuth.getInstance().currentUser
+    var userName by remember { mutableStateOf<String?>(null) }
     val db = FirebaseFirestore.getInstance()
 
+
+    // Leer el objetivo y usuario existente si existe
+    LaunchedEffect(user) {
+        user?.let {
+            db.collection("usuarios").document(it.uid).get()
+                .addOnSuccessListener { document ->
+                    if (document != null) {
+                        if (document.contains("objetivo")) {
+                            selectedOption = document.getString("objetivo")
+                        }
+                        if (document.contains("nombre")) {
+                            userName = document.getString("nombre")
+                        }
+                    }
+                }
+                .addOnFailureListener { e ->
+                    Log.e("PantallaUnoPerfil", "Error al leer: ${e.message}")
+                }
+        }
+    }
+
+
+    /*
     // Leer el objetivo existente si existe
     LaunchedEffect(user) {
         user?.let {
@@ -56,32 +82,45 @@ fun PantallaUnoPerfil(navHostController: NavHostController) {
         }
     }
 
+     */
+
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = {
-                    Box(
-                        modifier = Modifier.fillMaxWidth(),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text("Perfil")
-                    }
-                },
-                navigationIcon = {
-                    IconButton(onClick = { navHostController.popBackStack("PantallaMenu", inclusive = false) }) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Atrás")
-                    }
-                },
-                actions = {
-                    IconButton(onClick = { navHostController.navigate("PantallaMenu") }) {
-                        Icon(Icons.Filled.Menu, contentDescription = "Menú")
-                    }
-                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Naranja
-                )
+            TopBar(
+                navHostController = navHostController,
+                title = "Objetivo"
             )
         },
+
+
+                /*
+                topBar = {
+                    TopAppBar(
+                        title = {
+                            Box(
+                                modifier = Modifier.fillMaxWidth(),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Text("Perfil")
+                            }
+                        },
+                        navigationIcon = {
+                            IconButton(onClick = { navHostController.popBackStack("PantallaMenu", inclusive = false) }) {
+                                Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Atrás")
+                            }
+                        },
+                        actions = {
+                            IconButton(onClick = { navHostController.navigate("PantallaMenu") }) {
+                                Icon(Icons.Filled.Menu, contentDescription = "Menú")
+                            }
+                        },
+                        colors = TopAppBarDefaults.topAppBarColors(
+                            containerColor = Naranja
+                        )
+                    )
+                },
+
+                 */
         content = { padding ->
             Box(
                 modifier = Modifier
@@ -98,12 +137,14 @@ fun PantallaUnoPerfil(navHostController: NavHostController) {
                     Text(
                         text = "¿Cuál es tu objetivo/meta de ejercicios?",
                         fontSize = 24.sp,
+                        fontWeight = FontWeight.Bold,
                         textAlign = TextAlign.Center,
                         modifier = Modifier.padding(bottom = 16.dp)
                     )
 
                     Text(
                         text = "Selecciona una opción:",
+                        //text = "Selecciona una opción${if (userName != null) ", $userName" else ""}:",
                         fontSize = 18.sp,
                         modifier = Modifier.padding(bottom = 32.dp)
                     )

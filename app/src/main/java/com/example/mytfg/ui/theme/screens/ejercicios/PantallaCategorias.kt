@@ -16,6 +16,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import com.example.mytfg.componentes.TopBar
+import com.example.mytfg.ui.theme.Blanco
 import com.example.mytfg.viewmodel.CategoriasViewModel
 import com.example.mytfg.util.getApiBodyPart
 import com.example.mytfg.util.traducirEquipo
@@ -34,78 +36,91 @@ fun PantallaCategorias(
     // Guarda el índice (o nombre) de las categorías expandidas
     val expandedStates = remember { mutableStateMapOf<String, Boolean>() }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(paddingValues)
-    ) {
-        LazyColumn(
-            modifier = Modifier.fillMaxSize(),
-            contentPadding = PaddingValues(vertical = 8.dp)
+    Scaffold(
+        topBar = {
+            TopBar(
+                navHostController = navHostController,
+                title = "Ejercicios"
+            )
+        }
+    ) { paddingValues ->
+
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
         ) {
-            items(categorias) { categoria ->
-                val equipos = when (categoria.nombre.lowercase()) {
-                    "espalda" -> listOf("barbell", "cable")
-                    "piernas superiores" -> listOf("body weight", "barbell")
-                    "piernas inferiores" -> listOf("body weight", "dumbbell", "barbell")
-                    "torso" -> listOf("body weight", "barbell", "medicine ball")
-                    "brazos" -> listOf("barbell")
-                    "cardio" -> listOf("body weight", "dumbbell")
-                    "antebrazo" -> listOf("dumbbell", "barbell", "cable")
-                    else -> equiposPorDefecto
-                }
-                val expanded = expandedStates[categoria.nombre] ?: false
-
-                Column {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .clickable {
-                                expandedStates[categoria.nombre] = !expanded
-                            }
-                            .padding(vertical = 4.dp, horizontal = 12.dp)
-                    ) {
-                        Image(
-                            painter = painterResource(id = categoria.imagenResId),
-                            contentDescription = categoria.nombre,
-                            modifier = Modifier.size(96.dp).aspectRatio(1f).padding(end = 16.dp)
-                        )
-                        Text(
-                            text = categoria.nombre,
-                            style = MaterialTheme.typography.titleLarge,
-                            fontSize = 26.sp,
-                            modifier = Modifier.padding(vertical = 14.dp)
-                        )
+            LazyColumn(
+                modifier = Modifier.fillMaxSize(),
+                contentPadding = PaddingValues(vertical = 8.dp)
+            ) {
+                items(categorias) { categoria ->
+                    val equipos = when (categoria.nombre.lowercase()) {
+                        "espalda" -> listOf("barbell", "cable")
+                        "piernas superiores" -> listOf("body weight", "barbell")
+                        "piernas inferiores" -> listOf("body weight", "dumbbell", "barbell")
+                        "torso" -> listOf("body weight", "barbell", "medicine ball")
+                        "brazos" -> listOf("barbell")
+                        "cardio" -> listOf("body weight", "dumbbell")
+                        "antebrazo" -> listOf("dumbbell", "barbell", "cable")
+                        else -> equiposPorDefecto
                     }
-                    if (expanded) {
-                        equipos.forEach { equipo ->
-                            Card(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(horizontal = 32.dp, vertical = 4.dp)
+                    val expanded = expandedStates[categoria.nombre] ?: false
 
-                                    .clickable {
-                                        navHostController.navigate(
-                                            "PantallaEjercicios/${getApiBodyPart(categoria.nombre)}/$equipo"
-                                        )
-                                    },
-                                colors = CardDefaults.cardColors(containerColor = Color.Black),
-                                shape = RoundedCornerShape(16.dp)
-                            ) {
-                                Row(
-                                    modifier = Modifier.padding(16.dp),
-                                    verticalAlignment = Alignment.CenterVertically
+                    Column {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clickable {
+                                    expandedStates[categoria.nombre] = !expanded
+                                }
+                                .padding(vertical = 4.dp, horizontal = 12.dp)
+                        ) {
+                            Image(
+                                painter = painterResource(id = categoria.imagenResId),
+                                contentDescription = categoria.nombre,
+                                modifier = Modifier.size(96.dp).aspectRatio(1f).padding(end = 16.dp)
+                            )
+                            Text(
+                                text = categoria.nombre,
+                                style = MaterialTheme.typography.titleLarge,
+                                fontSize = 24.sp,
+                                modifier = Modifier.padding(vertical = 14.dp)
+                            )
+                        }
+                        if (expanded) {
+                            equipos.forEach { equipo ->
+                                Card(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(horizontal = 32.dp, vertical = 4.dp)
+
+                                        .clickable {
+                                            navHostController.navigate(
+                                                "PantallaEjercicios/${getApiBodyPart(categoria.nombre)}/$equipo"
+                                            )
+                                        },
+                                    colors = CardDefaults.cardColors(containerColor = Color.Black),
+                                    shape = RoundedCornerShape(16.dp)
                                 ) {
-                                    Text(
-                                        text = traducirEquipo(equipo),
-                                        style = MaterialTheme.typography.titleMedium,
-                                        color = Color.White
-                                    )
+                                    Row(
+                                        modifier = Modifier.padding(16.dp),
+                                        verticalAlignment = Alignment.CenterVertically
+                                    ) {
+                                        Text(
+                                            text = traducirEquipo(equipo),
+                                            style = MaterialTheme.typography.titleMedium,
+                                            color = Blanco
+                                        )
+                                    }
                                 }
                             }
                         }
                     }
+                }
+                item {
+                    Spacer(modifier = Modifier.height(64.dp)) // Espacio adicional al final
                 }
             }
         }
