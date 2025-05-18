@@ -18,6 +18,8 @@ val GrisOscuro2 = Color(0xFF757575)
 val FondoPantallas = listOf(Color(0xFFECEFF1), Color(0xFFBBDEFB))
 
 val Blanco = Color(0xFFFFFFFF)
-val Naranja = Color(0xFFF97316)
 val GrisClaro = Color(0xFFB0BEC5)
+
 val NaranjaClaro = Color(0xFFFEDDD1)
+val Naranja = Color(0xFFFF9800)
+val NaranjaOscuro = Color(0xFFF97316)

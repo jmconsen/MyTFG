@@ -23,7 +23,9 @@ import coil.compose.AsyncImage
 import com.example.mytfg.model.EjercicioApi
 import com.example.mytfg.viewmodel.EjerciciosApiViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.mytfg.componentes.TopBar
 import com.example.mytfg.viewmodel.EjerciciosApiViewModelFactory
+import com.example.mytfg.componentes.BotonEstandar
 
 @Composable
 fun PantallaDetalleEjercicio(
@@ -56,6 +58,15 @@ fun PantallaDetalleEjercicio(
     }
 
     val clipboardManager = LocalClipboardManager.current
+
+    Scaffold(
+        topBar = {
+            TopBar(
+                navHostController = navHostController,
+                title = "Ejercicio: ${ejercicioId.replace('_', ' ').replaceFirstChar { it.uppercase() }}"
+            )
+        }
+    ) { paddingValues ->
 
     Column(
         modifier = Modifier
@@ -127,7 +138,8 @@ fun PantallaDetalleEjercicio(
         ) {
             Column(Modifier.padding(16.dp)) {
                 // Botón para copiar todas las instrucciones
-                Button(
+                BotonEstandar(
+                    texto = "📋 Copiar instrucciones",
                     onClick = {
                         val todas = ejercicio!!.instructions
                             ?.joinToString("\n") { instruccion -> "- $instruccion" }
@@ -137,14 +149,8 @@ fun PantallaDetalleEjercicio(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(bottom = 8.dp)
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.ContentCopy,
-                        contentDescription = "Copiar todas"
-                    )
-                    Spacer(Modifier.width(8.dp))
-                    Text("Copiar todas las instrucciones")
-                }
+                )
+
 
                 // Lista de instrucciones
                 ejercicio!!.instructions?.forEachIndexed { idx, instruccion ->
@@ -155,6 +161,9 @@ fun PantallaDetalleEjercicio(
                     )
                 }
             }
+
+            Spacer(modifier = Modifier.height(32.dp))
         }
     }
+        }
 }

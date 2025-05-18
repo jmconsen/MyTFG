@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import com.example.mytfg.componentes.TopBar
 
 @Composable
 fun PantallaEjercicios(
@@ -37,57 +38,70 @@ fun PantallaEjercicios(
     // Filtrar por equipo
     val ejerciciosFiltrados = ejercicios.filter { it.equipment.equals(equipo, ignoreCase = true) }
 
-    if (ejerciciosFiltrados.isEmpty()) {
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues),
-            contentAlignment = Alignment.Center
-        ) {
-            Text(
-                "No hay ejercicios para esta selección.",
-                style = MaterialTheme.typography.bodyLarge
+    Scaffold(
+        topBar = {
+            TopBar(
+                navHostController = navHostController,
+                title = "Ejercicio: ${
+                    bodyPart.replace('_', ' ').replaceFirstChar { it.uppercase() }
+                }"
             )
         }
-    } else {
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues),
-            contentPadding = PaddingValues(vertical = 8.dp)
-        ) {
-            items(ejerciciosFiltrados) { ejercicio ->
-                Card(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp, vertical = 8.dp)
-                        .clickable {
-                            navHostController.navigate("PantallaDetalleEjercicio/${ejercicio.id}")
-                        }
-                ) {
-                    Row(
-                        modifier = Modifier.padding(16.dp),
-                        verticalAlignment = Alignment.CenterVertically
+    ) { paddingValues ->
+
+    if (ejerciciosFiltrados.isEmpty()) {
+
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    "No hay ejercicios para esta selección.",
+                    style = MaterialTheme.typography.bodyLarge
+                )
+            }
+        } else {
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues),
+                contentPadding = PaddingValues(vertical = 8.dp)
+            ) {
+                items(ejerciciosFiltrados) { ejercicio ->
+                    Card(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp, vertical = 8.dp)
+                            .clickable {
+                                navHostController.navigate("PantallaDetalleEjercicio/${ejercicio.id}")
+                            }
                     ) {
-                        AsyncImage(
-                            model = ImageRequest.Builder(LocalContext.current)
-                                .data(ejercicio.gifUrl)
-                                .crossfade(true)
-                                .build(),
-                            contentDescription = ejercicio.name,
-                            contentScale = ContentScale.Crop,
-                            modifier = Modifier.size(80.dp)
-                        )
-                        Spacer(modifier = Modifier.width(16.dp))
-                        Column {
-                            Text(
-                                text = ejercicio.name.replaceFirstChar { it.uppercase() },
-                                style = MaterialTheme.typography.titleMedium
+                        Row(
+                            modifier = Modifier.padding(16.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            AsyncImage(
+                                model = ImageRequest.Builder(LocalContext.current)
+                                    .data(ejercicio.gifUrl)
+                                    .crossfade(true)
+                                    .build(),
+                                contentDescription = ejercicio.name,
+                                contentScale = ContentScale.Crop,
+                                modifier = Modifier.size(80.dp)
                             )
-                            Text(
-                                text = ejercicio.target.replaceFirstChar { it.uppercase() },
-                                style = MaterialTheme.typography.bodyMedium
-                            )
+                            Spacer(modifier = Modifier.width(16.dp))
+                            Column {
+                                Text(
+                                    text = ejercicio.name.replaceFirstChar { it.uppercase() },
+                                    style = MaterialTheme.typography.titleMedium
+                                )
+                                Text(
+                                    text = ejercicio.target.replaceFirstChar { it.uppercase() },
+                                    style = MaterialTheme.typography.bodyMedium
+                                )
+                            }
                         }
                     }
                 }
