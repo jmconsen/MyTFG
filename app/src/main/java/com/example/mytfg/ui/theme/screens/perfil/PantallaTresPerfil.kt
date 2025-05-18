@@ -25,6 +25,7 @@ import androidx.compose.material.icons.sharp.*
 import androidx.compose.material.icons.twotone.*
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import com.example.mytfg.componentes.TopBar
 import com.example.mytfg.ui.theme.NaranjaClaro
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -61,6 +62,15 @@ fun PantallaTresPerfil(navHostController: NavHostController) {
     }
 
     Scaffold(
+
+        topBar = {
+            TopBar(
+                navHostController = navHostController,
+                title = "Objetivo"
+            )
+        },
+
+        /*
         topBar = {
             TopAppBar(
                 title = {
@@ -86,6 +96,10 @@ fun PantallaTresPerfil(navHostController: NavHostController) {
                 )
             )
         },
+
+         */
+
+
         content = { padding ->
             Column(
                 modifier = Modifier

@@ -18,6 +18,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.mytfg.R
 import com.example.mytfg.componentes.BotonEstandar
+import com.example.mytfg.componentes.TopBar
 import com.example.mytfg.viewmodel.DietaViewModel
 
 @Composable
@@ -38,76 +39,86 @@ fun PantallaSeleccionDieta(
     // Obtenemos la clave Firestore del objetivo seleccionado
     val claveObjetivo = opciones.find { it.first == objetivoSeleccionado }?.second
 
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(paddingValues)
-    ) {
-        Image(
-            painter = painterResource(id = R.drawable.dietaensalada),
-            contentDescription = null,
-            contentScale = ContentScale.Crop,
-            modifier = Modifier.fillMaxSize()
-        )
+    Scaffold(
+        topBar = {
+            TopBar(
+                navHostController = navHostController,
+                title = "Dietas"
+            )
+        }
+    ) { paddingValues ->
 
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color.White.copy(alpha = 0.7f))
-        )
-
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(horizontal = 24.dp, vertical = 16.dp)
+                .padding(paddingValues)
         ) {
-            Text(
-                text = "Selecciona tu objetivo",
-                style = MaterialTheme.typography.headlineMedium,
-                modifier = Modifier.padding(bottom = 16.dp)
+            Image(
+                painter = painterResource(id = R.drawable.dietaensalada),
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier.fillMaxSize()
+            )
+
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.White.copy(alpha = 0.7f))
             )
 
             Column(
                 modifier = Modifier
-                    .weight(1f)
-                    .verticalScroll(rememberScrollState())
+                    .fillMaxSize()
+                    .padding(horizontal = 24.dp, vertical = 16.dp)
             ) {
-                opciones.forEach { (texto, _) ->
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 8.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        RadioButton(
-                            selected = objetivoSeleccionado == texto,
-                            onClick = { viewModel.seleccionarObjetivo(texto) }
-                        )
-                        Spacer(modifier = Modifier.width(12.dp))
-                        Text(
-                            text = texto,
-                            style = MaterialTheme.typography.bodyLarge,
+                Text(
+                    text = "Selecciona tu objetivo",
+                    style = MaterialTheme.typography.headlineMedium,
+                    modifier = Modifier.padding(bottom = 16.dp)
+                )
+
+                Column(
+                    modifier = Modifier
+                        .weight(1f)
+                        .verticalScroll(rememberScrollState())
+                ) {
+                    opciones.forEach { (texto, _) ->
+                        Row(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .clickable { viewModel.seleccionarObjetivo(texto) }
-                        )
+                                .padding(vertical = 8.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            RadioButton(
+                                selected = objetivoSeleccionado == texto,
+                                onClick = { viewModel.seleccionarObjetivo(texto) }
+                            )
+                            Spacer(modifier = Modifier.width(12.dp))
+                            Text(
+                                text = texto,
+                                style = MaterialTheme.typography.bodyLarge,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .clickable { viewModel.seleccionarObjetivo(texto) }
+                            )
+                        }
                     }
                 }
-            }
 
-            BotonEstandar(
-                texto = "Continuar",
-                onClick = {
-                    claveObjetivo?.let {
-                        navHostController.navigate("PantallaDieta/$it")
-                    }
-                },
-                enabled = claveObjetivo != null,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 16.dp)
-                    .navigationBarsPadding()
-            )
+                BotonEstandar(
+                    texto = "Continuar",
+                    onClick = {
+                        claveObjetivo?.let {
+                            navHostController.navigate("PantallaDieta/$it")
+                        }
+                    },
+                    enabled = claveObjetivo != null,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 16.dp)
+                        .navigationBarsPadding()
+                )
+            }
         }
     }
 }

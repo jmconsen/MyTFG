@@ -4,11 +4,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.mytfg.AuthManager
 import com.example.mytfg.NavigationApp
 import com.example.mytfg.componentes.MenuNavegador
+import com.example.mytfg.viewmodel.AuthViewModel
 
 @Composable
 fun MainScreen(authManager: AuthManager, navController: NavHostController) {
@@ -17,6 +19,7 @@ fun MainScreen(authManager: AuthManager, navController: NavHostController) {
     // Obtener la ruta actual
     val navBackStackEntry = navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry.value?.destination?.route
+    val authViewModel: AuthViewModel = viewModel()
 
     Scaffold(
         bottomBar = {
@@ -28,6 +31,7 @@ fun MainScreen(authManager: AuthManager, navController: NavHostController) {
         NavigationApp(
             navHostController = navController,
             authManager = authManager,
+            authViewModel = authViewModel,
             modifier = Modifier.padding(innerPadding) // Se pasa el padding correctamente
         )
     }
