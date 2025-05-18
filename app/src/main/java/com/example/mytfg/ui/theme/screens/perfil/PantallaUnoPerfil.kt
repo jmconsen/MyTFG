@@ -142,8 +142,8 @@ fun PantallaUnoPerfil(navHostController: NavHostController) {
                     )
 
                     Text(
-                        //text = "Selecciona una opción:",
-                        text = "Selecciona una opción${if (userName != null) ", $userName" else ""}:",
+                        text = "Selecciona una opción:",
+                        //text = "Selecciona una opción${if (userName != null) ", $userName" else ""}:",
                         fontSize = 18.sp,
                         modifier = Modifier.padding(bottom = 32.dp)
                     )
