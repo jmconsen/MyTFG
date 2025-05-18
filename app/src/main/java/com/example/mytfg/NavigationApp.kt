@@ -24,6 +24,7 @@ import com.example.mytfg.ui.theme.screens.perfil.PantallaDosPerfil
 import com.example.mytfg.ui.theme.screens.perfil.PantallaTresPerfil
 import com.example.mytfg.ui.theme.screens.dieta.PantallaDieta
 import com.example.mytfg.ui.theme.screens.dieta.PantallaSeleccionDieta
+import com.example.mytfg.ui.theme.screens.perfil.PantallaEditarPerfil
 import com.example.mytfg.viewmodel.AuthViewModel
 
 @Composable
@@ -54,10 +55,20 @@ fun NavigationApp(
 
         composable("PantallaLogin") { PantallaLogin(navHostController) }
         composable("PantallaRegistro") { PantallaRegistro(navHostController) }
-        composable("PantallaRecuperarPassword") { PantallaRecuperarPassword(navHostController) }
+        //composable("PantallaRecuperarPassword") { PantallaRecuperarPassword(navHostController) }
         composable("PantallaUnoPerfil") { PantallaUnoPerfil(navHostController) }
         composable("PantallaDosPerfil") { PantallaDosPerfil(navHostController) }
         composable("PantallaTresPerfil") { PantallaTresPerfil(navHostController) }
+        composable("PantallaEditarPerfil") { PantallaEditarPerfil(navHostController) }
+
+        composable(
+            route = "PantallaRecuperarPassword?email={email}",
+            arguments = listOf(navArgument("email") { defaultValue = "" })
+        ) { backStackEntry ->
+            val email = backStackEntry.arguments?.getString("email") ?: ""
+            PantallaRecuperarPassword(email = email, navHostController = navHostController)
+        }
+
 
         composable("PantallaCategorias") {
             PantallaCategorias(

@@ -66,7 +66,7 @@ fun PantallaTresPerfil(navHostController: NavHostController) {
         topBar = {
             TopBar(
                 navHostController = navHostController,
-                title = "Objetivo"
+                title = "Horas Diarias"
             )
         },
 
