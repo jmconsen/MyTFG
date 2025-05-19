@@ -1,98 +1,155 @@
 package com.example.mytfg.ui.theme.screens.ia
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Button
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
-import com.example.mytfg.util.generarPlanEntrenamientoIA
-import kotlinx.coroutines.launch
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.ui.graphics.Color
-import android.util.Log
-
-private const val TAG = "PantallaFormularioIA"
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
+import com.example.mytfg.R
+import com.example.mytfg.componentes.BotonEstandar
+import com.example.mytfg.componentes.TopBar
+import com.example.mytfg.util.generarPlanEntrenamientoIA
+import com.example.mytfg.viewmodel.DietaViewModel
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.launch
 
 @Composable
 fun PantallaFormularioIA(
     navHostController: NavHostController,
-    paddingValues: PaddingValues = PaddingValues()
+    viewModel: DietaViewModel = viewModel()
 ) {
-    var edad by remember { mutableStateOf("") }
-    var peso by remember { mutableStateOf("") }
-    var altura by remember { mutableStateOf("") }
-    var frecuencia by remember { mutableStateOf("") }
-    var objetivo by remember { mutableStateOf("") }
+    val db = FirebaseFirestore.getInstance()
+    val userId = FirebaseAuth.getInstance().currentUser?.uid
+
+    val coroutineScope = rememberCoroutineScope()
     var loading by remember { mutableStateOf(false) }
     var resultado by remember { mutableStateOf<String?>(null) }
     var error by remember { mutableStateOf<String?>(null) }
 
-    val coroutineScope = rememberCoroutineScope()
-
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(paddingValues)
-            .padding(16.dp)
-    ) {
-        Text("Completa tus datos", style = MaterialTheme.typography.titleLarge)
-        Spacer(Modifier.height(16.dp))
-        OutlinedTextField(value = edad, onValueChange = { edad = it }, label = { Text("Edad") })
-        OutlinedTextField(value = peso, onValueChange = { peso = it }, label = { Text("Peso (kg)") })
-        OutlinedTextField(value = altura, onValueChange = { altura = it }, label = { Text("Altura (cm)") })
-        OutlinedTextField(value = frecuencia, onValueChange = { frecuencia = it }, label = { Text("Frecuencia de ejercicio (días/semana)") })
-        OutlinedTextField(value = objetivo, onValueChange = { objetivo = it }, label = { Text("Objetivo (ej: ganar músculo)") })
-        Spacer(Modifier.height(24.dp))
-        Button(
-            onClick = {
-                loading = true
-                resultado = null
-                error = null
-                Log.d(TAG, "Llamando a generarPlanEntrenamientoIA (HuggingFace)")
-                coroutineScope.launch {
-                    try {
-                        val plan = generarPlanEntrenamientoIA(edad, peso, altura, frecuencia, objetivo)
-                        Log.d(TAG, "Respuesta de la IA: $plan")
-                        resultado = plan
-                        if (plan == null) {
-                            error = "No se pudo generar el plan. Revisa tu conexión o los límites de HuggingFace."
-                        }
-                    } catch (e: Exception) {
-                        Log.e(TAG, "Error al generar el plan: ${e.message}", e)
-                        error = "Error inesperado: ${e.message}"
-                    }
-                    loading = false
-                }
-            },
-            enabled = !loading
+    Scaffold(
+        topBar = {
+            TopBar(
+                navHostController = navHostController,
+                title = "Entrenamiento con IA"
+            )
+        }
+    ) { paddingValues ->
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
         ) {
-            Text("Generar plan con IA")
-        }
-        if (loading) {
-            CircularProgressIndicator(Modifier.padding(16.dp))
-        }
-        error?.let {
-            Spacer(Modifier.height(16.dp))
-            Text(it, color = Color.Red)
-        }
-        resultado?.let {
-            Spacer(Modifier.height(16.dp))
-            Text("Plan generado:", style = MaterialTheme.typography.titleMedium)
-            Text(it)
+            // Imagen de fondo
+            Image(
+                painter = painterResource(id = R.drawable.imagenia),
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier.fillMaxSize()
+            )
+
+            // Capa blanca translúcida
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.White.copy(alpha = 0.5f))
+            )
+
+            // Contenido principal
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = 24.dp),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                // ... resto de tu pantalla
+
+                BotonEstandar(
+                    texto = "Generar plan de entrenamiento con IA",
+                    onClick = {
+                        if (userId == null) {
+                            error = "Usuario no autenticado"
+                            return@BotonEstandar
+                        }
+                        loading = true
+                        resultado = null
+                        error = null
+                        db.collection("usuarios").document(userId).get()
+                            .addOnSuccessListener { document ->
+                                if (document != null && document.exists()) {
+                                    val edad = document.getString("edad") ?: ""
+                                    val peso = document.getString("peso") ?: ""
+                                    val altura = document.getString("altura") ?: ""
+                                    val frecuencia = document.getString("horasdia") ?: ""
+                                    val objetivo = document.getString("objetivo") ?: ""
+                                    val lesiones = document.getString("lesiones") ?: ""
+
+                                    when {
+                                        edad.isBlank()      -> navHostController.navigate("PantallaEdadPerfil")
+                                        altura.isBlank()    -> navHostController.navigate("PantallaAlturaPerfil")
+                                        peso.isBlank()      -> navHostController.navigate("PantallaPesoPerfil")
+                                        frecuencia.isBlank() -> navHostController.navigate("PantallaTresPerfil")
+                                        objetivo.isBlank()  -> navHostController.navigate("PantallaDosPerfil")
+                                        lesiones.isBlank()  -> navHostController.navigate("PantallaLesionesPerfil")
+                                        else -> {
+                                            coroutineScope.launch {
+                                                val plan = generarPlanEntrenamientoIA(
+                                                    edad, peso, altura, frecuencia, objetivo
+                                                )
+                                                loading = false
+                                                if (plan != null) {
+                                                    resultado = plan
+                                                    db.collection("usuarios").document(userId)
+                                                        .update("planEntrenamiento", plan)
+                                                        .addOnSuccessListener { /* OK */ }
+                                                        .addOnFailureListener { e -> error = "Error al guardar el plan: ${e.message}" }
+                                                } else {
+                                                    error = "No se pudo generar el plan. Intenta más tarde."
+                                                }
+                                            }
+                                        }
+                                    }
+                                    loading = false
+                                } else {
+                                    loading = false
+                                    error = "No se encontraron datos del usuario."
+                                }
+                            }
+                            .addOnFailureListener { e ->
+                                loading = false
+                                error = "Error al leer datos: ${e.message}"
+                            }
+                    },
+                    enabled = !loading,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp)
+                        .height(56.dp)
+                )
+
+                if (loading) {
+                    Spacer(Modifier.height(16.dp))
+                    CircularProgressIndicator()
+                }
+                error?.let {
+                    Spacer(Modifier.height(16.dp))
+                    Text(it, color = MaterialTheme.colorScheme.error)
+                }
+                resultado?.let {
+                    Spacer(Modifier.height(16.dp))
+                    Text("Plan generado:", style = MaterialTheme.typography.titleMedium)
+                    Text(it)
+                }
+            }
         }
     }
 }

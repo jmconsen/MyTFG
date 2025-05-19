@@ -144,21 +144,18 @@ fun PantallaTresPerfil(navHostController: NavHostController) {
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     BotonEstandar(
-                        texto = "Finalizar",
+                        texto = "Continuar",
                         onClick = {
                             user?.let {
                                 val datos = mapOf("horasdia" to selectedOption)
-
                                 db.collection("usuarios").document(it.uid)
                                     .set(datos, SetOptions.merge())
                                     .addOnSuccessListener {
                                         mostrarAlerta = true
                                         coroutineScope.launch {
-                                            delay(2000)
-                                            if (mostrarAlerta) {
-                                                mostrarAlerta = false
-                                                navHostController.navigate("PantallaMenu")
-                                            }
+                                            delay(1000)
+                                            mostrarAlerta = false
+                                            navHostController.navigate("PantallaEdadPerfil")
                                         }
                                     }
                                     .addOnFailureListener { e ->
@@ -173,7 +170,7 @@ fun PantallaTresPerfil(navHostController: NavHostController) {
                     Spacer(modifier = Modifier.height(16.dp))
 
                     Text(
-                        text = "3/3",
+                        text = "3/7",
                         fontSize = 10.sp
                     )
 
@@ -182,240 +179,4 @@ fun PantallaTresPerfil(navHostController: NavHostController) {
         }
     )
 
-    if (mostrarAlerta) {
-        AlertDialog(
-            onDismissRequest = { mostrarAlerta = false },
-            confirmButton = {
-                TextButton(onClick = { mostrarAlerta = false }) {
-                    Text("OK")
-                }
-            },
-            //title = { Text("Éxito") },
-            text = { Text("Datos actualizados correctamente") }
-        )
-    }
 }
-
-
-/*
-package com.example.mytfg.ui.theme.screens.perfil
-
-import android.util.Log
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.navigation.NavHostController
-import com.example.mytfg.componentes.BotonEstandar
-import com.example.mytfg.ui.theme.Naranja
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
-import androidx.compose.material.icons.outlined.*
-import androidx.compose.material.icons.rounded.*
-import androidx.compose.material.icons.sharp.*
-import androidx.compose.material.icons.twotone.*
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
-import com.example.mytfg.componentes.TopBar
-import com.example.mytfg.ui.theme.NaranjaClaro
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.SetOptions
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun PantallaTresPerfil(navHostController: NavHostController) {
-    var selectedOption by remember { mutableStateOf<String?>(null) }
-
-    val options = listOf(
-        "Hasta 1 hora" to Icons.Filled.HdrStrong,
-        "Entre 1 y 2 horas" to Icons.Filled.HdrWeak,
-        "Más de 3 horas" to Icons.Filled.HdrOff
-
-    )
-
-    val user = FirebaseAuth.getInstance().currentUser
-    val db = FirebaseFirestore.getInstance()
-
-    // Leer intensidad guardada si existe
-    LaunchedEffect(user) {
-        user?.let {
-            db.collection("usuarios").document(it.uid).get()
-                .addOnSuccessListener { document ->
-                    if (document != null && document.contains("horasdia")) {
-                        selectedOption = document.getString("horasdia")
-                    }
-                }
-                .addOnFailureListener { e ->
-                    Log.e("PantallaTresPerfil", "Error al leer: \${e.message}")
-                }
-        }
-    }
-
-    Scaffold(
-
-        topBar = {
-            TopBar(
-                navHostController = navHostController,
-                title = "Horas Diarias"
-            )
-        },
-
-        /*
-        topBar = {
-            TopAppBar(
-                title = {
-                    Box(
-                        modifier = Modifier.fillMaxWidth(),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text("Perfil")
-                    }
-                },
-                navigationIcon = {
-                    IconButton(onClick = { navHostController.popBackStack("PantallaDosPerfil", inclusive = false) }) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Atrás")
-                    }
-                },
-                actions = {
-                    IconButton(onClick = { navHostController.navigate("PantallaMenu") }) {
-                        Icon(Icons.Filled.Menu, contentDescription = "Menú")
-                    }
-                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Naranja
-                )
-            )
-        },
-
-         */
-
-
-        content = { padding ->
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(padding)
-                    .verticalScroll(rememberScrollState())
-            ) {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(32.dp)
-                        .weight(1f),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Text(
-                        text = "¿Cuántas horas deseas dedicar al día?",
-                        fontSize = 24.sp,
-                        fontWeight = FontWeight.Bold,
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier.padding(bottom = 16.dp)
-                    )
-
-                    Text(
-                        text = "Selecciona una opción:",
-                        fontSize = 18.sp,
-                        modifier = Modifier.padding(bottom = 32.dp)
-                    )
-
-                    options.forEach { (option, icon) ->
-                        Card(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(vertical = 8.dp)
-                                .clickable { selectedOption = option },
-                            colors = CardDefaults.cardColors(containerColor = NaranjaClaro),
-                            elevation = CardDefaults.cardElevation(4.dp)
-                        ) {
-                            Row(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(16.dp),
-                                verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.SpaceBetween
-                            ) {
-                                Row(
-                                    verticalAlignment = Alignment.CenterVertically
-                                ) {
-                                    Icon(
-                                        imageVector = icon,
-                                        contentDescription = null,
-                                        modifier = Modifier.padding(end = 8.dp)
-                                    )
-                                    Text(
-                                        text = option,
-                                        fontSize = 16.sp
-                                    )
-                                }
-                                RadioButton(
-                                    selected = selectedOption == option,
-                                    onClick = { selectedOption = option },
-                                    colors = RadioButtonDefaults.colors(
-                                        selectedColor = Naranja
-                                    )
-                                )
-                            }
-                        }
-                    }
-                }
-
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = 72.dp)
-                        .padding(horizontal = 32.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    /*
-                    BotonEstandar(
-                        texto = "Continuar",
-                        onClick = { navHostController.navigate("PantallaTresPerfil") },
-                        enabled = selectedOption != null,
-                        modifier = Modifier.fillMaxWidth()
-                    )
-                    */
-
-                    BotonEstandar(
-                        texto = "Continuar",
-                        onClick = {
-                            user?.let {
-                                val datos = mapOf("horasdia" to selectedOption)
-
-                                db.collection("usuarios").document(it.uid)
-                                    .set(datos, SetOptions.merge())
-                                    .addOnSuccessListener {
-                                        navHostController.navigate("PantallaTresPerfil")
-                                    }
-                                    .addOnFailureListener { e ->
-                                        Log.e("PantallaTresPerfil", "Error al guardar: \${e.message}")
-                                    }
-                            }
-                        },
-                        enabled = selectedOption != null,
-                        modifier = Modifier.fillMaxWidth()
-                    )
-
-
-                    Spacer(modifier = Modifier.height(16.dp))
-
-                    Text(
-                        text = "3/3",
-                        fontSize = 10.sp
-                    )
-                }
-            }
-        }
-    )
-}
-
- */
