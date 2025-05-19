@@ -22,6 +22,16 @@ import androidx.navigation.NavHostController
 import com.example.mytfg.componentes.BotonEstandar
 import com.example.mytfg.componentes.TopBar
 import com.example.mytfg.ui.theme.Naranja
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.outlined.*
+import androidx.compose.material.icons.rounded.*
+import androidx.compose.material.icons.sharp.*
+import androidx.compose.material.icons.twotone.*
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
+import com.example.mytfg.componentes.TopBar
 import com.example.mytfg.ui.theme.NaranjaClaro
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -61,12 +71,14 @@ fun PantallaTresPerfil(navHostController: NavHostController) {
     }
 
     Scaffold(
+
         topBar = {
             TopBar(
                 navHostController = navHostController,
                 title = "Horas Diarias"
             )
         },
+
         content = { padding ->
             Column(
                 modifier = Modifier
@@ -143,6 +155,7 @@ fun PantallaTresPerfil(navHostController: NavHostController) {
                         .padding(horizontal = 32.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
+                    
                     BotonEstandar(
                         texto = "Continuar",
                         onClick = {

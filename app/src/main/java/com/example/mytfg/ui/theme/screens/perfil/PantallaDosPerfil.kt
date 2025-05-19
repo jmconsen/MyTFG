@@ -27,6 +27,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import com.example.mytfg.componentes.TopBar
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PantallaDosPerfil(navHostController: NavHostController) {
     var selectedOption by remember { mutableStateOf<String?>(null) }

@@ -70,7 +70,10 @@ fun NavigationApp(
         composable("PantallaLesionesPerfil") { PantallaLesionesPerfil(navHostController) }
         composable("PantallaEditarPerfil") { PantallaEditarPerfil(navHostController) }
         composable("PantallaFormularioIA") { PantallaFormularioIA(navHostController) }
-
+        composable("PantallaUnoPerfil") { PantallaUnoPerfil(navHostController) }
+        composable("PantallaDosPerfil") { PantallaDosPerfil(navHostController) }
+        composable("PantallaTresPerfil") { PantallaTresPerfil(navHostController) }
+        composable("PantallaEditarPerfil") { PantallaEditarPerfil(navHostController) }
 
         composable(
             route = "PantallaRecuperarPassword?email={email}",
@@ -79,7 +82,6 @@ fun NavigationApp(
             val email = backStackEntry.arguments?.getString("email") ?: ""
             PantallaRecuperarPassword(email = email, navHostController = navHostController)
         }
-
 
         composable("PantallaCategorias") {
             PantallaCategorias(

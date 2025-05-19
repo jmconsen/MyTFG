@@ -1,6 +1,7 @@
 package com.example.mytfg.ui.theme.screens.perfil
 
 import android.util.Log
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -23,7 +24,12 @@ import com.google.firebase.firestore.SetOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import com.example.mytfg.componentes.TopBar
-
+import androidx.compose.material.icons.outlined.*
+import androidx.compose.material.icons.rounded.*
+import androidx.compose.material.icons.sharp.*
+import androidx.compose.material.icons.twotone.*
+import com.example.mytfg.ui.theme.NaranjaClaro
+import androidx.compose.ui.text.font.FontWeight
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -164,6 +170,7 @@ fun PantallaUnoPerfil(navHostController: NavHostController) {
                                         }
                                 }
                             },
+
                             enabled = selectedOption != null,
                             modifier = Modifier.fillMaxWidth()
                         )
