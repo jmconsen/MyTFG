@@ -91,11 +91,6 @@ fun PantallaDieta(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            BotonEstandar(
-                texto = "Volver al menú principal",
-                onClick = { navHostController.navigate("PantallaMenu") },
-                modifier = Modifier.fillMaxWidth()
-            )
         }
     }
 }
