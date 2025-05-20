@@ -21,6 +21,8 @@ import com.example.mytfg.ui.theme.Blanco
 import com.example.mytfg.viewmodel.CategoriasViewModel
 import com.example.mytfg.util.getApiBodyPart
 import com.example.mytfg.util.traducirEquipo
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 
 @Composable
 fun PantallaCategorias(
@@ -80,22 +82,28 @@ fun PantallaCategorias(
                             Image(
                                 painter = painterResource(id = categoria.imagenResId),
                                 contentDescription = categoria.nombre,
-                                modifier = Modifier.size(96.dp).aspectRatio(1f).padding(end = 16.dp)
+                                modifier = Modifier
+                                    .size(110.dp)
+                                    .clip(RoundedCornerShape(20.dp)),
+                                contentScale = ContentScale.Crop
                             )
+                            Spacer(modifier = Modifier.width(24.dp)) // Más espacio entre imagen y texto
                             Text(
                                 text = categoria.nombre,
                                 style = MaterialTheme.typography.titleLarge,
                                 fontSize = 24.sp,
-                                modifier = Modifier.padding(vertical = 14.dp)
+                                maxLines = 1,
+                                modifier = Modifier
+                                    .padding(vertical = 14.dp)
                             )
                         }
+
                         if (expanded) {
                             equipos.forEach { equipo ->
                                 Card(
                                     modifier = Modifier
                                         .fillMaxWidth()
                                         .padding(horizontal = 32.dp, vertical = 4.dp)
-
                                         .clickable {
                                             navHostController.navigate(
                                                 "PantallaEjercicios/${getApiBodyPart(categoria.nombre)}/$equipo"
