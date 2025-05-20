@@ -20,7 +20,7 @@ class CategoriasViewModel : ViewModel() {
             CategoriaGrupo("Piernas inferiores", R.drawable.piernasinferior1),
             CategoriaGrupo("Cardio", R.drawable.cardiofacil),
             CategoriaGrupo("Torso", R.drawable.torsofacil),
-            CategoriaGrupo("Brazos", R.drawable.brazosfacil),
+            CategoriaGrupo("Brazos", R.drawable.brazosmedio),
             CategoriaGrupo("Antebrazo", R.drawable.antebrazofacil),
             CategoriaGrupo("Espalda", R.drawable.espaldafacil)
         )
