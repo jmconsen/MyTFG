@@ -35,7 +35,6 @@ import com.example.mytfg.viewmodel.CategoriasViewModel
 import com.example.mytfg.util.getApiBodyPart
 import com.example.mytfg.util.traducirEquipo
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
 
 @Composable
 fun PantallaCategorias(
