@@ -75,7 +75,7 @@ fun PantallaMenuOLD(navHostController: NavHostController) {
         ) {
             // Imagen de fondo
             Image(
-                painter = painterResource(id = R.drawable.image5),
+                painter = painterResource(id = R.drawable.pantalla_menu),
                 contentDescription = null,
                 modifier = Modifier.fillMaxSize(),
                 contentScale = ContentScale.Crop

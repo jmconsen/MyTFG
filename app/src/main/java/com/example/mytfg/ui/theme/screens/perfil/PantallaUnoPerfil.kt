@@ -29,7 +29,7 @@ import androidx.compose.material.icons.rounded.*
 import androidx.compose.material.icons.sharp.*
 import androidx.compose.material.icons.twotone.*
 import com.example.mytfg.ui.theme.NaranjaClaro
-import androidx.compose.ui.text.font.FontWeight
+//import androidx.compose.ui.text.font.FontWeight
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
