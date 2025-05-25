@@ -66,7 +66,7 @@ fun PantallaPesoPerfil(navHostController: NavHostController) {
                     fontWeight = FontWeight.Bold,
                     textAlign = TextAlign.Center
                 )
-                Spacer(Modifier.height(32.dp))
+                Spacer(Modifier.height(128.dp))
 
                 // Slider de peso
                 Text(
@@ -114,7 +114,7 @@ fun PantallaPesoPerfil(navHostController: NavHostController) {
                 Spacer(modifier = Modifier.height(16.dp))
 
                 Text(
-                    text = "6/7",
+                    text = "7/8",
                     fontSize = 10.sp
                 )
             }

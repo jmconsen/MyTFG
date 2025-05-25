@@ -1,6 +1,8 @@
 package com.example.mytfg.ui.theme.screens.perfil
 
 import android.util.Log
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -28,6 +30,10 @@ import androidx.compose.material.icons.outlined.*
 import androidx.compose.material.icons.rounded.*
 import androidx.compose.material.icons.sharp.*
 import androidx.compose.material.icons.twotone.*
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import com.example.mytfg.R
 import com.example.mytfg.ui.theme.NaranjaClaro
 //import androidx.compose.ui.text.font.FontWeight
 
@@ -82,14 +88,32 @@ fun PantallaUnoPerfil(navHostController: NavHostController) {
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(padding)
-                    .verticalScroll(rememberScrollState())
             ) {
+                // Imagen de fondo
+                Image(
+                    painter = painterResource(id = R.drawable.objetivos),
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier.fillMaxSize()
+                )
+
+                // Capa blanca translúcida
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(Color.White.copy(alpha = 0.7f))
+                )
+
+                // Contenido principal con scroll
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
+                        .verticalScroll(rememberScrollState()) // Habilitar scroll
                         .padding(16.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
+                    Spacer(modifier = Modifier.height(16.dp))
+
                     Text(
                         text = "¿Cuál es tu objetivo/meta de ejercicios?",
                         fontSize = 24.sp,
@@ -100,7 +124,6 @@ fun PantallaUnoPerfil(navHostController: NavHostController) {
 
                     Text(
                         text = "Selecciona una opción:",
-                        //text = "Selecciona una opción${if (userName != null) ", $userName" else ""}:",
                         fontSize = 18.sp,
                         modifier = Modifier.padding(bottom = 32.dp)
                     )
@@ -166,11 +189,10 @@ fun PantallaUnoPerfil(navHostController: NavHostController) {
                                             navHostController.navigate("PantallaDosPerfil")
                                         }
                                         .addOnFailureListener { e ->
-                                            Log.e("PantallaUnoPerfil", "Error al guardar: \${e.message}")
+                                            Log.e("PantallaUnoPerfil", "Error al guardar: ${e.message}")
                                         }
                                 }
                             },
-
                             enabled = selectedOption != null,
                             modifier = Modifier.fillMaxWidth()
                         )
@@ -178,7 +200,7 @@ fun PantallaUnoPerfil(navHostController: NavHostController) {
                         Spacer(modifier = Modifier.height(16.dp))
 
                         Text(
-                            text = "1/7",
+                            text = "2/8",
                             fontSize = 10.sp
                         )
                     }

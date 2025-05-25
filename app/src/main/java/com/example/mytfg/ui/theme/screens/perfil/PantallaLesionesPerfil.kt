@@ -62,7 +62,8 @@ fun PantallaLesionesPerfil(navHostController: NavHostController) {
                     fontWeight = FontWeight.Bold,
                     textAlign = TextAlign.Center
                 )
-                Spacer(Modifier.height(16.dp))
+                Spacer(Modifier.height(128.dp))
+
                 OutlinedTextField(
                     value = lesiones,
                     onValueChange = { lesiones = it },
@@ -94,7 +95,7 @@ fun PantallaLesionesPerfil(navHostController: NavHostController) {
                 Spacer(modifier = Modifier.height(16.dp))
 
                 Text(
-                    text = "7/7",
+                    text = "8/8",
                     fontSize = 10.sp
                 )
             }

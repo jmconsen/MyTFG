@@ -66,7 +66,7 @@ fun PantallaEdadPerfil(navHostController: NavHostController) {
                     fontWeight = FontWeight.Bold,
                     textAlign = TextAlign.Center
                 )
-                Spacer(Modifier.height(32.dp))
+                Spacer(Modifier.height(128.dp))
 
                 // Slider de edad
                 Text(
@@ -113,7 +113,7 @@ fun PantallaEdadPerfil(navHostController: NavHostController) {
                 Spacer(modifier = Modifier.height(16.dp))
 
                 Text(
-                    text = "4/7",
+                    text = "5/8",
                     fontSize = 10.sp
                 )
             }
