@@ -68,7 +68,7 @@ fun PantallaMenu(navHostController: NavHostController, userName: String?, avatar
         ) {
             // Imagen de fondo
             Image(
-                painter = painterResource(id = R.drawable.image5),
+                painter = painterResource(id = R.drawable.pantalla_menu),
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.fillMaxSize()

@@ -13,7 +13,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+//import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -23,14 +23,14 @@ import com.example.mytfg.componentes.BotonEstandar
 import com.example.mytfg.componentes.TopBar
 import com.example.mytfg.ui.theme.Naranja
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.material.icons.Icons
+//import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material.icons.outlined.*
 import androidx.compose.material.icons.rounded.*
 import androidx.compose.material.icons.sharp.*
 import androidx.compose.material.icons.twotone.*
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
+//import androidx.compose.ui.text.font.FontWeight
 import com.example.mytfg.componentes.TopBar
 import com.example.mytfg.ui.theme.NaranjaClaro
 import com.google.firebase.auth.FirebaseAuth
