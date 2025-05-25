@@ -93,6 +93,9 @@ dependencies {
     implementation(libs.androidx.compose.material3.material3)
     implementation (libs.androidx.material.icons.extended)
 
+    implementation("org.burnoutcrew.composereorderable:reorderable:0.9.6")
+
+
 //<<<<<<< HEAD
     // Import the Firebase BoM
     implementation(platform("com.google.firebase:firebase-bom:33.10.0"))

@@ -1,5 +1,7 @@
 package com.example.mytfg.ui.theme.screens.perfil
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -8,6 +10,8 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -15,6 +19,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.example.mytfg.R
 import com.example.mytfg.componentes.BotonEstandar
 import com.example.mytfg.componentes.BottomBarCopyright
 import com.example.mytfg.componentes.TopBar
@@ -69,13 +74,30 @@ fun PantallaEditarPerfil(
                 .fillMaxSize()
                 .padding(innerPadding)
         ) {
+
+            // Imagen de fondo
+            Image(
+                painter = painterResource(id = R.drawable.editar_perfil),
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier.fillMaxSize()
+            )
+
+            // Capa blanca translúcida
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.White.copy(alpha = 0.8f))
+            )
+
+
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 32.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(32.dp))
 
                 Text(
                     text = "Actualiza los datos de tu perfil",
@@ -84,6 +106,8 @@ fun PantallaEditarPerfil(
                     textAlign = TextAlign.Center,
                     modifier = Modifier.padding(bottom = 16.dp)
                 )
+
+                Spacer(modifier = Modifier.height(32.dp))
 
                 OutlinedTextField(
                     value = nombre,
@@ -99,7 +123,7 @@ fun PantallaEditarPerfil(
                         unfocusedTextColor = Negro,
                         cursorColor = Negro,
                         focusedBorderColor = Naranja,
-                        unfocusedBorderColor = GrisOscuro2
+                        unfocusedBorderColor = Negro
                     ),
                     singleLine = true
                 )
@@ -123,7 +147,7 @@ fun PantallaEditarPerfil(
 
                 Text(
                     text = "El correo electrónico no se puede modificar.",
-                    color = Color.Gray,
+                    color = Negro,
                     fontSize = 12.sp,
                     modifier = Modifier.padding(top = 4.dp)
                 )
@@ -153,6 +177,13 @@ fun PantallaEditarPerfil(
                         }
                     },
                     modifier = Modifier.fillMaxWidth()
+                )
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                Text(
+                    text = "1/8",
+                    fontSize = 10.sp
                 )
 
                 if (mensajeError.isNotEmpty()) {
