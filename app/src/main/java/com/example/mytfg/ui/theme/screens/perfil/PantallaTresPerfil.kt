@@ -1,6 +1,8 @@
 package com.example.mytfg.ui.theme.screens.perfil
 
 import android.util.Log
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -30,6 +32,7 @@ import androidx.compose.material.icons.rounded.*
 import androidx.compose.material.icons.sharp.*
 import androidx.compose.material.icons.twotone.*
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 //import androidx.compose.ui.text.font.FontWeight
 import com.example.mytfg.componentes.TopBar
 import com.example.mytfg.ui.theme.NaranjaClaro
@@ -38,6 +41,8 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import androidx.compose.ui.res.painterResource
+import com.example.mytfg.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -80,19 +85,37 @@ fun PantallaTresPerfil(navHostController: NavHostController) {
         },
 
         content = { padding ->
-            Column(
+            Box(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(padding)
-                    .verticalScroll(rememberScrollState())
             ) {
+                // Imagen de fondo
+                Image(
+                    painter = painterResource(id = R.drawable.horas_diarias),
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier.fillMaxSize()
+                )
+
+                // Capa blanca translúcida
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(Color.White.copy(alpha = 0.8f))
+                )
+
+                // Contenido principal con scroll
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(32.dp)
-                        .weight(1f),
+                        .verticalScroll(rememberScrollState())
+                        .padding(16.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
+
+                    Spacer(modifier = Modifier.height(16.dp))
+
                     Text(
                         text = "¿Cuántas horas deseas dedicar al día?",
                         fontSize = 24.sp,
@@ -146,50 +169,52 @@ fun PantallaTresPerfil(navHostController: NavHostController) {
                             }
                         }
                     }
-                }
-
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = 72.dp)
-                        .padding(horizontal = 32.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    
-                    BotonEstandar(
-                        texto = "Continuar",
-                        onClick = {
-                            user?.let {
-                                val datos = mapOf("horasdia" to selectedOption)
-                                db.collection("usuarios").document(it.uid)
-                                    .set(datos, SetOptions.merge())
-                                    .addOnSuccessListener {
-                                        mostrarAlerta = true
-                                        coroutineScope.launch {
-                                            delay(1000)
-                                            mostrarAlerta = false
-                                            navHostController.navigate("PantallaEdadPerfil")
-                                        }
-                                    }
-                                    .addOnFailureListener { e ->
-                                        Log.e("PantallaTresPerfil", "Error al guardar: ${e.message}")
-                                    }
-                            }
-                        },
-                        enabled = selectedOption != null,
-                        modifier = Modifier.fillMaxWidth()
-                    )
-
                     Spacer(modifier = Modifier.height(16.dp))
 
-                    Text(
-                        text = "4/8",
-                        fontSize = 10.sp
-                    )
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(bottom = 72.dp)
+                            .padding(horizontal = 32.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
 
+                        BotonEstandar(
+                            texto = "Continuar",
+                            onClick = {
+                                user?.let {
+                                    val datos = mapOf("horasdia" to selectedOption)
+                                    db.collection("usuarios").document(it.uid)
+                                        .set(datos, SetOptions.merge())
+                                        .addOnSuccessListener {
+                                            mostrarAlerta = true
+                                            coroutineScope.launch {
+                                                delay(1000)
+                                                mostrarAlerta = false
+                                                navHostController.navigate("PantallaEdadPerfil")
+                                            }
+                                        }
+                                        .addOnFailureListener { e ->
+                                            Log.e(
+                                                "PantallaTresPerfil",
+                                                "Error al guardar: ${e.message}"
+                                            )
+                                        }
+                                }
+                            },
+                            enabled = selectedOption != null,
+                            modifier = Modifier.fillMaxWidth()
+                        )
+
+                        Spacer(modifier = Modifier.height(16.dp))
+
+                        Text(
+                            text = "4/8",
+                            fontSize = 10.sp
+                        )
+                    }
                 }
             }
         }
     )
-
 }
