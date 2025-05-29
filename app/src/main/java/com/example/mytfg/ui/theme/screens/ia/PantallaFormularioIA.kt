@@ -3,6 +3,8 @@ package com.example.mytfg.ui.theme.screens.ia
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -144,11 +146,68 @@ fun PantallaFormularioIA(
                     Spacer(Modifier.height(16.dp))
                     Text(it, color = MaterialTheme.colorScheme.error)
                 }
+
+
+                resultado?.let {
+                    Spacer(Modifier.height(16.dp))
+                    Text("Plan generado:", style = MaterialTheme.typography.titleMedium)
+                    Spacer(Modifier.height(8.dp))
+                    Card(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .heightIn(min = 100.dp, max = 400.dp)
+                            .padding(8.dp),
+                        colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.9f))
+                    ) {
+                        Column(
+                            modifier = Modifier
+                                .padding(16.dp)
+                                .verticalScroll(rememberScrollState())
+                        ) {
+                            Text(
+                                text = it,
+                                style = MaterialTheme.typography.bodyMedium,
+                                color = Color.Black
+                            )
+                        }
+                    }
+                }
+
+
+
+                /*
+                resultado?.let {
+                    Spacer(Modifier.height(16.dp))
+                    Text("Plan generado:", style = MaterialTheme.typography.titleMedium)
+                    Spacer(Modifier.height(8.dp))
+                    Card(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .heightIn(min = 100.dp, max = 300.dp)
+                            .padding(8.dp),
+                        colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.9f))
+                    ) {
+                        Box(modifier = Modifier.padding(16.dp)) {
+                            Text(
+                                text = it,
+                                style = MaterialTheme.typography.bodyMedium,
+                                color = Color.Black
+                            )
+                        }
+                    }
+                }
+                */
+
+
+
+                /*
                 resultado?.let {
                     Spacer(Modifier.height(16.dp))
                     Text("Plan generado:", style = MaterialTheme.typography.titleMedium)
                     Text(it)
                 }
+
+                 */
             }
         }
     }

@@ -33,8 +33,12 @@ import com.example.mytfg.ui.theme.GrisOscuro2
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PantallaMenu(navHostController: NavHostController, userName: String?, avatarUrl: String?) {
-    val db = FirebaseFirestore.getInstance()
     val user = FirebaseAuth.getInstance().currentUser
+    val db = FirebaseFirestore.getInstance()
+
+    var userName by remember { mutableStateOf<String?>(null) }
+    var avatarUrl by remember { mutableStateOf<String?>(null) }
+
     val defaultAvatar = "https://cdn-icons-png.flaticon.com/512/149/149071.png"
 
     // Definimos los botones base por si no hay ninguno guardado
@@ -54,7 +58,13 @@ fun PantallaMenu(navHostController: NavHostController, userName: String?, avatar
         user?.let { u ->
             db.collection("usuarios").document(u.uid).get()
                 .addOnSuccessListener { document ->
+                    if (document != null) {
+                        userName = document.getString("nombre")
+                        avatarUrl = document.getString("avatarUrl")
+                    }
+
                     val orden = document.get("menuOrden") as? List<*>
+
                     if (orden != null && orden.all { it is String }) {
                         val ordenado = orden.mapNotNull { nombre ->
                             botonesBase.find { it.titulo == nombre }
@@ -97,7 +107,7 @@ fun PantallaMenu(navHostController: NavHostController, userName: String?, avatar
         topBar = {
             if (userName != null) {
                 TopBarConUsuario(
-                    userName = userName,
+                    userName = userName!!,
                     avatarUrl = avatarUrl ?: defaultAvatar,
                     onProfileClick = { navHostController.navigate("PantallaUnoPerfil") }
                 )
