@@ -134,7 +134,7 @@ fun PantallaMenu(navHostController: NavHostController, userName: String?, avatar
                                         val planEntrenamiento = document.getString("planEntrenamiento")
                                         if (!planEntrenamiento.isNullOrBlank()) {
                                             navHostController.navigate(
-                                                "PantallaPlanGenerado/${java.net.URLEncoder.encode(planEntrenamiento, "utf-8")}"
+                                                "PantallaPlanGenerado/${planEntrenamiento}"
                                             )
                                         } else {
                                             Toast.makeText(context, "No hay plan de entrenamiento generado", Toast.LENGTH_SHORT).show()
