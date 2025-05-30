@@ -14,6 +14,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.mytfg.ui.theme.Blanco
 import com.example.mytfg.ui.theme.Naranja
+import com.example.mytfg.ui.theme.NaranjaClaro
+import com.example.mytfg.ui.theme.NaranjaMedio
 
 @Composable
 fun BotonEstandar(
@@ -29,7 +31,7 @@ fun BotonEstandar(
         onClick = onClick,
         enabled = enabled,
         colors = ButtonDefaults.buttonColors(
-            containerColor = Naranja,
+            containerColor = NaranjaMedio,
             contentColor = Blanco
         ),
         modifier = modifier,
