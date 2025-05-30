@@ -1,12 +1,13 @@
 package com.example.mytfg.ui.theme.screens.menu
 
+import android.net.Uri
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.animation.Animatable
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.gestures.detectDragGesturesAfterLongPress
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -16,24 +17,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.example.mytfg.R
 import com.example.mytfg.componentes.BotonEstandar
 import com.example.mytfg.componentes.MenuBoton
 import com.example.mytfg.componentes.TopBarConUsuario
-import com.example.mytfg.R
 import com.example.mytfg.util.AnimatedGradientText
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import org.burnoutcrew.reorderable.*
-import androidx.compose.ui.platform.LocalContext
-import android.widget.Toast
 import kotlinx.coroutines.launch
-
+import org.burnoutcrew.reorderable.*
 
 @Composable
 fun PantallaMenu(navHostController: NavHostController, userName: String?, avatarUrl: String?) {
@@ -53,20 +49,23 @@ fun PantallaMenu(navHostController: NavHostController, userName: String?, avatar
     )
 
     val colores = listOf(
-        Color(0xFF1976D2), // Azul brillante
-        Color(0xFF388E3C), // Verde brillante
-        Color(0xFFD32F2F), // Rojo brillante
+        Color(0xFFFFCC80),
+        Color(0xFFFFB74D),
+        Color(0xFFFF9800),
+        Color(0xFFF57C00),
+        Color(0xFFEF6C00),
+        Color(0xFFE65100)
     )
 
     val colorAnim = remember { Animatable(colores[0]) }
     var currentIndex by remember { mutableStateOf(0) }
 
     LaunchedEffect(Unit) {
-        while(true) {
+        while (true) {
             val nextIndex = (currentIndex + 1) % colores.size
             colorAnim.animateTo(
                 targetValue = colores[nextIndex],
-                animationSpec = tween(durationMillis = 2000)
+                animationSpec = tween(durationMillis = 3000)
             )
             currentIndex = nextIndex
         }
@@ -117,8 +116,10 @@ fun PantallaMenu(navHostController: NavHostController, userName: String?, avatar
             }
         }
     )
+
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
+    var showDialog by remember { mutableStateOf(false) }
 
     Scaffold(
         topBar = {
@@ -126,26 +127,7 @@ fun PantallaMenu(navHostController: NavHostController, userName: String?, avatar
                 TopBarConUsuario(
                     userName = userNameState!!,
                     avatarUrl = avatarUrlState ?: defaultAvatar,
-                    onProfileClick = {
-                        scope.launch {
-                            user?.let { u ->
-                                db.collection("usuarios").document(u.uid).get()
-                                    .addOnSuccessListener { document ->
-                                        val planEntrenamiento = document.getString("planEntrenamiento")
-                                        if (!planEntrenamiento.isNullOrBlank()) {
-                                            navHostController.navigate(
-                                                "PantallaPlanGenerado/${planEntrenamiento}"
-                                            )
-                                        } else {
-                                            Toast.makeText(context, "No hay plan de entrenamiento generado", Toast.LENGTH_SHORT).show()
-                                        }
-                                    }
-                                    .addOnFailureListener {
-                                        Toast.makeText(context, "Error al obtener el plan", Toast.LENGTH_SHORT).show()
-                                    }
-                            }
-                        }
-                    }
+                    onProfileClick = { showDialog = true }
                 )
             }
         }
@@ -184,14 +166,6 @@ fun PantallaMenu(navHostController: NavHostController, userName: String?, avatar
                             .padding(bottom = 12.dp)
                     )
 
-                    /*HorizontalDivider(
-                        modifier = Modifier
-                            .width(120.dp)
-                            .padding(bottom = 8.dp),
-                        thickness = 4.dp,
-                        color = MaterialTheme.colorScheme.primary
-                    )*/
-
                     LazyColumn(
                         state = reorderableState.listState,
                         modifier = Modifier
@@ -211,14 +185,6 @@ fun PantallaMenu(navHostController: NavHostController, userName: String?, avatar
                                         .padding(horizontal = 8.dp)
                                         .detectReorderAfterLongPress(reorderableState)
                                 ) {
-                                    /*Icon(
-                                        imageVector = Icons.Default.DragHandle,
-                                        contentDescription = "Mover",
-                                        tint = MaterialTheme.colorScheme.primary,
-                                        modifier = Modifier
-                                            .padding(end = 8.dp)
-                                            .size(24.dp)
-                                    )*/
                                     BotonEstandar(
                                         texto = item.titulo,
                                         onClick = { navHostController.navigate(item.ruta) },
@@ -229,6 +195,60 @@ fun PantallaMenu(navHostController: NavHostController, userName: String?, avatar
                         }
                     }
                 }
+            }
+
+            if (showDialog) {
+                AlertDialog(
+                    onDismissRequest = { showDialog = false },
+                    title = { Text("¿Qué plan quieres ver?") },
+                    text = { Text("Selecciona el tipo de plan que deseas visualizar:") },
+                    confirmButton = {
+                        TextButton(onClick = {
+                            showDialog = false
+                            scope.launch {
+                                user?.let { u ->
+                                    db.collection("usuarios").document(u.uid).get()
+                                        .addOnSuccessListener { document ->
+                                            val planEntrenamiento = document.getString("planEntrenamiento")
+                                            if (!planEntrenamiento.isNullOrBlank()) {
+                                                navHostController.navigate("PantallaPlanGenerado/$planEntrenamiento")
+                                            } else {
+                                                Toast.makeText(context, "No hay plan de entrenamiento generado", Toast.LENGTH_SHORT).show()
+                                            }
+                                        }
+                                        .addOnFailureListener {
+                                            Toast.makeText(context, "Error al obtener el plan", Toast.LENGTH_SHORT).show()
+                                        }
+                                }
+                            }
+                        }) {
+                            Text("Entrenamiento")
+                        }
+                    },
+                    dismissButton = {
+                        TextButton(onClick = {
+                            showDialog = false
+                            scope.launch {
+                                user?.let { u ->
+                                    db.collection("usuarios").document(u.uid).get()
+                                        .addOnSuccessListener { document ->
+                                            val planDieta = document.getString("planDieta")
+                                            if (!planDieta.isNullOrBlank()) {
+                                                navHostController.navigate("PantallaPlanDietaIA/${Uri.encode(planDieta)}")
+                                            } else {
+                                                Toast.makeText(context, "No hay plan de dieta generado", Toast.LENGTH_SHORT).show()
+                                            }
+                                        }
+                                        .addOnFailureListener {
+                                            Toast.makeText(context, "Error al obtener el plan de dieta", Toast.LENGTH_SHORT).show()
+                                        }
+                                }
+                            }
+                        }) {
+                            Text("Dieta")
+                        }
+                    }
+                )
             }
         }
     }
