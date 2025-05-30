@@ -16,11 +16,12 @@ suspend fun generarPlanEntrenamientoIA(
     peso: String,
     altura: String,
     frecuencia: String,
-    objetivo: String
+    objetivo: String,
+    lesiones: String
 ): String? = withContext(Dispatchers.IO) {
     try {
-
-        val prompt = "Genera un plan de entrenamiento personalizado para una persona de $edad años, $peso kg, $altura cm, que entrena $frecuencia días a la semana y cuyo objetivo es $objetivo. El plan debe ser claro, estructurado y en español."
+        //val groqApiKey = "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" // Token de Groq API
+        val prompt = "Genera un plan de entrenamiento personalizado para una persona de $edad años, $peso kg, $altura cm, que entrena $frecuencia días a la semana, cuyo objetivo es $objetivo y ademas tiene las siguientes lesiones $lesiones. El plan debe ser claro, estructurado y en español."
 
 
         val json = JSONObject()

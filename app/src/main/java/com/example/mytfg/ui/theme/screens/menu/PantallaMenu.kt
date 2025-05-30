@@ -30,6 +30,10 @@ import com.example.mytfg.util.AnimatedGradientText
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import org.burnoutcrew.reorderable.*
+import androidx.compose.ui.platform.LocalContext
+import android.widget.Toast
+import kotlinx.coroutines.launch
+
 
 @Composable
 fun PantallaMenu(navHostController: NavHostController, userName: String?, avatarUrl: String?) {
@@ -113,6 +117,8 @@ fun PantallaMenu(navHostController: NavHostController, userName: String?, avatar
             }
         }
     )
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
 
     Scaffold(
         topBar = {
@@ -120,7 +126,26 @@ fun PantallaMenu(navHostController: NavHostController, userName: String?, avatar
                 TopBarConUsuario(
                     userName = userNameState!!,
                     avatarUrl = avatarUrlState ?: defaultAvatar,
-                    onProfileClick = { navHostController.navigate("PantallaUnoPerfil") }
+                    onProfileClick = {
+                        scope.launch {
+                            user?.let { u ->
+                                db.collection("usuarios").document(u.uid).get()
+                                    .addOnSuccessListener { document ->
+                                        val planEntrenamiento = document.getString("planEntrenamiento")
+                                        if (!planEntrenamiento.isNullOrBlank()) {
+                                            navHostController.navigate(
+                                                "PantallaPlanGenerado/${java.net.URLEncoder.encode(planEntrenamiento, "utf-8")}"
+                                            )
+                                        } else {
+                                            Toast.makeText(context, "No hay plan de entrenamiento generado", Toast.LENGTH_SHORT).show()
+                                        }
+                                    }
+                                    .addOnFailureListener {
+                                        Toast.makeText(context, "Error al obtener el plan", Toast.LENGTH_SHORT).show()
+                                    }
+                            }
+                        }
+                    }
                 )
             }
         }
