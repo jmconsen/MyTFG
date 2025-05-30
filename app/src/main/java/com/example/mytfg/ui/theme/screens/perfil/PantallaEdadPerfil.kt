@@ -66,7 +66,7 @@ fun PantallaEdadPerfil(navHostController: NavHostController) {
             ) {
                 // Imagen de fondo
                 Image(
-                    painter = painterResource(id = R.drawable.edad),
+                    painter = painterResource(id = R.drawable.editaredadreloj),
                     contentDescription = null,
                     contentScale = ContentScale.Crop,
                     modifier = Modifier.fillMaxSize()
@@ -76,7 +76,7 @@ fun PantallaEdadPerfil(navHostController: NavHostController) {
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
-                        .background(Color.White.copy(alpha = 0.7f))
+                        .background(Color.White.copy(alpha = 0.5f))
                 )
 
                 // Contenido principal con scroll
@@ -154,76 +154,3 @@ fun PantallaEdadPerfil(navHostController: NavHostController) {
         }
     )
 }
-
-        /*
-        content = { padding ->
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(padding)
-                    .verticalScroll(rememberScrollState()),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Spacer(Modifier.height(32.dp))
-                Text(
-                    text = "¿Cuál es tu edad?",
-                    fontSize = 24.sp,
-                    fontWeight = FontWeight.Bold,
-                    textAlign = TextAlign.Center
-                )
-                Spacer(Modifier.height(128.dp))
-
-                // Slider de edad
-                Text(
-                    text = "${edad.toInt()} años",
-                    fontSize = 32.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.primary
-                )
-                Slider(
-                    value = edad,
-                    onValueChange = { edad = it },
-                    valueRange = minEdad..maxEdad,
-                    steps = ((maxEdad - minEdad).toInt()) - 1, // Un paso por cada año
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 32.dp),
-                    colors = SliderDefaults.colors(
-                        thumbColor = MaterialTheme.colorScheme.primary,
-                        activeTrackColor = MaterialTheme.colorScheme.primary
-                    )
-                )
-
-                Spacer(Modifier.height(32.dp))
-                BotonEstandar(
-                    texto = "Continuar",
-                    onClick = {
-                        user?.let {
-                            val datos = mapOf("edad" to edad.toInt().toString())
-                            db.collection("usuarios").document(it.uid)
-                                .set(datos, SetOptions.merge())
-                                .addOnSuccessListener {
-                                    mostrarAlerta = true
-                                    coroutineScope.launch {
-                                        delay(1000)
-                                        mostrarAlerta = false
-                                        navHostController.navigate("PantallaAlturaPerfil")
-                                    }
-                                }
-                        }
-                    },
-                    enabled = edad in minEdad..maxEdad,
-                    modifier = Modifier.fillMaxWidth().padding(horizontal = 32.dp)
-                )
-                Spacer(modifier = Modifier.height(16.dp))
-
-                Text(
-                    text = "5/8",
-                    fontSize = 10.sp
-                )
-            }
-        }
-    )
-}
-
- */

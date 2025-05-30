@@ -102,7 +102,7 @@ fun PantallaTresPerfil(navHostController: NavHostController) {
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
-                        .background(Color.White.copy(alpha = 0.8f))
+                        .background(Color.White.copy(alpha = 0.5f))
                 )
 
                 // Contenido principal con scroll

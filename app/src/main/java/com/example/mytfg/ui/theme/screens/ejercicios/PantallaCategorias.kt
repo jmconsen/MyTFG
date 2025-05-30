@@ -44,7 +44,14 @@ fun PantallaCategorias(
 ) {
     val categorias by viewModel.categorias.collectAsState()
     val equiposPorDefecto = listOf(
-        "body weight", "dumbbell", "barbell", "kettlebell", "cable", "machine", "band", "medicine ball"
+        "body weight",
+        "dumbbell",
+        "barbell",
+        "kettlebell",
+        "cable",
+        "machine",
+        "band",
+        "medicine ball"
     )
 
     val expandedStates = remember { mutableStateMapOf<String, Boolean>() }
@@ -90,7 +97,8 @@ fun PantallaCategorias(
                             .fillMaxWidth()
                             .padding(vertical = 8.dp, horizontal = 16.dp)
                             .clickable {
-                                expandedStates[categoria.nombre] = !(expandedStates[categoria.nombre] ?: false)
+                                expandedStates[categoria.nombre] =
+                                    !(expandedStates[categoria.nombre] ?: false)
                             },
                         colors = CardDefaults.cardColors(containerColor = NaranjaClaro),
                         elevation = CardDefaults.cardElevation(4.dp),
@@ -124,112 +132,19 @@ fun PantallaCategorias(
 
                     val expanded = expandedStates[categoria.nombre] ?: false
                     if (expanded) {
-                        categoria.equipos.sorted().forEach { equipo -> // Equipos ordenados alfabéticamente
+                        categoria.equipos.sorted()
+                            .forEach { equipo -> // Equipos ordenados alfabéticamente
 
-                            Card(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    //.padding(vertical = 8.dp, horizontal = 16.dp)
-                                    .padding(start = 64.dp, top = 4.dp, end = 16.dp, bottom = 4.dp)
-                                    .clickable {
-                                        navHostController.navigate(
-                                            "PantallaEjercicios/${getApiBodyPart(categoria.nombre)}/$equipo"
-                                        )
-                                    },
-                                //colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
-                                colors = CardDefaults.cardColors(containerColor = NaranjaMuyClaro),
-                                elevation = CardDefaults.cardElevation(4.dp),
-                                shape = RoundedCornerShape(16.dp)
-                            ) {
-                                Row(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(16.dp),
-                                    verticalAlignment = Alignment.CenterVertically,
-                                    horizontalArrangement = Arrangement.SpaceBetween
-                                ) {
-                                    Row(verticalAlignment = Alignment.CenterVertically) {
-                                        val icon = when (equipo.lowercase()) {
-                                            "body weight" -> Icons.Default.Person
-                                            "barbell" -> Icons.Default.FitnessCenter
-                                            "dumbbell" -> Icons.Default.SportsHandball
-                                            "cable" -> Icons.Default.Cable
-                                            "medicine ball" -> Icons.Default.SportsBasketball
-                                            else -> Icons.Default.Help // Ícono por defecto
-                                        }
-
-                                        Icon(
-                                            imageVector = icon,
-                                            contentDescription = null,
-                                            modifier = Modifier.padding(end = 8.dp)
-                                        )
-                                        Text(
-                                            text = traducirEquipo(equipo),
-                                            fontSize = 16.sp,
-                                            style = MaterialTheme.typography.bodyMedium
-                                        )
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-                item {
-                    Spacer(modifier = Modifier.height(64.dp)) // Espacio adicional al final
-                }
-            }
-
-
-
-            /*
-            LazyColumn(
-                modifier = Modifier.fillMaxSize(),
-                contentPadding = PaddingValues(vertical = 8.dp)
-            ) {
-                items(categorias) { categoria ->
-                    val equipos = when (categoria.nombre.lowercase()) {
-                        "espalda" -> listOf("barbell", "cable")
-                        "piernas superiores" -> listOf("body weight", "barbell")
-                        "piernas inferiores" -> listOf("body weight", "dumbbell", "barbell")
-                        "torso" -> listOf("body weight", "barbell", "medicine ball")
-                        "brazos" -> listOf("barbell")
-                        "cardio" -> listOf("body weight", "dumbbell")
-                        "antebrazo" -> listOf("dumbbell", "barbell", "cable")
-                        else -> equiposPorDefecto
-                    }
-                    val expanded = expandedStates[categoria.nombre] ?: false
-
-                    Column {
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .clickable {
-                                    expandedStates[categoria.nombre] = !expanded
-                                }
-                                .padding(vertical = 4.dp, horizontal = 12.dp)
-                        ) {
-                            Image(
-                                painter = painterResource(id = categoria.imagenResId),
-                                contentDescription = categoria.nombre,
-                                modifier = Modifier
-                                    .size(96.dp)
-                                    .aspectRatio(1f)
-                                    .padding(end = 16.dp)
-                            )
-                            Text(
-                                text = categoria.nombre,
-                                style = MaterialTheme.typography.titleLarge,
-                                fontSize = 22.sp,
-                                modifier = Modifier.padding(vertical = 14.dp)
-                            )
-                        }
-                        if (expanded) {
-                            equipos.forEach { equipo ->
                                 Card(
                                     modifier = Modifier
                                         .fillMaxWidth()
-                                        .padding(vertical = 8.dp, horizontal = 16.dp)
+                                        //.padding(vertical = 8.dp, horizontal = 16.dp)
+                                        .padding(
+                                            start = 64.dp,
+                                            top = 4.dp,
+                                            end = 16.dp,
+                                            bottom = 4.dp
+                                        )
                                         .clickable {
                                             navHostController.navigate(
                                                 "PantallaEjercicios/${getApiBodyPart(categoria.nombre)}/$equipo"
@@ -271,122 +186,6 @@ fun PantallaCategorias(
                                     }
                                 }
                             }
-                        }
-                    }
-                }
-                item {
-                    Spacer(modifier = Modifier.height(64.dp)) // Espacio adicional al final
-                }
-            }
-            */
-        }
-    }
-}
-
-
-
-/*
-@Composable
-fun PantallaCategorias(
-    navHostController: NavHostController,
-    viewModel: CategoriasViewModel = viewModel(),
-    paddingValues: PaddingValues = PaddingValues()
-) {
-    val categorias by viewModel.categorias.collectAsState()
-    val equiposPorDefecto = listOf(
-        "body weight", "dumbbell", "barbell", "kettlebell", "cable", "machine", "band", "medicine ball"
-    )
-
-    // Guarda el índice (o nombre) de las categorías expandidas
-    val expandedStates = remember { mutableStateMapOf<String, Boolean>() }
-
-    Scaffold(
-        topBar = {
-            TopBar(
-                navHostController = navHostController,
-                title = "Ejercicios"
-            )
-        }
-    ) { paddingValues ->
-
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
-        ) {
-            LazyColumn(
-                modifier = Modifier.fillMaxSize(),
-                contentPadding = PaddingValues(vertical = 8.dp)
-            ) {
-                items(categorias) { categoria ->
-                    val equipos = when (categoria.nombre.lowercase()) {
-                        "espalda" -> listOf("barbell", "cable")
-                        "piernas superiores" -> listOf("body weight", "barbell")
-                        "piernas inferiores" -> listOf("body weight", "dumbbell", "barbell")
-                        "torso" -> listOf("body weight", "barbell", "medicine ball")
-                        "brazos" -> listOf("barbell")
-                        "cardio" -> listOf("body weight", "dumbbell")
-                        "antebrazo" -> listOf("dumbbell", "barbell", "cable")
-                        else -> equiposPorDefecto
-                    }
-                    val expanded = expandedStates[categoria.nombre] ?: false
-
-                    Column {
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .clickable {
-                                    expandedStates[categoria.nombre] = !expanded
-                                }
-                                .padding(vertical = 4.dp, horizontal = 12.dp)
-                        ) {
-                            Image(
-                                painter = painterResource(id = categoria.imagenResId),
-                                contentDescription = categoria.nombre,
-                                modifier = Modifier
-                                    .size(110.dp)
-                                    .clip(RoundedCornerShape(20.dp)),
-                                contentScale = ContentScale.Crop
-                            )
-                            Spacer(modifier = Modifier.width(24.dp)) // Más espacio entre imagen y texto
-                            Text(
-                                text = categoria.nombre,
-                                style = MaterialTheme.typography.titleLarge,
-                                fontSize = 24.sp,
-                                maxLines = 1,
-                                modifier = Modifier
-                                    .padding(vertical = 14.dp)
-                            )
-                        }
-
-                        if (expanded) {
-                            equipos.forEach { equipo ->
-                                Card(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(horizontal = 32.dp, vertical = 4.dp)
-                                        .clickable {
-                                            navHostController.navigate(
-                                                "PantallaEjercicios/${getApiBodyPart(categoria.nombre)}/$equipo"
-                                            )
-                                        },
-                                    colors = CardDefaults.cardColors(containerColor = Color.Black),
-                                    shape = RoundedCornerShape(16.dp)
-                                ) {
-                                    Row(
-                                        modifier = Modifier.padding(16.dp),
-                                        verticalAlignment = Alignment.CenterVertically
-                                    ) {
-                                        Text(
-                                            text = traducirEquipo(equipo),
-                                            style = MaterialTheme.typography.titleMedium,
-                                            color = Blanco
-                                        )
-                                    }
-                                }
-                            }
-                        }
                     }
                 }
                 item {
@@ -396,5 +195,3 @@ fun PantallaCategorias(
         }
     }
 }
-
- */

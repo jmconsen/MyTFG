@@ -10,6 +10,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.mytfg.ui.theme.Naranja
+import com.example.mytfg.ui.theme.NaranjaOscuro
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -37,7 +38,7 @@ fun TopBarConUsuarioOLD(
             }
         },
         colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = Naranja
+            containerColor = NaranjaOscuro
         )
     )
 }

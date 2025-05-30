@@ -16,6 +16,7 @@ import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.example.mytfg.ui.theme.Blanco
 import com.example.mytfg.ui.theme.Naranja
+import com.example.mytfg.ui.theme.NaranjaOscuro
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -58,7 +59,7 @@ fun TopBar(
             }
         },
         colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = Naranja,
+            containerColor = NaranjaOscuro,
             titleContentColor = Color.White,
             navigationIconContentColor = Color.White,
             actionIconContentColor = Color.White
@@ -95,7 +96,7 @@ fun TopBarConUsuario(
             }
         },
         colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = Naranja
+            containerColor = NaranjaOscuro
         )
     )
 }
