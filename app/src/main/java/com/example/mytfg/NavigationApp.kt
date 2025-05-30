@@ -77,9 +77,7 @@ fun NavigationApp(
         composable("PantallaTresPerfil") { PantallaTresPerfil(navHostController) }
         composable("PantallaEditarPerfil") { PantallaEditarPerfil(navHostController) }
         composable("PantallaPlanGenerado/{plan}") { backStackEntry ->
-            val plan = backStackEntry.arguments?.getString("plan")?.let {
-                java.net.URLDecoder.decode(it, "utf-8")
-            } ?: ""
+            val plan = backStackEntry.arguments?.getString("plan") ?: ""
             PantallaPlanGenerado(
                 navHostController = navHostController,
                 plan = plan

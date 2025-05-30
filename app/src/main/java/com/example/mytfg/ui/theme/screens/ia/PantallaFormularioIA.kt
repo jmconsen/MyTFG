@@ -108,7 +108,7 @@ fun PantallaFormularioIA(
                                         else -> {
                                             coroutineScope.launch {
                                                 val plan = generarPlanEntrenamientoIA(
-                                                    edad, peso, altura, frecuencia, objetivo
+                                                    edad, peso, altura, frecuencia, objetivo, lesiones
                                                 )
                                                 loading = false
                                                 if (plan != null) {
