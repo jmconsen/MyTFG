@@ -19,6 +19,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.mytfg.AuthManager
 import com.example.mytfg.ui.theme.AzulOscuro
 import com.example.mytfg.ui.theme.Naranja
+import com.example.mytfg.ui.theme.NaranjaOscuro
 
 @Composable
 fun MenuNavegador(navController: NavHostController, authManager: AuthManager) {
@@ -31,7 +32,7 @@ fun MenuNavegador(navController: NavHostController, authManager: AuthManager) {
         modifier = Modifier.height(120.dp).padding(top = 10.dp)
     ) {
         NavigationBar(
-            containerColor = Naranja,
+            containerColor = NaranjaOscuro,
         ) {
 
 

@@ -76,7 +76,7 @@ fun PantallaPesoPerfil(navHostController: NavHostController) {
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
-                        .background(Color.White.copy(alpha = 0.7f))
+                        .background(Color.White.copy(alpha = 0.5f))
                 )
 
                 // Contenido principal con scroll
