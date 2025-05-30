@@ -95,6 +95,7 @@ dependencies {
 
     implementation("org.burnoutcrew.composereorderable:reorderable:0.9.6")
 
+    implementation("io.github.cdimascio:java-dotenv:5.2.2")
 
 //<<<<<<< HEAD
     // Import the Firebase BoM

@@ -30,6 +30,7 @@ import com.example.mytfg.ui.theme.screens.perfil.PantallaEdadPerfil
 import com.example.mytfg.ui.theme.screens.perfil.PantallaAlturaPerfil
 import com.example.mytfg.ui.theme.screens.perfil.PantallaPesoPerfil
 import com.example.mytfg.ui.theme.screens.perfil.PantallaLesionesPerfil
+import com.example.mytfg.util.PantallaPlanDietaIA
 import com.example.mytfg.viewmodel.AuthViewModel
 
 
@@ -139,5 +140,14 @@ fun NavigationApp(
                 //paddingValues = paddingValues
             )
         }
+
+        composable(
+            route = "PantallaPlanDietaIA/{planDieta}",
+            arguments = listOf(navArgument("planDieta") { type = NavType.StringType })
+        ) { backStackEntry ->
+            val planDieta = backStackEntry.arguments?.getString("planDieta") ?: ""
+            PantallaPlanDietaIA(navHostController, planDieta)
+        }
+
     }
 }
