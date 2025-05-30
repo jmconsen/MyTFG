@@ -95,6 +95,7 @@ dependencies {
 
     implementation(libs.reorderable)
 
+    implementation("io.github.cdimascio:java-dotenv:5.2.2")
 
 //<<<<<<< HEAD
     // Import the Firebase BoM
