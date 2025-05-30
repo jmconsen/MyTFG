@@ -25,6 +25,7 @@ import com.example.mytfg.ui.theme.screens.perfil.PantallaTresPerfil
 import com.example.mytfg.ui.theme.screens.dieta.PantallaDieta
 import com.example.mytfg.ui.theme.screens.dieta.PantallaSeleccionDieta
 import com.example.mytfg.ui.theme.screens.ia.PantallaFormularioIA
+import com.example.mytfg.ui.theme.screens.ia.PantallaPlanGenerado
 import com.example.mytfg.ui.theme.screens.perfil.PantallaEditarPerfil
 import com.example.mytfg.ui.theme.screens.perfil.PantallaEdadPerfil
 import com.example.mytfg.ui.theme.screens.perfil.PantallaAlturaPerfil
@@ -42,7 +43,7 @@ fun NavigationApp(
     modifier: Modifier = Modifier,
     paddingValues: PaddingValues = PaddingValues(0.dp)
 ) {
-    val startDestination = if (authManager.isUserLoggedIn()) "PantallaMenu" else "PantallaLogin"
+    val startDestination = if (authManager.isUserLoggedIn()) "PantallaMenu" else "PantallaWelcome"
 
     NavHost(
         navController = navHostController,
@@ -75,6 +76,15 @@ fun NavigationApp(
         composable("PantallaDosPerfil") { PantallaDosPerfil(navHostController) }
         composable("PantallaTresPerfil") { PantallaTresPerfil(navHostController) }
         composable("PantallaEditarPerfil") { PantallaEditarPerfil(navHostController) }
+        composable("PantallaPlanGenerado/{plan}") { backStackEntry ->
+            val plan = backStackEntry.arguments?.getString("plan")?.let {
+                java.net.URLDecoder.decode(it, "utf-8")
+            } ?: ""
+            PantallaPlanGenerado(
+                navHostController = navHostController,
+                plan = plan
+            )
+        }
 
         composable(
             route = "PantallaRecuperarPassword?email={email}",

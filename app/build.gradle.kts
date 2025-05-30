@@ -93,7 +93,7 @@ dependencies {
     implementation(libs.androidx.compose.material3.material3)
     implementation (libs.androidx.material.icons.extended)
 
-    implementation("org.burnoutcrew.composereorderable:reorderable:0.9.6")
+    implementation(libs.reorderable)
 
     implementation("io.github.cdimascio:java-dotenv:5.2.2")
 

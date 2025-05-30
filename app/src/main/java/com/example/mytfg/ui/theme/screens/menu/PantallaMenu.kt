@@ -1,8 +1,12 @@
 package com.example.mytfg.ui.theme.screens.menu
 
 import android.util.Log
+import androidx.compose.animation.Animatable
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.detectDragGesturesAfterLongPress
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -18,30 +22,29 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import coil.compose.rememberAsyncImagePainter
+import com.example.mytfg.componentes.BotonEstandar
+import com.example.mytfg.componentes.MenuBoton
 import com.example.mytfg.componentes.TopBarConUsuario
+import com.example.mytfg.R
+import com.example.mytfg.util.AnimatedGradientText
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import org.burnoutcrew.reorderable.*
-
-import com.example.mytfg.R
-import com.example.mytfg.componentes.BotonEstandar
-import com.example.mytfg.componentes.MenuBoton
-import com.example.mytfg.ui.theme.GrisOscuro2
+import androidx.compose.ui.platform.LocalContext
+import android.widget.Toast
+import kotlinx.coroutines.launch
 
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PantallaMenu(navHostController: NavHostController, userName: String?, avatarUrl: String?) {
     val user = FirebaseAuth.getInstance().currentUser
     val db = FirebaseFirestore.getInstance()
 
-    var userName by remember { mutableStateOf<String?>(null) }
-    var avatarUrl by remember { mutableStateOf<String?>(null) }
+    var userNameState by remember { mutableStateOf(userName) }
+    var avatarUrlState by remember { mutableStateOf(avatarUrl) }
 
     val defaultAvatar = "https://cdn-icons-png.flaticon.com/512/149/149071.png"
 
-    // Definimos los botones base por si no hay ninguno guardado
     val botonesBase = listOf(
         MenuBoton("Entrenamiento con IA", "PantallaFormularioIA"),
         MenuBoton("Ejercicios", "PantallaCategorias"),
@@ -49,22 +52,38 @@ fun PantallaMenu(navHostController: NavHostController, userName: String?, avatar
         MenuBoton("Dietas", "PantallaSeleccionDieta")
     )
 
-    // Estado de los botones y su orden
+    val colores = listOf(
+        Color(0xFF1976D2), // Azul brillante
+        Color(0xFF388E3C), // Verde brillante
+        Color(0xFFD32F2F), // Rojo brillante
+    )
+
+    val colorAnim = remember { Animatable(colores[0]) }
+    var currentIndex by remember { mutableStateOf(0) }
+
+    LaunchedEffect(Unit) {
+        while(true) {
+            val nextIndex = (currentIndex + 1) % colores.size
+            colorAnim.animateTo(
+                targetValue = colores[nextIndex],
+                animationSpec = tween(durationMillis = 2000)
+            )
+            currentIndex = nextIndex
+        }
+    }
+
     val botones = remember { mutableStateListOf<MenuBoton>() }
     var botonesCargados by remember { mutableStateOf(false) }
 
-    // Cargar orden de botones del usuario desde Firestore
     LaunchedEffect(user) {
         user?.let { u ->
             db.collection("usuarios").document(u.uid).get()
                 .addOnSuccessListener { document ->
                     if (document != null) {
-                        userName = document.getString("nombre")
-                        avatarUrl = document.getString("avatarUrl")
+                        userNameState = document.getString("nombre")
+                        avatarUrlState = document.getString("avatarUrl")
                     }
-
                     val orden = document.get("menuOrden") as? List<*>
-
                     if (orden != null && orden.all { it is String }) {
                         val ordenado = orden.mapNotNull { nombre ->
                             botonesBase.find { it.titulo == nombre }
@@ -85,12 +104,9 @@ fun PantallaMenu(navHostController: NavHostController, userName: String?, avatar
         }
     }
 
-    // Reordenamiento con Reorderable para permitir moverlos con drag & drop
     val reorderableState = rememberReorderableLazyListState(
         onMove = { from, to ->
             botones.move(from.index, to.index)
-
-            // Guardar nuevo orden en Firestore
             user?.let { u ->
                 val nuevoOrden = botones.map { it.titulo }
                 db.collection("usuarios").document(u.uid)
@@ -101,15 +117,35 @@ fun PantallaMenu(navHostController: NavHostController, userName: String?, avatar
             }
         }
     )
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
 
-    //Principal Scaffold con TopBar y fondo
     Scaffold(
         topBar = {
-            if (userName != null) {
+            if (userNameState != null) {
                 TopBarConUsuario(
-                    userName = userName!!,
-                    avatarUrl = avatarUrl ?: defaultAvatar,
-                    onProfileClick = { navHostController.navigate("PantallaUnoPerfil") }
+                    userName = userNameState!!,
+                    avatarUrl = avatarUrlState ?: defaultAvatar,
+                    onProfileClick = {
+                        scope.launch {
+                            user?.let { u ->
+                                db.collection("usuarios").document(u.uid).get()
+                                    .addOnSuccessListener { document ->
+                                        val planEntrenamiento = document.getString("planEntrenamiento")
+                                        if (!planEntrenamiento.isNullOrBlank()) {
+                                            navHostController.navigate(
+                                                "PantallaPlanGenerado/${java.net.URLEncoder.encode(planEntrenamiento, "utf-8")}"
+                                            )
+                                        } else {
+                                            Toast.makeText(context, "No hay plan de entrenamiento generado", Toast.LENGTH_SHORT).show()
+                                        }
+                                    }
+                                    .addOnFailureListener {
+                                        Toast.makeText(context, "Error al obtener el plan", Toast.LENGTH_SHORT).show()
+                                    }
+                            }
+                        }
+                    }
                 )
             }
         }
@@ -119,8 +155,6 @@ fun PantallaMenu(navHostController: NavHostController, userName: String?, avatar
                 .fillMaxSize()
                 .padding(paddingValues)
         ) {
-
-            // Imagen de fondo
             Image(
                 painter = painterResource(id = R.drawable.pantalla_menu),
                 contentDescription = null,
@@ -128,55 +162,67 @@ fun PantallaMenu(navHostController: NavHostController, userName: String?, avatar
                 modifier = Modifier.fillMaxSize()
             )
 
-            // Capa blanca translúcida
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(Color.White.copy(alpha = 0.7f))
+                    .background(Color.White.copy(alpha = 0.6f))
             )
 
-            //Mostramos solo los botones cuando se han cargado
             if (botonesCargados) {
                 Column(
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(horizontal = 24.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Spacer(modifier = Modifier.height(64.dp))
+                    Spacer(modifier = Modifier.height(32.dp))
 
-                    //Título del menú
-                    Text(
+                    AnimatedGradientText(
                         text = "Menú Principal",
-                        fontSize = 32.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = GrisOscuro2,
-                        modifier = Modifier.padding(bottom = 16.dp)
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(bottom = 12.dp)
                     )
 
-                    Spacer(modifier = Modifier.height(64.dp))
+                    /*HorizontalDivider(
+                        modifier = Modifier
+                            .width(120.dp)
+                            .padding(bottom = 8.dp),
+                        thickness = 4.dp,
+                        color = MaterialTheme.colorScheme.primary
+                    )*/
 
-                    // Lista reordenable de botones
                     LazyColumn(
                         state = reorderableState.listState,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(horizontal = 24.dp)
-                            .reorderable(reorderableState)
-                            .detectReorderAfterLongPress(reorderableState),
+                            .weight(1f)
+                            .reorderable(reorderableState),
                         verticalArrangement = Arrangement.spacedBy(16.dp),
-                        contentPadding = PaddingValues(bottom = 48.dp)
+                        contentPadding = PaddingValues(top = 8.dp, bottom = 8.dp)
                     ) {
                         items(botones, key = { it.titulo }) { item ->
-                            ReorderableItem(reorderableState, key = item.titulo) { isDragging ->
-                                val elevation = if (isDragging) 8.dp else 2.dp
-                                Card(
-                                    modifier = Modifier.fillMaxWidth(),
-                                    elevation = CardDefaults.cardElevation(elevation),
-                                    colors = CardDefaults.cardColors(containerColor = Color.White)
+                            ReorderableItem(reorderableState, key = item.titulo) { _ ->
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .height(56.dp)
+                                        .padding(horizontal = 8.dp)
+                                        .detectReorderAfterLongPress(reorderableState)
                                 ) {
+                                    /*Icon(
+                                        imageVector = Icons.Default.DragHandle,
+                                        contentDescription = "Mover",
+                                        tint = MaterialTheme.colorScheme.primary,
+                                        modifier = Modifier
+                                            .padding(end = 8.dp)
+                                            .size(24.dp)
+                                    )*/
                                     BotonEstandar(
                                         texto = item.titulo,
                                         onClick = { navHostController.navigate(item.ruta) },
-                                        modifier = Modifier.fillMaxWidth()
+                                        modifier = Modifier.weight(1f)
                                     )
                                 }
                             }
@@ -196,179 +242,3 @@ fun <T> MutableList<T>.move(fromIndex: Int, toIndex: Int) {
     val item = removeAt(fromIndex)
     add(toIndex, item)
 }
-
-/*
-@Composable
-fun BotonEstandar(
-    texto: String,
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier
-) {
-    Button(
-        onClick = onClick,
-        modifier = modifier
-            .height(56.dp)
-            .fillMaxWidth(),
-        shape = MaterialTheme.shapes.medium
-    ) {
-        Text(texto, fontSize = 18.sp)
-    }
-}
-
- */
-
-
-
-/*package com.example.mytfg.ui.theme.screens.menu
-
-import android.util.Log
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.navigation.NavHostController
-import com.example.mytfg.R
-import com.example.mytfg.componentes.BotonEstandar
-import com.example.mytfg.componentes.TopBarConUsuario
-import com.example.mytfg.ui.theme.GrisOscuro2
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
-
-@Composable
-fun PantallaMenu(navHostController: NavHostController, userName: String?, avatarUrl: String?) {
-    val user = FirebaseAuth.getInstance().currentUser
-    val db = FirebaseFirestore.getInstance()
-
-    var userName by remember { mutableStateOf<String?>(null) }
-    var avatarUrl by remember { mutableStateOf<String?>(null) }
-
-    val defaultAvatar = "https://cdn-icons-png.flaticon.com/512/149/149071.png"
-
-    LaunchedEffect(user) {
-        user?.let {
-            db.collection("usuarios").document(it.uid).get()
-                .addOnSuccessListener { document ->
-                    if (document != null) {
-                        userName = document.getString("nombre")
-                        avatarUrl = document.getString("avatarUrl")
-                    }
-                }
-                .addOnFailureListener { e ->
-                    Log.e("PantallaMenu", "Error al leer: ${e.message}")
-                }
-        }
-    }
-
-    Scaffold(
-        topBar = {
-            if (userName != null) {
-                TopBarConUsuario(
-                    userName = userName!!,
-                    avatarUrl = avatarUrl ?: defaultAvatar,
-                    onProfileClick = { navHostController.navigate("PantallaUnoPerfil") }
-                )
-            }
-        }
-    ) { paddingValues ->
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
-        ) {
-            // Imagen de fondo
-            Image(
-                painter = painterResource(id = R.drawable.pantalla_menu),
-                contentDescription = null,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier.fillMaxSize()
-            )
-
-            // Capa blanca translúcida
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(Color.White.copy(alpha = 0.7f))
-            )
-
-            // Contenido del menú
-            Column(
-                modifier = Modifier.fillMaxSize(),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Spacer(modifier = Modifier.height(32.dp))
-
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 24.dp)
-                        .clip(RoundedCornerShape(24.dp))
-                        .padding(vertical = 32.dp, horizontal = 16.dp),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        Spacer(modifier = Modifier.height(32.dp))
-                        Text(
-                            text = "Menú Principal",
-                            fontSize = 40.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = GrisOscuro2,
-                            textAlign = TextAlign.Center,
-                            modifier = Modifier.padding(bottom = 24.dp)
-                        )
-
-                        BotonEstandar(
-                            texto = "Entrenamiento con IA",
-                            onClick = { navHostController.navigate("PantallaFormularioIA") },
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(vertical = 8.dp)
-                        )
-
-                        Spacer(modifier = Modifier.height(20.dp))
-
-                        BotonEstandar(
-                            texto = "Ejercicios",
-                            onClick = { navHostController.navigate("PantallaCategorias") },
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(vertical = 8.dp)
-                        )
-
-                        Spacer(modifier = Modifier.height(20.dp))
-
-                        BotonEstandar(
-                            texto = "Perfil",
-                            onClick = { navHostController.navigate("PantallaEditarPerfil") },
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(vertical = 8.dp)
-                        )
-
-                        Spacer(modifier = Modifier.height(20.dp))
-
-                        BotonEstandar(
-                            texto = "Dietas",
-                            onClick = { navHostController.navigate("PantallaSeleccionDieta") },
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(vertical = 8.dp)
-                        )
-                    }
-                }
-            }
-        }
-    }
-}
-*/

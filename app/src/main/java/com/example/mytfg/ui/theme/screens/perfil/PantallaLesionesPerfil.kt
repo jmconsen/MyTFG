@@ -72,7 +72,7 @@ fun PantallaLesionesPerfil(navHostController: NavHostController) {
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
-                        .background(Color.White.copy(alpha = 0.7f))
+                        .background(Color.White.copy(alpha = 0.6f))
                 )
 
                 // Contenido principal con scroll

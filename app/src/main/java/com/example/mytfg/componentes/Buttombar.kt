@@ -16,13 +16,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.mytfg.ui.theme.Blanco
 import com.example.mytfg.ui.theme.Naranja
+import com.example.mytfg.ui.theme.NaranjaOscuro
 
 @Composable
 fun BottomBar(
     onExit: () -> Unit
 ) {
     BottomAppBar(
-        containerColor = Naranja,
+        containerColor = NaranjaOscuro,
         contentColor = Blanco,
         modifier = Modifier.height(88.dp)
     ) {
@@ -62,7 +63,7 @@ fun BottomBar(
 @Composable
 fun BottomBarCopyright() {
     BottomAppBar(
-        containerColor = Naranja,
+        containerColor = NaranjaOscuro,
         contentColor = Blanco,
         modifier = Modifier.height(88.dp) // Ajusta la altura aquí
     ) {

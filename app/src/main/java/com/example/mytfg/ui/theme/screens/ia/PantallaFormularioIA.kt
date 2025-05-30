@@ -313,7 +313,7 @@ fun PantallaFormularioIA(
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(Color.White.copy(alpha = 0.5f))
+                    .background(Color.White.copy(alpha = 0.4f))
             )
 
             // Contenido principal
@@ -324,8 +324,6 @@ fun PantallaFormularioIA(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                // ... resto de tu pantalla
-
                 BotonEstandar(
                     texto = "Generar plan de entrenamiento con IA",
                     onClick = {
@@ -356,22 +354,25 @@ fun PantallaFormularioIA(
                                         else -> {
                                             coroutineScope.launch {
                                                 val plan = generarPlanEntrenamientoIA(
-                                                    edad, peso, altura, frecuencia, objetivo
+                                                    edad, peso, altura, frecuencia, objetivo , lesiones
                                                 )
                                                 loading = false
                                                 if (plan != null) {
                                                     resultado = plan
                                                     db.collection("usuarios").document(userId)
                                                         .update("planEntrenamiento", plan)
-                                                        .addOnSuccessListener { /* OK */ }
-                                                        .addOnFailureListener { e -> error = "Error al guardar el plan: ${e.message}" }
+                                                        .addOnSuccessListener {
+                                                            navHostController.navigate("pantallaPlanGenerado/${plan}")
+                                                        }
+                                                        .addOnFailureListener { e ->
+                                                            error = "Error al guardar: ${e.message}"
+                                                        }
                                                 } else {
-                                                    error = "No se pudo generar el plan. Intenta más tarde."
+                                                    error = "Error generando el plan"
                                                 }
                                             }
                                         }
                                     }
-                                    loading = false
                                 } else {
                                     loading = false
                                     error = "No se encontraron datos del usuario."
