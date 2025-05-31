@@ -8,6 +8,7 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONObject
+import com.example.mytfg.BuildConfig
 
 private const val TAG_DIETA = "GroqDieta"
 
@@ -19,8 +20,8 @@ suspend fun generarPlanDietaIA(
     objetivo: String
 ): String? = withContext(Dispatchers.IO) {
     try {
-        //val groqApiKey = "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" // Token de Groq API
 
+        val groqApiKey = BuildConfig.GROQ_API_KEY
         val prompt = "Genera una dieta semanal personalizada para una persona de $edad años, $peso kg, $altura cm de altura, que entrena $frecuencia días a la semana y cuyo objetivo es $objetivo. La dieta debe estar en español, incluir desayuno, comida, cena y snacks, y ser equilibrada."
 
         val json = JSONObject()
