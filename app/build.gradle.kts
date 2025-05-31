@@ -1,9 +1,17 @@
+import java.util.Properties
+import java.io.File
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     id("com.google.gms.google-services")
 }
+
+val localProperties = Properties().apply {
+    load(File(rootDir, "local.properties").inputStream())
+}
+val groqApiKey = localProperties.getProperty("GROQ_API_KEY") ?: ""
 
 android {
     namespace = "com.example.mytfg"
@@ -19,6 +27,14 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+        // Cargar GROQ_API_KEY desde local.properties
+        /*
+        val properties = Properties()
+        properties.load(File(rootDir, "local.properties").inputStream())
+        val groqApiKey = properties.getProperty("GROQ_API_KEY") ?: ""
+        buildConfigField("String", "GROQ_API_KEY", "\"$groqApiKey\"")
+        */
+        buildConfigField("String", "GROQ_API_KEY", "$groqApiKey")
     }
 
     buildTypes {
@@ -48,6 +64,11 @@ android {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
+    }
+
+    buildFeatures {
+        compose = true
+        buildConfig = true // 👈 Habilita BuildConfig
     }
 }
 

@@ -1,6 +1,7 @@
 package com.example.mytfg.util
 
 import android.util.Log
+import com.example.mytfg.BuildConfig
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okhttp3.MediaType.Companion.toMediaType
@@ -20,8 +21,8 @@ suspend fun generarPlanEntrenamientoIA(
     lesiones: String
 ): String? = withContext(Dispatchers.IO) {
     try {
-        //val groqApiKey = "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" // TokenAntiguo de Groq API
-        //val groqApiKey = "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" // Token de Groq API
+
+        val groqApiKey = BuildConfig.GROQ_API_KEY
         val prompt = "Genera un plan de entrenamiento personalizado para una persona de $edad años, $peso kg, $altura cm, que entrena $frecuencia días a la semana y cuyo objetivo es $objetivo. El plan debe ser claro, estructurado y en español."
 
         val json = JSONObject()
