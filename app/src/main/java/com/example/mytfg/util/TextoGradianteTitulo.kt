@@ -22,6 +22,17 @@ fun AnimatedGradientText(
     fontWeight: FontWeight = FontWeight.ExtraBold,
 ) {
     val gradientColors = listOf(
+        Color(0xFFFFCC80), // Naranja claro
+        Color(0xFFFFB74D), // Naranja medio
+        Color(0xFFFF9800), // Naranja fuerte
+        Color(0xFFF57C00), // Naranja oscuro
+        Color(0xFFEF6C00), // Más oscuro
+        Color(0xFFE65100)  // Casi rojo
+    )
+
+
+    /*
+    val gradientColors = listOf(
         Color(0xFF2196F3), // Azul brillante (energía, confianza)
         Color(0xFF21CBF3), // Azul claro (frescura)
         Color(0xFF4CAF50), // Verde (salud, vitalidad)
@@ -29,6 +40,8 @@ fun AnimatedGradientText(
         Color(0xFFFFEB3B), // Amarillo (dinamismo, vitalidad)
         Color(0xFFFF9800)  // Naranja (entusiasmo, actividad)
     )
+
+     */
 
     val infiniteTransition = rememberInfiniteTransition()
     val translateAnim = infiniteTransition.animateFloat(

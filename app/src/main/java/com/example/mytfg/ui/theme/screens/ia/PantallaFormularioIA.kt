@@ -56,7 +56,7 @@ fun PantallaFormularioIA(
         ) {
             // Imagen de fondo
             Image(
-                painter = painterResource(id = R.drawable.imagenia),
+                painter = painterResource(id = R.drawable.ia),
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.fillMaxSize()
@@ -66,7 +66,7 @@ fun PantallaFormularioIA(
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(Color.White.copy(alpha = 0.5f))
+                    .background(Color.White.copy(alpha = 0.6f))
             )
 
             // Contenido principal
@@ -79,7 +79,7 @@ fun PantallaFormularioIA(
             ) {
 
                 BotonEstandar(
-                    texto = "Generar plan de entrenamiento con IA",
+                    texto = "Generar plan de entrenamiento",
                     onClick = {
                         if (userId == null) {
                             error = "Usuario no autenticado"

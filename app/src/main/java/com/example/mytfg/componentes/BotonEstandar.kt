@@ -16,6 +16,7 @@ import com.example.mytfg.ui.theme.Blanco
 import com.example.mytfg.ui.theme.Naranja
 import com.example.mytfg.ui.theme.NaranjaClaro
 import com.example.mytfg.ui.theme.NaranjaMedio
+import com.example.mytfg.ui.theme.Negro
 
 @Composable
 fun BotonEstandar(
@@ -32,20 +33,20 @@ fun BotonEstandar(
         enabled = enabled,
         colors = ButtonDefaults.buttonColors(
             containerColor = NaranjaMedio,
-            contentColor = Blanco
+            contentColor = Negro
         ),
         modifier = modifier,
         shape = RoundedCornerShape(16.dp),
         contentPadding = PaddingValues(
-            start = 16.dp,
+            start = 8.dp,
             top = 16.dp,
-            end = 16.dp,
+            end = 8.dp,
             bottom = 16.dp
         )
     ) {
         Text(
             text = texto,
-            fontSize = 16.sp
+            fontSize = 18.sp
         )
     }
 }

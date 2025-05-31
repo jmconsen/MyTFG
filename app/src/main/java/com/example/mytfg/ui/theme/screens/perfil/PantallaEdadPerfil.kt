@@ -76,7 +76,7 @@ fun PantallaEdadPerfil(navHostController: NavHostController) {
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
-                        .background(Color.White.copy(alpha = 0.5f))
+                        .background(Color.White.copy(alpha = 0.7f))
                 )
 
                 // Contenido principal con scroll

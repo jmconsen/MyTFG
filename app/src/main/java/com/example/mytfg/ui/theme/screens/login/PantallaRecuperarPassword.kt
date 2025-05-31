@@ -30,7 +30,7 @@ import com.google.firebase.auth.FirebaseAuth
 @Composable
 fun PantallaRecuperarPassword(
     email: String = "",
-    navHostController: NavHostController
+    navHostController: NavHostController,
 ) {
     var emailState by remember { mutableStateOf(email) }
     var mensajeError by remember { mutableStateOf("") }
@@ -44,8 +44,10 @@ fun PantallaRecuperarPassword(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(innerPadding)
+                .padding(innerPadding),
+            contentAlignment = Alignment.Center
         ) {
+            // Imagen de fondo
             Image(
                 painter = painterResource(id = R.drawable.image_recuperar_password),
                 contentDescription = null,
@@ -53,6 +55,7 @@ fun PantallaRecuperarPassword(
                 contentScale = ContentScale.Crop
             )
 
+            // Capa translúcida sobre la imagen
             Box(
                 modifier = Modifier
                     .fillMaxSize()
@@ -73,7 +76,7 @@ fun PantallaRecuperarPassword(
                         text = "Recuperar Contraseña",
                         fontSize = 32.sp,
                         fontWeight = FontWeight.Bold,
-                        color = GrisOscuro2,
+                        color = Negro,
                         textAlign = TextAlign.Center,
                         lineHeight = 40.sp,
                         modifier = Modifier.padding(bottom = 16.dp)
@@ -91,7 +94,7 @@ fun PantallaRecuperarPassword(
                         colors = OutlinedTextFieldDefaults.colors(
                             focusedTextColor = Negro,
                             unfocusedTextColor = Negro,
-                            disabledTextColor = Negro,
+                            //disabledTextColor = Negro,
                             focusedLabelColor = Negro,
                             unfocusedLabelColor = Negro,
                             cursorColor = Negro,
