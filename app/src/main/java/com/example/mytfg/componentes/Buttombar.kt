@@ -26,7 +26,7 @@ fun BottomBar(
     BottomAppBar(
         containerColor = NaranjaOscuro,
         contentColor = Blanco,
-        modifier = Modifier.height(56.dp) // Altura estándar
+        modifier = Modifier.height(88.dp) // Altura estándar
     ) {
         Box(
             modifier = Modifier
@@ -41,7 +41,7 @@ fun BottomBar(
                     imageVector = Icons.AutoMirrored.Filled.ExitToApp,
                     contentDescription = "Cerrar sesión",
                     tint = Blanco,
-                    modifier = Modifier.size(28.dp) // Puedes ajustar el tamaño si lo ves pequeño o grande
+                    modifier = Modifier.size(28.dp) // Ajustar el tamaño del icono
                 )
             }
         }

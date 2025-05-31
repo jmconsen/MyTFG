@@ -38,6 +38,7 @@ import com.example.mytfg.ui.theme.Naranja
 import com.example.mytfg.ui.theme.Negro
 import com.google.firebase.auth.FirebaseAuth
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TextButton
 import androidx.compose.ui.res.painterResource
@@ -67,8 +68,10 @@ fun PantallaRegistro(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(innerPadding)
+                .padding(innerPadding),
+            contentAlignment = Alignment.Center
         ) {
+            // Imagen de fondo
             Image(
                 painter = painterResource(id = R.drawable.image_registro),
                 contentDescription = null,
@@ -76,174 +79,171 @@ fun PantallaRegistro(
                 contentScale = ContentScale.Crop
             )
 
+            // Capa translúcida sobre la imagen
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(Color.White.copy(alpha = 0.7f)) // Aplica opacidad
+                    .background(Color.White.copy(alpha = 0.7f))
             )
 
-            Box(
+            // Contenido principal encima de la capa translúcida
+            Column(
                 modifier = Modifier
-                    .fillMaxSize(),
-                contentAlignment = Alignment.Center
+                    .fillMaxWidth()
+                    .padding(horizontal = 32.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
             ) {
-                Column(
+                Text(
+                    text = "Registro de Usuario",
+                    fontSize = 32.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Negro,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.padding(bottom = 16.dp)
+                )
+
+                OutlinedTextField(
+                    value = nombre,
+                    onValueChange = { nombre = it },
+                    label = { Text("Nombre") },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 32.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Text(
-                        text = "Registro de Usuario",
-                        fontSize = 32.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = GrisOscuro2,
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier.padding(bottom = 16.dp)
-                    )
+                        .padding(8.dp),
+                    textStyle = TextStyle(color = Negro),
+                    shape = RoundedCornerShape(16.dp),
+                    colors = OutlinedTextFieldDefaults.colors(
+                        focusedTextColor = Negro,
+                        unfocusedTextColor = Negro,
+                        //disabledTextColor = Negro,
+                        focusedLabelColor = Negro,
+                        unfocusedLabelColor = Negro,
+                        cursorColor = Negro,
+                        focusedBorderColor = Naranja,
+                        unfocusedBorderColor = GrisOscuro2
+                    ),
+                    singleLine = true,
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text)
+                )
 
-                    OutlinedTextField(
-                        value = nombre,
-                        onValueChange = { nombre = it },
-                        label = { Text("Nombre") },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(8.dp),
-                        textStyle = TextStyle(color = Negro),
-                        shape = RoundedCornerShape(16.dp),
-                        colors = OutlinedTextFieldDefaults.colors(
-                            focusedTextColor = Negro,
-                            unfocusedTextColor = Negro,
-                            disabledTextColor = Negro,
-                            focusedLabelColor = Negro,
-                            unfocusedLabelColor = Negro,
-                            cursorColor = Negro,
-                            focusedBorderColor = Naranja,
-                            unfocusedBorderColor = GrisOscuro2
-                        ),
-                        singleLine = true,
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text)
-                    )
+                OutlinedTextField(
+                    value = email,
+                    onValueChange = { email = it },
+                    label = { Text("Correo Electrónico") },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(8.dp),
+                    textStyle = TextStyle(color = Negro),
+                    shape = RoundedCornerShape(16.dp),
+                    colors = OutlinedTextFieldDefaults.colors(
+                        focusedTextColor = Negro,
+                        unfocusedTextColor = Negro,
+                        //disabledTextColor = Negro,
+                        focusedLabelColor = Negro,
+                        unfocusedLabelColor = Negro,
+                        cursorColor = Negro,
+                        focusedBorderColor = Naranja,
+                        unfocusedBorderColor = GrisOscuro2
+                    ),
+                    singleLine = true,
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
+                )
 
-                    OutlinedTextField(
-                        value = email,
-                        onValueChange = { email = it },
-                        label = { Text("Correo Electrónico") },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(8.dp),
-                        textStyle = TextStyle(color = Negro),
-                        shape = RoundedCornerShape(16.dp),
-                        colors = OutlinedTextFieldDefaults.colors(
-                            focusedTextColor = Negro,
-                            unfocusedTextColor = Negro,
-                            disabledTextColor = Negro,
-                            focusedLabelColor = Negro,
-                            unfocusedLabelColor = Negro,
-                            cursorColor = Negro,
-                            focusedBorderColor = Naranja,
-                            unfocusedBorderColor = GrisOscuro2
-                        ),
-                        singleLine = true,
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
-                    )
+                OutlinedTextField(
+                    value = password,
+                    onValueChange = { password = it },
+                    label = { Text("Contraseña") },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(8.dp),
+                    textStyle = TextStyle(color = Negro),
+                    shape = RoundedCornerShape(16.dp),
+                    colors = OutlinedTextFieldDefaults.colors(
+                        focusedTextColor = Negro,
+                        unfocusedTextColor = Negro,
+                        //disabledTextColor = Negro,
+                        focusedLabelColor = Negro,
+                        unfocusedLabelColor = Negro,
+                        cursorColor = Negro,
+                        focusedBorderColor = Naranja,
+                        unfocusedBorderColor = GrisOscuro2
+                    ),
+                    singleLine = true,
+                    visualTransformation = PasswordVisualTransformation()
+                )
 
-                    OutlinedTextField(
-                        value = password,
-                        onValueChange = { password = it },
-                        label = { Text("Contraseña") },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(8.dp),
-                        textStyle = TextStyle(color = Negro),
-                        shape = RoundedCornerShape(16.dp),
-                        colors = OutlinedTextFieldDefaults.colors(
-                            focusedTextColor = Negro,
-                            unfocusedTextColor = Negro,
-                            disabledTextColor = Negro,
-                            focusedLabelColor = Negro,
-                            unfocusedLabelColor = Negro,
-                            cursorColor = Negro,
-                            focusedBorderColor = Naranja,
-                            unfocusedBorderColor = GrisOscuro2
-                        ),
-                        singleLine = true,
-                        visualTransformation = PasswordVisualTransformation()
-                    )
+                OutlinedTextField(
+                    value = confirmPassword,
+                    onValueChange = { confirmPassword = it },
+                    label = { Text("Confirmar Contraseña") },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(8.dp),
+                    textStyle = TextStyle(color = Negro),
+                    shape = RoundedCornerShape(16.dp),
+                    colors = OutlinedTextFieldDefaults.colors(
+                        focusedTextColor = Negro,
+                        unfocusedTextColor = Negro,
+                        //disabledTextColor = Negro,
+                        focusedLabelColor = Negro,
+                        unfocusedLabelColor = Negro,
+                        cursorColor = Negro,
+                        focusedBorderColor = Naranja,
+                        unfocusedBorderColor = GrisOscuro2
+                    ),
+                    singleLine = true,
+                    visualTransformation = PasswordVisualTransformation()
+                )
 
-                    OutlinedTextField(
-                        value = confirmPassword,
-                        onValueChange = { confirmPassword = it },
-                        label = { Text("Confirmar Contraseña") },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(8.dp),
-                        textStyle = TextStyle(color = Negro),
-                        shape = RoundedCornerShape(16.dp),
-                        colors = OutlinedTextFieldDefaults.colors(
-                            focusedTextColor = Negro,
-                            unfocusedTextColor = Negro,
-                            disabledTextColor = Negro,
-                            focusedLabelColor = Negro,
-                            unfocusedLabelColor = Negro,
-                            cursorColor = Negro,
-                            focusedBorderColor = Naranja,
-                            unfocusedBorderColor = GrisOscuro2
-                        ),
-                        singleLine = true,
-                        visualTransformation = PasswordVisualTransformation()
-                    )
+                Spacer(modifier = Modifier.height(16.dp))
 
-                    Spacer(modifier = Modifier.height(16.dp))
-
-                    BotonEstandar(
-                        texto = "Registrarse",
-                        onClick = {
-                            if (nombre.isNotBlank() && email.isNotBlank() && password.isNotBlank() && confirmPassword.isNotBlank()) {
-                                if (password == confirmPassword) {
-                                    registrarUsuario(nombre, email, password, auth) { resultado ->
-                                        if (resultado == "Éxito") {
-                                            navController.navigate("pantallaLogin")
-                                        } else {
-                                            mensajeError = resultado
-                                        }
+                BotonEstandar(
+                    texto = "Registrarse",
+                    onClick = {
+                        if (nombre.isNotBlank() && email.isNotBlank() && password.isNotBlank() && confirmPassword.isNotBlank()) {
+                            if (password == confirmPassword) {
+                                registrarUsuario(nombre, email, password, auth) { resultado ->
+                                    if (resultado == "Éxito") {
+                                        navController.navigate("pantallaLogin")
+                                    } else {
+                                        mensajeError = resultado
                                     }
-                                } else {
-                                    mensajeError = "Las contraseñas no coinciden."
                                 }
                             } else {
-                                mensajeError = "Por favor, complete todos los campos."
+                                mensajeError = "Las contraseñas no coinciden."
                             }
-                        },
-                        modifier = Modifier.fillMaxWidth()
+                        } else {
+                            mensajeError = "Por favor, complete todos los campos."
+                        }
+                    },
+                    modifier = Modifier.fillMaxWidth()
+                )
+
+                TextButton(
+                    onClick = {
+                        navController.navigate("PantallaLogin")
+                    },
+                    modifier = Modifier.padding(top = 16.dp)
+                ) {
+                    Text("Ya estoy Registrado. Ir a Login", color = Negro)
+                }
+
+                /*
+                Spacer(modifier = Modifier.height(16.dp))
+
+                BotonEstandar(
+                    texto = "Pantalla Login",
+                    onClick = { navController.navigate(route = "PantallaLogin") },
+                    modifier = Modifier.fillMaxWidth()
+                )
+                */
+
+                if (mensajeError.isNotEmpty()) {
+                    Text(
+                        text = mensajeError,
+                        color = Color.Red,
+                        modifier = Modifier.padding(top = 8.dp)
                     )
-
-                    TextButton(
-                        onClick = {
-                            navController.navigate("PantallaLogin")
-                        },
-                        modifier = Modifier.padding(top = 16.dp)
-                    ) {
-                        Text("Ya estoy Registrado. Ir a Login", color = Negro)
-                    }
-
-                    /*
-                    Spacer(modifier = Modifier.height(16.dp))
-
-                    BotonEstandar(
-                        texto = "Pantalla Login",
-                        onClick = { navController.navigate(route = "PantallaLogin") },
-                        modifier = Modifier.fillMaxWidth()
-                    )
-                    */
-
-                    if (mensajeError.isNotEmpty()) {
-                        Text(
-                            text = mensajeError,
-                            color = Color.Red,
-                            modifier = Modifier.padding(top = 8.dp)
-                        )
-                    }
                 }
             }
         }

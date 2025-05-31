@@ -54,33 +54,38 @@ fun PantallaLogin(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(innerPadding)
+                .padding(innerPadding),
+            contentAlignment = Alignment.Center
         ) {
-            // 1. Imagen de fondo
+            // Imagen de fondo
             Image(
                 painter = painterResource(id = R.drawable.image9),
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.fillMaxSize()
             )
-            // 2. Capa blanca translúcida
+
+            // Capa translúcida sobre la imagen
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(Color.White.copy(alpha = 0.5f))
+                    .background(Color.White.copy(alpha = 0.7f))
             )
-            // 3. Contenido principal
+
+            // Contenido principal encima de la capa translúcida
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 32.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
             ) {
+
                 Text(
                     text = "Iniciar Sesión",
                     fontSize = 32.sp,
                     fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
-                    color = Color(0xFF333333),
+                    color = Color.Black,
                     textAlign = TextAlign.Center,
                     modifier = Modifier.padding(bottom = 16.dp)
                 )
@@ -92,7 +97,7 @@ fun PantallaLogin(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(8.dp),
-                    textStyle = TextStyle(color = Color.Black),
+                    textStyle = TextStyle(color = Negro),
                     shape = RoundedCornerShape(16.dp),
                     colors = OutlinedTextFieldDefaults.colors(
                         focusedTextColor = Negro,

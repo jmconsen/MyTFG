@@ -43,11 +43,12 @@ fun NavigationApp(
     modifier: Modifier = Modifier,
     paddingValues: PaddingValues = PaddingValues(0.dp)
 ) {
-    val startDestination = if (authManager.isUserLoggedIn()) "PantallaMenu" else "PantallaWelcome"
+    //val startDestination = if (authManager.isUserLoggedIn()) "PantallaMenu" else "PantallaWelcome"
 
     NavHost(
         navController = navHostController,
-        startDestination = startDestination,
+        //startDestination = startDestination,
+        startDestination = "PantallaWelcome",
         modifier = modifier
     ) {
         composable("PantallaWelcome") { PantallaWelcome(navHostController) }

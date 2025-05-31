@@ -87,7 +87,7 @@ fun PantallaEditarPerfil(
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(Color.White.copy(alpha = 0.6f))
+                    .background(Color.White.copy(alpha = 0.7f))
             )
 
 

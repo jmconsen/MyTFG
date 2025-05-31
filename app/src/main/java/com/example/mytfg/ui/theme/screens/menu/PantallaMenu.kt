@@ -157,7 +157,7 @@ fun PantallaMenu(navHostController: NavHostController, userName: String?, avatar
                         .padding(horizontal = 24.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Spacer(modifier = Modifier.height(32.dp))
+                    Spacer(modifier = Modifier.height(64.dp))
 
                     AnimatedGradientText(
                         text = "Menú Principal",
@@ -165,6 +165,8 @@ fun PantallaMenu(navHostController: NavHostController, userName: String?, avatar
                             .fillMaxWidth()
                             .padding(bottom = 12.dp)
                     )
+
+                    Spacer(modifier = Modifier.height(48.dp))
 
                     LazyColumn(
                         state = reorderableState.listState,
