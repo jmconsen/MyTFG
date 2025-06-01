@@ -23,9 +23,9 @@ import com.example.mytfg.ui.theme.screens.perfil.PantallaUnoPerfil
 import com.example.mytfg.ui.theme.screens.perfil.PantallaDosPerfil
 import com.example.mytfg.ui.theme.screens.perfil.PantallaTresPerfil
 import com.example.mytfg.ui.theme.screens.dieta.PantallaDieta
-import com.example.mytfg.ui.theme.screens.dieta.PantallaMantenimiento
+import com.example.mytfg.ui.theme.screens.entrenamiento.PantallaEntrenamiento
 import com.example.mytfg.ui.theme.screens.dieta.PantallaSeleccionDieta
-import com.example.mytfg.ui.theme.screens.dieta.PantallaSeleccionMantenimiento
+import com.example.mytfg.ui.theme.screens.entrenamiento.PantallaSeleccionEntrenamiento
 import com.example.mytfg.ui.theme.screens.ia.PantallaFormularioIA
 import com.example.mytfg.ui.theme.screens.ia.PantallaPlanGenerado
 import com.example.mytfg.ui.theme.screens.perfil.PantallaEditarPerfil
@@ -141,8 +141,8 @@ fun NavigationApp(
             )
         }
 
-        composable("PantallaSeleccionMantenimiento") {
-            PantallaSeleccionMantenimiento(
+        composable("PantallaSeleccionEntrenamiento") {
+            PantallaSeleccionEntrenamiento(
                 navHostController = navHostController,
                 paddingValues = paddingValues
             )
@@ -161,11 +161,11 @@ fun NavigationApp(
         }
 
         composable(
-            "PantallaMantenimiento/{objetivo}",
+            "PantallaEntrenamiento/{objetivo}",
             arguments = listOf(navArgument("objetivo") { type = NavType.StringType })
         ) { backStackEntry ->
             val objetivo = backStackEntry.arguments?.getString("objetivo") ?: ""
-            PantallaMantenimiento(
+            PantallaEntrenamiento(
                 navHostController = navHostController,
                 objetivoClave = objetivo,
                 //paddingValues = paddingValues
