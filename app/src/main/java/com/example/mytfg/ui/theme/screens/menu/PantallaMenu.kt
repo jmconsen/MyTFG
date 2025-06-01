@@ -19,12 +19,17 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.mytfg.R
 import com.example.mytfg.componentes.BotonEstandar
 import com.example.mytfg.componentes.MenuBoton
 import com.example.mytfg.componentes.TopBarConUsuario
+import com.example.mytfg.ui.theme.Naranja
+import com.example.mytfg.ui.theme.NaranjaMuyClaro
+import com.example.mytfg.ui.theme.NaranjaOscuro
 import com.example.mytfg.util.AnimatedGradientText
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -130,7 +135,80 @@ fun PantallaMenu(navHostController: NavHostController, userName: String?, avatar
                     onProfileClick = { showDialog = true }
                 )
             }
+
+            //Formato del diálogo de seleccionar de plan
+            if (showDialog) {
+                AlertDialog(
+                    onDismissRequest = { showDialog = false },
+                    title = { Text("¿Qué plan quieres ver?") },
+                    text = {
+                        Text(
+                            "Selecciona el tipo de plan que deseas visualizar:",
+                            fontSize = 18.sp
+                        )
+                   },
+                    confirmButton = {
+                        TextButton(onClick = {
+                            showDialog = false
+                            scope.launch {
+                                user?.let { u ->
+                                    db.collection("usuarios").document(u.uid).get()
+                                        .addOnSuccessListener { document ->
+                                            val planEntrenamiento = document.getString("planEntrenamiento")
+                                            if (!planEntrenamiento.isNullOrBlank()) {
+                                                navHostController.navigate("PantallaPlanEntrenamientoIA/$planEntrenamiento")
+                                            } else {
+                                                Toast.makeText(context, "No hay plan de entrenamiento generado", Toast.LENGTH_SHORT).show()
+                                            }
+                                        }
+                                        .addOnFailureListener {
+                                            Toast.makeText(context, "Error al obtener el plan", Toast.LENGTH_SHORT).show()
+                                        }
+                                }
+                            }
+                        }) {
+                            Text(
+                                text = "Entrenamiento",
+                                color = NaranjaOscuro,
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 16.sp
+                            )
+                        }
+                    },
+                    dismissButton = {
+                        TextButton(onClick = {
+                            showDialog = false
+                            scope.launch {
+                                user?.let { u ->
+                                    db.collection("usuarios").document(u.uid).get()
+                                        .addOnSuccessListener { document ->
+                                            val planDieta = document.getString("planDieta")
+                                            if (!planDieta.isNullOrBlank()) {
+                                                navHostController.navigate("PantallaPlanDietaIA/${Uri.encode(planDieta)}")
+                                            } else {
+                                                Toast.makeText(context, "No hay plan de dieta generado", Toast.LENGTH_SHORT).show()
+                                            }
+                                        }
+                                        .addOnFailureListener {
+                                            Toast.makeText(context, "Error al obtener el plan de dieta", Toast.LENGTH_SHORT).show()
+                                        }
+                                }
+                            }
+                        }) {
+                            Text(
+                                text = "Dieta",
+                                color = NaranjaOscuro,
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 16.sp
+                            )
+                        }
+                    },
+                    containerColor = NaranjaMuyClaro
+                )
+            }
+
         }
+
     ) { paddingValues ->
         Box(
             modifier = Modifier
@@ -199,6 +277,7 @@ fun PantallaMenu(navHostController: NavHostController, userName: String?, avatar
                 }
             }
 
+            /*
             if (showDialog) {
                 AlertDialog(
                     onDismissRequest = { showDialog = false },
@@ -252,6 +331,7 @@ fun PantallaMenu(navHostController: NavHostController, userName: String?, avatar
                     }
                 )
             }
+            */
         }
     }
 }
