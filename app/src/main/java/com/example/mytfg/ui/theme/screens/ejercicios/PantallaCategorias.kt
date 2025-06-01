@@ -60,7 +60,7 @@ fun PantallaCategorias(
         topBar = {
             TopBar(
                 navHostController = navHostController,
-                title = "Ejercicios"
+                title = "Categoría Ejercicios"
             )
         }
     ) { paddingValues ->
