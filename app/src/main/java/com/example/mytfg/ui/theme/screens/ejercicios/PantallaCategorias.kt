@@ -124,8 +124,8 @@ fun PantallaCategorias(
                             )
                             Text(
                                 text = categoria.nombre,
-                                style = MaterialTheme.typography.titleLarge,
-                                fontSize = 22.sp
+                                //style = MaterialTheme.typography.titleLarge,
+                                fontSize = 18.sp
                             )
                         }
                     }

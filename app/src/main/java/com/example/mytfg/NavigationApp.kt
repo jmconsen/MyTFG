@@ -23,7 +23,9 @@ import com.example.mytfg.ui.theme.screens.perfil.PantallaUnoPerfil
 import com.example.mytfg.ui.theme.screens.perfil.PantallaDosPerfil
 import com.example.mytfg.ui.theme.screens.perfil.PantallaTresPerfil
 import com.example.mytfg.ui.theme.screens.dieta.PantallaDieta
+import com.example.mytfg.ui.theme.screens.dieta.PantallaMantenimiento
 import com.example.mytfg.ui.theme.screens.dieta.PantallaSeleccionDieta
+import com.example.mytfg.ui.theme.screens.dieta.PantallaSeleccionMantenimiento
 import com.example.mytfg.ui.theme.screens.ia.PantallaFormularioIA
 import com.example.mytfg.ui.theme.screens.ia.PantallaPlanGenerado
 import com.example.mytfg.ui.theme.screens.perfil.PantallaEditarPerfil
@@ -32,6 +34,7 @@ import com.example.mytfg.ui.theme.screens.perfil.PantallaAlturaPerfil
 import com.example.mytfg.ui.theme.screens.perfil.PantallaPesoPerfil
 import com.example.mytfg.ui.theme.screens.perfil.PantallaLesionesPerfil
 import com.example.mytfg.util.PantallaPlanDietaIA
+import com.example.mytfg.util.PantallaPlanEntrenamientoIA
 import com.example.mytfg.viewmodel.AuthViewModel
 
 
@@ -138,6 +141,13 @@ fun NavigationApp(
             )
         }
 
+        composable("PantallaSeleccionMantenimiento") {
+            PantallaSeleccionMantenimiento(
+                navHostController = navHostController,
+                paddingValues = paddingValues
+            )
+        }
+
         composable(
             "PantallaDieta/{objetivo}",
             arguments = listOf(navArgument("objetivo") { type = NavType.StringType })
@@ -151,12 +161,33 @@ fun NavigationApp(
         }
 
         composable(
+            "PantallaMantenimiento/{objetivo}",
+            arguments = listOf(navArgument("objetivo") { type = NavType.StringType })
+        ) { backStackEntry ->
+            val objetivo = backStackEntry.arguments?.getString("objetivo") ?: ""
+            PantallaMantenimiento(
+                navHostController = navHostController,
+                objetivoClave = objetivo,
+                //paddingValues = paddingValues
+            )
+        }
+
+        composable(
             route = "PantallaPlanDietaIA/{planDieta}",
             arguments = listOf(navArgument("planDieta") { type = NavType.StringType })
         ) { backStackEntry ->
             val planDieta = backStackEntry.arguments?.getString("planDieta") ?: ""
             PantallaPlanDietaIA(navHostController, planDieta)
         }
+
+        composable(
+            "PantallaPlanEntrenamientoIA/{planEntrenamiento}",
+            arguments = listOf(navArgument("planEntrenamiento") { type = NavType.StringType })
+        ) { backStackEntry ->
+            val planEntrenamiento = backStackEntry.arguments?.getString("planEntrenamiento") ?: ""
+            PantallaPlanEntrenamientoIA(navHostController, planEntrenamiento)
+        }
+
 
     }
 }

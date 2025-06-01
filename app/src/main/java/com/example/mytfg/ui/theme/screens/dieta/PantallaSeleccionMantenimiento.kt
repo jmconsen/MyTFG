@@ -16,7 +16,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -26,12 +25,12 @@ import com.example.mytfg.componentes.BotonEstandar
 import com.example.mytfg.componentes.TopBar
 import com.example.mytfg.ui.theme.Naranja
 import com.example.mytfg.ui.theme.NaranjaClaro
-import com.example.mytfg.viewmodel.DietaViewModel
+import com.example.mytfg.viewmodel.MantenimientoViewModel
 
 @Composable
-fun PantallaSeleccionDieta(
+fun PantallaSeleccionMantenimiento(
     navHostController: NavHostController,
-    viewModel: DietaViewModel = viewModel(),
+    viewModel: MantenimientoViewModel = viewModel(),
     paddingValues: PaddingValues = PaddingValues(0.dp)
 ) {
     val opciones = listOf(
@@ -54,7 +53,7 @@ fun PantallaSeleccionDieta(
         topBar = {
             TopBar(
                 navHostController = navHostController,
-                title = "Dietas"
+                title = "Mantenimientos"
             )
         }
     ) { paddingValues ->
@@ -80,20 +79,15 @@ fun PantallaSeleccionDieta(
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(horizontal = 24.dp, vertical = 24.dp)
+                    .padding(horizontal = 24.dp, vertical = 16.dp)
             ) {
-
-                Spacer(modifier = Modifier.height(16.dp))
-                
                 Text(
                     text = "Selecciona tu objetivo",
                     fontSize = 24.sp,
                     fontWeight = FontWeight.Bold,
-                    textAlign = TextAlign.Center,
+                    style = MaterialTheme.typography.headlineMedium,
                     modifier = Modifier.padding(bottom = 16.dp)
                 )
-
-                Spacer(modifier = Modifier.height(16.dp))
 
                 Column(
                     modifier = Modifier
@@ -128,7 +122,7 @@ fun PantallaSeleccionDieta(
                                     )
                                     Text(
                                         text = texto,
-                                        fontSize = 18.sp
+                                        fontSize = 16.sp
                                     )
                                 }
                                 RadioButton(
@@ -147,13 +141,13 @@ fun PantallaSeleccionDieta(
                     texto = "Continuar",
                     onClick = {
                         claveObjetivo?.let {
-                            navHostController.navigate("PantallaDieta/$it")
+                            navHostController.navigate("PantallaMantenimiento/$it")
                         }
                     },
                     enabled = claveObjetivo != null,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(top = 40.dp)
+                        .padding(top = 16.dp)
                         .navigationBarsPadding()
                 )
             }
@@ -187,12 +181,12 @@ import androidx.navigation.NavHostController
 import com.example.mytfg.R
 import com.example.mytfg.componentes.BotonEstandar
 import com.example.mytfg.componentes.TopBar
-import com.example.mytfg.viewmodel.DietaViewModel
+import com.example.mytfg.viewmodel.MantenimientoViewModel
 
 @Composable
-fun PantallaSeleccionDieta(
+fun PantallaSeleccionMantenimiento(
     navHostController: NavHostController,
-    viewModel: DietaViewModel = viewModel(),
+    viewModel: MantenimientoViewModel = viewModel(),
     paddingValues: PaddingValues = PaddingValues(0.dp)
 ) {
     // Lista con texto para mostrar y clave para Firestore
@@ -211,7 +205,7 @@ fun PantallaSeleccionDieta(
         topBar = {
             TopBar(
                 navHostController = navHostController,
-                title = "Dietas"
+                title = "Mantenimientos"
             )
         }
     ) { paddingValues ->
@@ -277,7 +271,7 @@ fun PantallaSeleccionDieta(
                     texto = "Continuar",
                     onClick = {
                         claveObjetivo?.let {
-                            navHostController.navigate("PantallaDieta/$it")
+                            navHostController.navigate("PantallaMantenimiento/$it")
                         }
                     },
                     enabled = claveObjetivo != null,

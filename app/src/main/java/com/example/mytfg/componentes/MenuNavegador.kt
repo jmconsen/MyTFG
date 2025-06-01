@@ -36,59 +36,6 @@ fun MenuNavegador(navController: NavHostController, authManager: AuthManager) {
         ) {
 
 
-            /*
-            // FACTURAS EMITIDAS
-            NavigationBarItem(
-                icon = {
-                    Icon(
-                        Icons.AutoMirrored.Filled.receiptLong,
-                        contentDescription = "Facturas-emitidas",
-                        //tint = GrisOscuro2
-                    )
-                },
-                label = {
-                    Text(
-                        "Fact. Emitidas",
-                        //color = GrisOscuro2
-                    )
-                },
-                selected = currentRoute == "PantallaFacturasEmitidas",
-                onClick = {
-                    navController.navigate("PantallaFacturasEmitidas") {
-                        popUpTo(navController.graph.startDestinationId) { saveState = true }
-                        launchSingleTop = true
-                        restoreState = true
-                    }
-                }
-            )
-
-            // FACTURAS RECIBIDAS
-            NavigationBarItem(
-                icon = {
-                    Icon(
-                        Icons.Filled.RequestQuote,
-                        contentDescription = "Facturas-recibidas",
-                        //tint = GrisOscuro2
-                    )
-                },
-                label = {
-                    Text(
-                        "Fact. Recibidas",
-                        //color = GrisOscuro2
-                    )
-                },
-                selected = currentRoute == "PantallaFacturasRecibidas",
-                onClick = {
-                    navController.navigate("PantallaFacturasRecibidas") {
-                        popUpTo(navController.graph.startDestinationId) { saveState = true }
-                        launchSingleTop = true
-                        restoreState = true
-                    }
-                }
-            )
-
-             */
-
 
             // CIERRE DE SESIÓN
             NavigationBarItem(

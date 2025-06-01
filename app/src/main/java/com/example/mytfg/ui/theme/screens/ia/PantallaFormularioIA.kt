@@ -22,6 +22,7 @@ import com.example.mytfg.componentes.TopBar
 import com.example.mytfg.util.generarPlanDietaIA
 import com.example.mytfg.util.generarPlanEntrenamientoIA
 import com.example.mytfg.viewmodel.DietaViewModel
+import com.example.mytfg.viewmodel.MantenimientoViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.launch
@@ -31,7 +32,8 @@ import android.net.Uri
 @Composable
 fun PantallaFormularioIA(
     navHostController: NavHostController,
-    viewModel: DietaViewModel = viewModel()
+    dietaViewModel: DietaViewModel = viewModel(),
+    mantenimientoViewModel: MantenimientoViewModel = viewModel()
 ) {
     val db = FirebaseFirestore.getInstance()
     val userId = FirebaseAuth.getInstance().currentUser?.uid
@@ -112,7 +114,9 @@ fun PantallaFormularioIA(
                                                 )
                                                 loading = false
                                                 if (plan != null) {
-                                                    resultado = plan
+                                                    //resultado = plan
+                                                    navHostController.navigate("PantallaPlanEntrenamientoIA/${Uri.encode(plan)}")
+
                                                     db.collection("usuarios").document(userId)
                                                         .update("planEntrenamiento", plan)
                                                         .addOnSuccessListener { /* OK */ }
@@ -271,6 +275,7 @@ import com.example.mytfg.componentes.BotonEstandar
 import com.example.mytfg.componentes.TopBar
 import com.example.mytfg.util.generarPlanEntrenamientoIA
 import com.example.mytfg.viewmodel.DietaViewModel
+import com.example.mytfg.viewmodel.MantenimientoViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.launch

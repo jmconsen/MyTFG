@@ -20,6 +20,8 @@ import androidx.navigation.NavHostController
 import com.example.mytfg.R
 import com.example.mytfg.componentes.BotonEstandar
 import com.example.mytfg.componentes.TopBar
+import com.example.mytfg.ui.theme.NaranjaMuyClaro
+import com.example.mytfg.ui.theme.NaranjaOscuro
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
@@ -124,6 +126,30 @@ fun PantallaLesionesPerfil(navHostController: NavHostController) {
                         enabled = lesiones.isNotBlank(),
                         modifier = Modifier.fillMaxWidth().padding(horizontal = 32.dp)
                     )
+
+                    if (mostrarAlerta) {
+                        AlertDialog(
+                            onDismissRequest = { mostrarAlerta = false },
+                            confirmButton = {
+                                TextButton(
+                                    onClick = { mostrarAlerta = false }
+                                ) {
+                                    Text(
+                                        text = "OK",
+                                        color = NaranjaOscuro,
+                                        fontWeight = FontWeight.Bold,
+                                        fontSize = 16.sp
+                                    )
+                                }
+                            },
+                            text = {
+                                Text(
+                                    "Respuestas guardadas correctamente",
+                                    fontSize = 16.sp
+                            ) },
+                            containerColor = NaranjaMuyClaro
+                        )
+                    }
 
                     Spacer(modifier = Modifier.height(16.dp))
 
