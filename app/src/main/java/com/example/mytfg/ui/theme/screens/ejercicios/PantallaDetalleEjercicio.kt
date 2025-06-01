@@ -30,6 +30,8 @@ import com.example.mytfg.R
 import com.example.mytfg.componentes.TopBar
 import com.example.mytfg.viewmodel.EjerciciosApiViewModelFactory
 import com.example.mytfg.componentes.BotonEstandar
+import com.example.mytfg.ui.theme.NaranjaClaro
+import com.example.mytfg.ui.theme.NaranjaMuyClaro
 
 @Composable
 fun PantallaDetalleEjercicio(
@@ -115,7 +117,7 @@ fun PantallaDetalleEjercicio(
                 Card(
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(16.dp),
-                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
+                    colors = CardDefaults.cardColors(containerColor = NaranjaMuyClaro),
                 ) {
                     Column(Modifier.padding(16.dp)) {
                         Text(
@@ -146,7 +148,7 @@ fun PantallaDetalleEjercicio(
                     modifier = Modifier
                         .fillMaxWidth()
                         .clip(RoundedCornerShape(14.dp)),
-                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
+                    colors = CardDefaults.cardColors(containerColor = NaranjaMuyClaro),
                 ) {
                     Column(Modifier.padding(16.dp)) {
                         BotonEstandar(

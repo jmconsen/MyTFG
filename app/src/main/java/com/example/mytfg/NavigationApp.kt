@@ -50,7 +50,7 @@ fun NavigationApp(
 
     NavHost(
         navController = navHostController,
-        //startDestination = startDestination,
+        //startDestination = "PantallaMenu",
         startDestination = "PantallaWelcome",
         modifier = modifier
     ) {
