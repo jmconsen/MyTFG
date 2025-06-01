@@ -9,31 +9,31 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class MantenimientoViewModel : ViewModel() {
+class EntrenamientoViewModel : ViewModel() {
 
     private val _objetivoSeleccionado = MutableStateFlow<String?>(null)
     val objetivoSeleccionado: StateFlow<String?> = _objetivoSeleccionado.asStateFlow()
 
-    private val _contenidoMantenimiento = MutableStateFlow<String?>(null)
-    val contenidoMantenimiento: StateFlow<String?> = _contenidoMantenimiento.asStateFlow()
+    private val _contenidoEntrenamiento = MutableStateFlow<String?>(null)
+    val contenidoEntrenamiento: StateFlow<String?> = _contenidoEntrenamiento.asStateFlow()
 
     fun seleccionarObjetivo(objetivo: String) {
         _objetivoSeleccionado.value = objetivo
     }
 
-    fun cargarMantenimiento(claveDocumento: String) {
+    fun cargarEntrenamiento(claveDocumento: String) {
         viewModelScope.launch {
-            Firebase.firestore.collection("mantenimientos").document(claveDocumento).get()
+            Firebase.firestore.collection("entrenamientos").document(claveDocumento).get()
                 .addOnSuccessListener { documento ->
                     if (documento != null && documento.exists()) {
                         val contenido = documento.getString("contenido")
-                        _contenidoMantenimiento.value = contenido ?: "No se encontró contenido."
+                        _contenidoEntrenamiento.value = contenido ?: "No se encontró contenido."
                     } else {
-                        _contenidoMantenimiento.value = "Mantenimiento no encontrado en la base de datos."
+                        _contenidoEntrenamiento.value = "Entrenamiento no encontrado en la base de datos."
                     }
                 }
                 .addOnFailureListener { e ->
-                    _contenidoMantenimiento.value = "Error al cargar el mantenimiento: ${e.message}"
+                    _contenidoEntrenamiento.value = "Error al cargar el entrenamiento: ${e.message}"
                 }
         }
     }

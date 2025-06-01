@@ -1,4 +1,4 @@
-package com.example.mytfg.ui.theme.screens.dieta
+package com.example.mytfg.ui.theme.screens.entrenamiento
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -25,12 +25,12 @@ import com.example.mytfg.componentes.BotonEstandar
 import com.example.mytfg.componentes.TopBar
 import com.example.mytfg.ui.theme.Naranja
 import com.example.mytfg.ui.theme.NaranjaClaro
-import com.example.mytfg.viewmodel.MantenimientoViewModel
+import com.example.mytfg.viewmodel.EntrenamientoViewModel
 
 @Composable
-fun PantallaSeleccionMantenimiento(
+fun PantallaSeleccionEntrenamiento(
     navHostController: NavHostController,
-    viewModel: MantenimientoViewModel = viewModel(),
+    viewModel: EntrenamientoViewModel = viewModel(),
     paddingValues: PaddingValues = PaddingValues(0.dp)
 ) {
     val opciones = listOf(
@@ -53,7 +53,7 @@ fun PantallaSeleccionMantenimiento(
         topBar = {
             TopBar(
                 navHostController = navHostController,
-                title = "Mantenimientos"
+                title = "Entrenamientos"
             )
         }
     ) { paddingValues ->
@@ -141,7 +141,7 @@ fun PantallaSeleccionMantenimiento(
                     texto = "Continuar",
                     onClick = {
                         claveObjetivo?.let {
-                            navHostController.navigate("PantallaMantenimiento/$it")
+                            navHostController.navigate("PantallaEntrenamiento/$it")
                         }
                     },
                     enabled = claveObjetivo != null,
@@ -181,12 +181,12 @@ import androidx.navigation.NavHostController
 import com.example.mytfg.R
 import com.example.mytfg.componentes.BotonEstandar
 import com.example.mytfg.componentes.TopBar
-import com.example.mytfg.viewmodel.MantenimientoViewModel
+import com.example.mytfg.viewmodel.EntrenamientoViewModel
 
 @Composable
-fun PantallaSeleccionMantenimiento(
+fun PantallaSeleccionEntrenamiento(
     navHostController: NavHostController,
-    viewModel: MantenimientoViewModel = viewModel(),
+    viewModel: EntrenamientoViewModel = viewModel(),
     paddingValues: PaddingValues = PaddingValues(0.dp)
 ) {
     // Lista con texto para mostrar y clave para Firestore
@@ -205,7 +205,7 @@ fun PantallaSeleccionMantenimiento(
         topBar = {
             TopBar(
                 navHostController = navHostController,
-                title = "Mantenimientos"
+                title = "Entrenamientos"
             )
         }
     ) { paddingValues ->
@@ -271,7 +271,7 @@ fun PantallaSeleccionMantenimiento(
                     texto = "Continuar",
                     onClick = {
                         claveObjetivo?.let {
-                            navHostController.navigate("PantallaMantenimiento/$it")
+                            navHostController.navigate("PantallaEntrenamiento/$it")
                         }
                     },
                     enabled = claveObjetivo != null,

@@ -1,4 +1,4 @@
-package com.example.mytfg.ui.theme.screens.dieta
+package com.example.mytfg.ui.theme.screens.entrenamiento
 
 import android.content.Intent
 import androidx.compose.foundation.layout.*
@@ -14,28 +14,28 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.mytfg.componentes.BotonEstandar
 import com.example.mytfg.componentes.TopBar
-import com.example.mytfg.viewmodel.MantenimientoViewModel
+import com.example.mytfg.viewmodel.EntrenamientoViewModel
 
 @Composable
-fun PantallaMantenimiento(
+fun PantallaEntrenamiento(
     navHostController: NavHostController,
     objetivoClave: String,
-    viewModel: MantenimientoViewModel = viewModel()
+    viewModel: EntrenamientoViewModel = viewModel()
 ) {
-    val contenidoMantenimiento by viewModel.contenidoMantenimiento.collectAsState()
+    val contenidoEntrenamiento by viewModel.contenidoEntrenamiento.collectAsState()
     val context = LocalContext.current
 
     LaunchedEffect(objetivoClave) {
-        viewModel.cargarMantenimiento(objetivoClave)
+        viewModel.cargarEntrenamiento(objetivoClave)
     }
 
-    val secciones = contenidoMantenimiento?.split("\n\n") ?: listOf("Cargando mantenimiento...")
+    val secciones = contenidoEntrenamiento?.split("\n\n") ?: listOf("Cargando entrenamiento...")
 
     Scaffold(
         topBar = {
             TopBar(
                 navHostController = navHostController,
-                title = "Mantenimiento: ${objetivoClave.replace('_', ' ').replaceFirstChar { it.uppercase() }}"
+                title = "Entrenamiento: ${objetivoClave.replace('_', ' ').replaceFirstChar { it.uppercase() }}"
             )
         }
     ) { paddingValues ->
@@ -95,15 +95,15 @@ fun PantallaMantenimiento(
             Spacer(modifier = Modifier.height(16.dp))
 
             BotonEstandar(
-                texto = "Compartir mantenimiento",
+                texto = "Compartir entrenamiento",
                 onClick = {
                     val textoCompartir = secciones.joinToString("\n\n")
                     val intent = Intent(Intent.ACTION_SEND).apply {
                         type = "text/plain"
-                        putExtra(Intent.EXTRA_SUBJECT, "Mi plan de mantenimiento: ${objetivoClave.replace('_', ' ')}")
+                        putExtra(Intent.EXTRA_SUBJECT, "Mi plan de entrenamiento: ${objetivoClave.replace('_', ' ')}")
                         putExtra(Intent.EXTRA_TEXT, textoCompartir)
                     }
-                    context.startActivity(Intent.createChooser(intent, "Compartir mantenimiento con..."))
+                    context.startActivity(Intent.createChooser(intent, "Compartir entrenamiento con..."))
                 }
             )
 

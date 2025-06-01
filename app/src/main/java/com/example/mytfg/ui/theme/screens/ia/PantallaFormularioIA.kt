@@ -22,7 +22,7 @@ import com.example.mytfg.componentes.TopBar
 import com.example.mytfg.util.generarPlanDietaIA
 import com.example.mytfg.util.generarPlanEntrenamientoIA
 import com.example.mytfg.viewmodel.DietaViewModel
-import com.example.mytfg.viewmodel.MantenimientoViewModel
+import com.example.mytfg.viewmodel.EntrenamientoViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.launch
@@ -33,7 +33,7 @@ import android.net.Uri
 fun PantallaFormularioIA(
     navHostController: NavHostController,
     dietaViewModel: DietaViewModel = viewModel(),
-    mantenimientoViewModel: MantenimientoViewModel = viewModel()
+    entrenamientoViewModel: EntrenamientoViewModel = viewModel()
 ) {
     val db = FirebaseFirestore.getInstance()
     val userId = FirebaseAuth.getInstance().currentUser?.uid
