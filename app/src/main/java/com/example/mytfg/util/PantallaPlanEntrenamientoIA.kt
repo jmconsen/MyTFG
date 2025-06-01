@@ -152,6 +152,7 @@ fun PantallaPlanEntrenamientoIA(
 
 package com.example.mytfg.util
 
+import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -170,12 +171,16 @@ import com.example.mytfg.R
 import com.example.mytfg.componentes.TopBar
 import com.example.mytfg.ui.theme.NaranjaMuyClaro
 import android.util.Log
+import androidx.compose.ui.platform.LocalContext
+import com.example.mytfg.componentes.BotonEstandar
 
 @Composable
 fun PantallaPlanEntrenamientoIA(
     navHostController: NavHostController,
     planEntrenamiento: String
 ) {
+    val context = LocalContext.current
+
     Log.d("PlanEntrenamientoOriginal", "Contenido original del plan de entrenamiento:\n$planEntrenamiento")
 
     Scaffold(
@@ -311,6 +316,22 @@ fun PantallaPlanEntrenamientoIA(
                         }
                     }
                 }
+
+                Spacer(modifier = Modifier.height(24.dp))
+
+                BotonEstandar(
+                    texto = "Compartir plan entrenamiento",
+                    onClick = {
+                        val intent = Intent(Intent.ACTION_SEND).apply {
+                            type = "text/plain"
+                            putExtra(Intent.EXTRA_SUBJECT, "Mi plan de dieta personalizado")
+                            putExtra(Intent.EXTRA_TEXT, planEntrenamiento)
+                        }
+                        context.startActivity(Intent.createChooser(intent, "Compartir plan con..."))
+                    }
+                )
+
+                Spacer(modifier = Modifier.height(40.dp))
             }
         }
     }

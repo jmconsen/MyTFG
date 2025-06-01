@@ -18,12 +18,17 @@ import com.example.mytfg.R
 import com.example.mytfg.componentes.TopBar
 import com.example.mytfg.ui.theme.NaranjaMuyClaro
 import android.util.Log
+import android.content.Intent
+import androidx.compose.ui.platform.LocalContext
+import com.example.mytfg.componentes.BotonEstandar
+
 
 @Composable
 fun PantallaPlanDietaIA(
     navHostController: NavHostController,
     planDieta: String
 ) {
+    val context = LocalContext.current
 
     // Mostrar el texto original sin procesar
     Log.d("PlanDietaOriginal", "Contenido original del plan de dieta:\n$planDieta")
@@ -223,7 +228,26 @@ fun PantallaPlanDietaIA(
                         }
                     }
                 }
+
+                Spacer(modifier = Modifier.height(24.dp))
+
+                BotonEstandar(
+                    texto = "Compartir plan de dieta",
+                    onClick = {
+                        val intent = Intent(Intent.ACTION_SEND).apply {
+                            type = "text/plain"
+                            putExtra(Intent.EXTRA_SUBJECT, "Mi plan de dieta personalizado")
+                            putExtra(Intent.EXTRA_TEXT, planDieta)
+                        }
+                        context.startActivity(Intent.createChooser(intent, "Compartir plan con..."))
+                    }
+                )
+
+                Spacer(modifier = Modifier.height(40.dp))
+
+
             }
+
         }
     }
 
